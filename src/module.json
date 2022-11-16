@@ -1,0 +1,110 @@
+{
+	"id": "lazymoney",
+    "title": "Lazy Money",
+    "description": "Easily add or remove currency with automatic conversion and no overdraft.",
+	"version": "1.0.0",
+	"authors": [
+        {
+            "name": "DeVelox",
+            "github": "DeVelox",
+            "url": "https://github.com/DeVelox/lazymoney"
+        },
+		{
+			"name": "p4535992",
+			"url": "https://github.com/p4535992",
+			"discord": "",
+			"twitter": "",
+			"patreon": "",
+			"github": "p4535992",
+			"ko-fi": "",
+			"reddit": "",
+			"email": ""
+		}
+	],
+	"type": "module",
+	"socket": true,
+	"includes": [
+		"./assets/**",
+		"./lang/**",
+		"./languages/**",
+		"./scripts/**",
+		"./styles/**",
+		"./templates/**",
+		"./module.json",
+		"./README.md",
+		"./icons/**",
+		"./packs/**"
+	],
+	"media": [
+		{
+			"type": "icon",
+			"location": ""
+		},
+		{
+			"type": "cover",
+			"location": ""
+		},
+		{
+			"type": "screenshot",
+			"location": ""
+		}
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "languages/en.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français",
+			"path": "languages/fr.json"
+		}
+	],
+	"packs": [],
+	"systems": [],
+	"scripts": [],
+	"esmodules": [
+		"lazymoney.js"
+	],
+	"styles": [
+		"styles/lazymoney.css"
+	],
+	"compatibility": {
+		"minimum": 10,
+		"verified": 10,
+		"maximum": 10
+	},
+	"manifestPlusVersion": "1.2.1",
+	"url": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e",
+	"manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/latest/download/module.json",
+	"download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/latest/download/module.zip",
+	"readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.0.0/README.md",
+	"changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.0.0/CHANGELOG.md",
+	"bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
+	"allowBugReporter": true,
+	"relationships": {
+		"systems": [],
+		"requires": [
+			{
+				"id": "active-effect-manager-lib",
+				"type": "module",
+				"manifest": "https://github.com/p4535992/foundryvtt-active-effect-manager-lib/releases/latest/download/module.json",
+				"compatibility": {}
+			},
+			{
+				"id": "lib-wrapper",
+				"type": "module",
+				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+				"compatibility": {}
+			},
+			{
+				"id": "socketlib",
+				"type": "module",
+				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+				"compatibility": {}
+			}
+		],
+		"conflicts": []
+	}
+}
