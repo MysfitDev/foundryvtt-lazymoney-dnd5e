@@ -60,7 +60,7 @@
 	"systems": [],
 	"scripts": [],
 	"esmodules": ["main.js"],
-	"styles": ["styles/lazymoney.css"],
+	"styles": [],
 	"compatibility": {
 		"minimum": 10,
 		"verified": 10,

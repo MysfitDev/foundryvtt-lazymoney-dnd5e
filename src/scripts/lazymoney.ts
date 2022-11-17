@@ -22,9 +22,9 @@ const signCase = {
 
 function _onChangeCurrency(ev) {
 	const input = ev.target;
-	const actor = ev.app.actor;
-	const sheet = ev.app.options;
-	const money = ev.app.actor.system.currency;
+	const actor = ev.data.app.actor;
+	const sheet = ev.data.app.options;
+	const money = ev.data.app.actor.system.currency;
 	const denom = input.name.split(".")[2];
 	const value = input.value;
 	let sign = signCase.default;
@@ -49,11 +49,12 @@ function _onChangeCurrency(ev) {
 	let newAmount = {};
 	if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum"))) {
 		switch (sign) {
-			case signCase.add:
+			case signCase.add: {
 				newAmount = addMoney(money, delta, denom);
 				chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
 				break;
-			case signCase.subtract:
+			}
+			case signCase.subtract: {
 				newAmount = removeMoney(money, delta, denom);
 				chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
 				if (!newAmount) {
@@ -61,20 +62,23 @@ function _onChangeCurrency(ev) {
 					newAmount = money;
 				}
 				break;
-			case signCase.equals:
+			}
+			case signCase.equals: {
 				newAmount = updateMoney(money, delta, denom);
 				chatLog(
 					actor,
 					`${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
 				);
 				break;
-			default:
+			}
+			default: {
 				newAmount = updateMoney(money, delta, denom);
 				chatLog(
 					actor,
 					`${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
 				);
 				break;
+			}
 		}
 	}
 	if (Object.keys(newAmount).length > 0) {
@@ -238,7 +242,9 @@ function getCpValue() {
 		.forEach((v: any) => {
 			if (v.conversion !== undefined) {
 				total *= v.conversion.each;
-				cpValue[v.conversion.into].value = total;
+				if(cpValue[v.conversion.into]){
+					cpValue[v.conversion.into].value = total;
+				}
 			}
 		});
 
