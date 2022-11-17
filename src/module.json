@@ -64,7 +64,7 @@
 	"packs": [],
 	"systems": [],
 	"scripts": [],
-	"esmodules": ["lazymoney.js"],
+	"esmodules": ["main.js"],
 	"styles": ["styles/lazymoney.css"],
 	"compatibility": {
 		"minimum": 10,
