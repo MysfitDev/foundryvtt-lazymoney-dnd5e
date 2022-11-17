@@ -1,9 +1,9 @@
 {
-  "name": "final-blow",
-  "title": "Final Blow",
-  "description": "",
-  "version": "1.0.11",
-  "main": "final-blow.js",
+  "name": "lazymoney",
+  "title": "Lazy Money",
+  "description": "Easily add or remove currency with automatic conversion and no overdraft.",
+  "version": "1.0.0",
+  "main": "main.js",
   "scripts": {
     "publish": "gulp publish --update",
     "package": "gulp package",
