@@ -12,37 +12,31 @@ export const registerSettings = function (): void {
 
 	// =====================================================================
 
-	game.settings.register(CONSTANTS.MODULE_NAME, "obfuscateNPCs", {
-		name: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.name`,
-		hint: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.hint`,
-		type: String,
+	game.settings.register(CONSTANTS.MODULE_NAME, "addConvert", {
+		name: `${CONSTANTS.MODULE_NAME}.setting.addConvert.name`,
+		hint: `${CONSTANTS.MODULE_NAME}.setting.addConvert.hint`,
+		scope: "client",
 		config: true,
-		scope: "world",
-		choices: <any>{
-			all: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.obfuscateNPCsVisibility.all`,
-			owned: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.obfuscateNPCsVisibility.owned`,
-			token: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.obfuscateNPCsVisibility.token`,
-			any: `${CONSTANTS.MODULE_NAME}.setting.obfuscateNPCs.obfuscateNPCsVisibility.any`,
-		},
-		default: "all",
+		default: false,
+		type: Boolean,
 	});
 
-	game.settings.register(CONSTANTS.MODULE_NAME, "hidePortrait", {
-		name: `${CONSTANTS.MODULE_NAME}.setting.hidePortrait.name`,
-		hint: `${CONSTANTS.MODULE_NAME}.setting.hidePortrait.hint`,
-		type: Boolean,
-		config: true,
+	game.settings.register(CONSTANTS.MODULE_NAME, "ignoreElectrum", {
+		name: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.name`,
+		hint: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.hint`,
 		scope: "world",
+		config: true,
 		default: false,
+		type: Boolean,
 	});
 
-	game.settings.register(CONSTANTS.MODULE_NAME, "useIntegrationWithMMM", {
-		name: `${CONSTANTS.MODULE_NAME}.setting.useIntegrationWithMMM.name`,
-		hint: `${CONSTANTS.MODULE_NAME}.setting.useIntegrationWithMMM.hint`,
-		type: Boolean,
-		config: true,
+	game.settings.register(CONSTANTS.MODULE_NAME, "chatLog", {
+		name: `${CONSTANTS.MODULE_NAME}.setting.chatLog.name`,
+		hint: `${CONSTANTS.MODULE_NAME}.setting.chatLog.hint`,
 		scope: "world",
+		config: true,
 		default: false,
+		type: Boolean,
 	});
 
 	// ========================================================================
@@ -120,6 +114,33 @@ function defaultSettings(apply = false) {
 
 function otherSettings(apply = false) {
 	return {
+		addConvert: {
+			name: `${CONSTANTS.MODULE_NAME}.setting.addConvert.name`,
+			hint: `${CONSTANTS.MODULE_NAME}.setting.addConvert.hint`,
+			scope: "client",
+			config: true,
+			default: false,
+			type: Boolean,
+		},
+
+		ignoreElectrum: {
+			name: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.name`,
+			hint: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.hint`,
+			scope: "world",
+			config: true,
+			default: false,
+			type: Boolean,
+		},
+
+		chatLog: {
+			name: `${CONSTANTS.MODULE_NAME}.setting.chatLog.name`,
+			hint: `${CONSTANTS.MODULE_NAME}.setting.chatLog.hint`,
+			scope: "world",
+			config: true,
+			default: false,
+			type: Boolean,
+		},
+
 		debug: {
 			name: `${CONSTANTS.MODULE_NAME}.setting.debug.name`,
 			hint: `${CONSTANTS.MODULE_NAME}.setting.debug.hint`,

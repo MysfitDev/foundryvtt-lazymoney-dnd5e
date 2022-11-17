@@ -2,6 +2,8 @@
 // Logger utility
 // ================================
 
+import CONSTANTS from "../constants";
+
 // export let debugEnabled = 0;
 // 0 = none, warnings = 1, debug = 2, all = 3
 

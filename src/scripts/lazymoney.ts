@@ -1,45 +1,17 @@
-Hooks.once("ready", () => {
-	console.log("lazymoney | Initializing lazymoney");
-	Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
-		doHook(key);
-	});
-	Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
-		doHook(key);
-	});
-});
+import CONSTANTS from "./constants";
+import { debug, log, warn } from "./lib/lib";
 
-Hooks.once("init", () => {
-	game.settings.register("lazymoney", "addConvert", {
-		name: "Convert when adding money",
-		hint: "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
-		scope: "client",
-		config: true,
-		default: false,
-		type: Boolean,
-	});
-});
+interface DND5eCurrency {
+	label: string;
+	abbreviation: string;
+	conversion?: { into: string; each: number };
+}
 
-Hooks.once("init", () => {
-	game.settings.register("lazymoney", "ignoreElectrum", {
-		name: "Ignore electrum",
-		hint: 'When converting, ignore electrum. This won\'t affect directly adding or removing it, except in the case when "Convert when adding money" is also enabled.',
-		scope: "world",
-		config: true,
-		default: false,
-		type: Boolean,
-	});
-});
-
-Hooks.once("init", () => {
-	game.settings.register("lazymoney", "chatLog", {
-		name: "Chat log",
-		hint: "Whisper any currency changes to the GM.",
-		scope: "world",
-		config: true,
-		default: false,
-		type: Boolean,
-	});
-});
+interface LazyMoneyCurrency {
+	value: number;
+	up: string;
+	down: string;
+}
 
 const signCase = {
 	add: "+",
@@ -50,9 +22,9 @@ const signCase = {
 
 function _onChangeCurrency(ev) {
 	const input = ev.target;
-	const actor = ev.data.app.actor;
-	const sheet = ev.data.app.options;
-	const money = ev.data.app.actor.data.data.currency;
+	const actor = ev.app.actor;
+	const sheet = ev.app.options;
+	const money = ev.app.actor.system.currency;
 	const denom = input.name.split(".")[2];
 	const value = input.value;
 	let sign = signCase.default;
@@ -67,20 +39,23 @@ function _onChangeCurrency(ev) {
 		delta = Number(splitVal[1]);
 	} else {
 		delta = Number(splitVal[0]);
-		chatLog(actor, `Replaced ${money[denom]} ${denom} with ${delta} ${denom}.`);
+		chatLog(
+			actor,
+			`${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+		);
 		return;
 	}
 
 	let newAmount = {};
-	if (!(denom === "ep" && game.settings.get("lazymoney", "ignoreElectrum"))) {
+	if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum"))) {
 		switch (sign) {
 			case signCase.add:
 				newAmount = addMoney(money, delta, denom);
-				chatLog(actor, `Added ${delta} ${denom}.`);
+				chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
 				break;
 			case signCase.subtract:
 				newAmount = removeMoney(money, delta, denom);
-				chatLog(actor, `Removed ${delta} ${denom}.`);
+				chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
 				if (!newAmount) {
 					flash(input);
 					newAmount = money;
@@ -88,78 +63,199 @@ function _onChangeCurrency(ev) {
 				break;
 			case signCase.equals:
 				newAmount = updateMoney(money, delta, denom);
-				chatLog(actor, `Replaced ${money[denom]} ${denom} with ${delta} ${denom}.`);
+				chatLog(
+					actor,
+					`${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+				);
 				break;
 			default:
 				newAmount = updateMoney(money, delta, denom);
-				chatLog(actor, `Replaced ${money[denom]} ${denom} with ${delta} ${denom}.`);
+				chatLog(
+					actor,
+					`${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+				);
 				break;
 		}
 	}
 	if (Object.keys(newAmount).length > 0) {
 		sheet.submitOnChange = false;
 		actor
-			.update({ "data.currency": newAmount })
+			.update({ "system.currency": newAmount })
 			.then(() => {
 				input.value = getProperty(actor.data, input.name);
 				sheet.submitOnChange = true;
 			})
-			.catch(console.log.bind(console));
+			.catch(log.bind(console));
 	}
 }
 
 function chatLog(actor, money) {
-	if (game.settings.get("lazymoney", "chatLog")) {
+	debug(money);
+	if (game.settings.get(CONSTANTS.MODULE_NAME, "chatLog")) {
 		const msgData = {
 			content: money,
 			speaker: ChatMessage.getSpeaker({ actor: actor }),
 			whisper: ChatMessage.getWhisperRecipients("GM"),
 		};
 		return ChatMessage.create(msgData);
+	} else {
+		return undefined;
 	}
 }
 
 function getCpValue() {
-	let cpValue = {
-		pp: { value: 1000, up: "", down: "gp" },
-		gp: { value: 100, up: "pp", down: "ep" },
-		ep: { value: 50, up: "gp", down: "sp" },
-		sp: { value: 10, up: "ep", down: "cp" },
-		cp: { value: 1, up: "sp", down: "" },
-	};
-	let total = 1;
-	if (parseFloat(game.data.system.data.version) >= 1.5) {
-		const convert = CONFIG.DND5E.currencies;
-		Object.values(convert)
-			.reverse()
-			.forEach((v) => {
-				if (v.conversion !== undefined) {
-					total *= v.conversion.each;
-					cpValue[v.conversion.into].value = total;
-				}
-			});
-	} else {
-		const convert = CONFIG.DND5E.currencyConversion;
-		Object.values(convert).forEach((v) => {
-			total *= v.each;
-			cpValue[v.into].value = total;
-		});
-	}
+	let cpValue = {};
+	// if(game.modules.get("world-currency-5e")?.active){
+	//     const ignorePP:boolean = <boolean>game.settings.get("world-currency-5e", "ppAltRemove");
+	//     const ignoreGP:boolean  = <boolean>game.settings.get("world-currency-5e", "gpAltRemove");
+	//     const ignoreEP:boolean  = <boolean>game.settings.get("world-currency-5e", "epAltRemove");
+	//     const ignoreSP:boolean  = <boolean>game.settings.get("world-currency-5e", "spAltRemove");
+	//     const ignoreCP:boolean  = <boolean>game.settings.get("world-currency-5e", "cpAltRemove");
 
-	if (game.settings.get("lazymoney", "ignoreElectrum")) {
-		cpValue.gp.down = "sp";
-		cpValue.sp.up = "gp";
-		delete cpValue.ep;
+	//     if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+	//         cpValue = {}
+	//     }
+	//     if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+	//         cpValue = {
+	//             cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+	//         };
+	//     }
+	//     if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+	//         // TODO
+	//     }
+	//     if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+	//         // TODO
+	//     }
+
+	// } else {
+	if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
+		cpValue = {
+			pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+			gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
+			sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
+			cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+		};
+	} else {
+		cpValue = {
+			pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+			gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+			ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+			sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+			cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+		};
 	}
+	// }
+
+	let total = 1;
+	//@ts-ignore
+	const convert = <DND5eCurrency[]>CONFIG.DND5E.currencies;
+	Object.values(convert)
+		.reverse()
+		.forEach((v: any) => {
+			if (v.conversion !== undefined) {
+				total *= v.conversion.each;
+				cpValue[v.conversion.into].value = total;
+			}
+		});
+
+	// if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
+	// 	cpValue.gp.down = "sp";
+	// 	cpValue.sp.up = "gp";
+	// 	delete cpValue.ep;
+	// }
 	return cpValue;
 }
 
-function getDelta(delta, denom) {
+function getDelta(delta: any, denom: number) {
 	const cpValue = getCpValue();
-	let newDelta = {};
+	let newDelta: Record<string, number> = {};
 	delta *= cpValue[denom].value;
 	for (let key in cpValue) {
-		let intDiv = ~~(delta / cpValue[key].value);
+		let intDiv = Number(~~(delta / cpValue[key].value));
 		if (intDiv > 0) {
 			newDelta[key] = intDiv;
 			delta %= cpValue[key].value;
@@ -188,7 +284,7 @@ function scaleDown(oldAmount, denom) {
 function addMoney(oldAmount, delta, denom) {
 	const cpValue = getCpValue();
 	let newAmount = {};
-	if (game.settings.get("lazymoney", "addConvert")) {
+	if (game.settings.get(CONSTANTS.MODULE_NAME, "addConvert")) {
 		let cpDelta = delta * cpValue[denom].value;
 		for (let key in cpValue) {
 			newAmount[key] = oldAmount[key] + ~~(cpDelta / cpValue[key].value);
@@ -203,7 +299,7 @@ function addMoney(oldAmount, delta, denom) {
 function removeMoney(oldAmount, delta, denom) {
 	const cpValue = getCpValue();
 	let newAmount = oldAmount;
-	let newDelta = {};
+	let newDelta: Record<string, number> = {};
 	let down;
 	if (oldAmount[denom] >= delta) {
 		newAmount[denom] = oldAmount[denom] - delta;
@@ -258,14 +354,20 @@ function flash(input) {
 	}, 150);
 }
 
-function doHook(key) {
+export function applyLazyMoney(key) {
 	let sheet = key.split(".")[1];
 	try {
-		Hooks.on("render" + sheet, (app, html, data) => {
-			html.find("input[name^='data.currency']").off("change");
-			html.find("input[name^='data.currency']").change({ app: app, data: data }, _onChangeCurrency);
+		Hooks.on("render" + sheet, (app, html, actorData) => {
+			html.find("input[name^='system.currency']").off("change");
+			html.find("input[name^='system.currency']").change(
+				{
+					app: app,
+					data: actorData,
+				},
+				_onChangeCurrency
+			);
 		});
 	} catch (error) {
-		console.warn("lazymoney can't hook to " + key);
+		warn("lazymoney can't hook to " + key);
 	}
 }
