@@ -60,7 +60,7 @@
 	"systems": [],
 	"scripts": [],
 	"esmodules": ["main.js"],
-	"styles": [],
+	"styles": ["styles/lazymoney.css"],
 	"compatibility": {
 		"minimum": 10,
 		"verified": 10,
@@ -75,7 +75,7 @@
 	"bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
 	"allowBugReporter": true,
 	"relationships": {
-        "systems": [
+		"systems": [
 			{
 				"id": "dnd5e",
 				"type": "system",

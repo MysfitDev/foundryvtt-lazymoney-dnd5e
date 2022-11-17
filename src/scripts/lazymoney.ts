@@ -242,7 +242,7 @@ function getCpValue() {
 		.forEach((v: any) => {
 			if (v.conversion !== undefined) {
 				total *= v.conversion.each;
-				if(cpValue[v.conversion.into]){
+				if (cpValue[v.conversion.into]) {
 					cpValue[v.conversion.into].value = total;
 				}
 			}
@@ -256,7 +256,7 @@ function getCpValue() {
 	return cpValue;
 }
 
-function getDelta(delta: any, denom: number) {
+function getDelta(delta: any, denom: string) {
 	const cpValue = getCpValue();
 	let newDelta: Record<string, number> = {};
 	delta *= cpValue[denom].value;
@@ -364,6 +364,10 @@ export function applyLazyMoney(key) {
 	let sheet = key.split(".")[1];
 	try {
 		Hooks.on("render" + sheet, (app, html, actorData) => {
+			for (const elem of html.find("input[name^='system.currency']")) {
+				elem.type = "text";
+				elem.classList.add("lazymoney");
+			}
 			html.find("input[name^='system.currency']").off("change");
 			html.find("input[name^='system.currency']").change(
 				{
