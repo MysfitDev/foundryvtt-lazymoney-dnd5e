@@ -1,4 +1,10 @@
 ## Changelog
+
+### 1.0.1
+
+- Upgrade for fvtt 10
+- Integration with [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e)
+
 ### 0.9.17
 - Added compatibility with NPC sheets (Credit: DawidIzydor)
 ### 0.9.16

@@ -45,6 +45,13 @@ This module uses the [active-effect-manager-lib](https://github.com/p4535992/fou
 
 ## Known Issue\Limitation
 
+## Feature
+
+| **Name** | Works | Notes |
+| -------- | :---: | ----- |
+| [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) | :heavy_check_mark: | Works with 1.0.1 |
+
+
 ## Api
 
 

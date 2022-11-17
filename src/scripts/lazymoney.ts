@@ -109,130 +109,240 @@ function chatLog(actor, money) {
 
 function getCpValue() {
 	let cpValue = {};
-	// if(game.modules.get("world-currency-5e")?.active){
-	//     const ignorePP:boolean = <boolean>game.settings.get("world-currency-5e", "ppAltRemove");
-	//     const ignoreGP:boolean  = <boolean>game.settings.get("world-currency-5e", "gpAltRemove");
-	//     const ignoreEP:boolean  = <boolean>game.settings.get("world-currency-5e", "epAltRemove");
-	//     const ignoreSP:boolean  = <boolean>game.settings.get("world-currency-5e", "spAltRemove");
-	//     const ignoreCP:boolean  = <boolean>game.settings.get("world-currency-5e", "cpAltRemove");
+	if (game.modules.get("world-currency-5e")?.active) {
+		const ignorePP: boolean = <boolean>game.settings.get("world-currency-5e", "ppAltRemove");
+		const ignoreGP: boolean = <boolean>game.settings.get("world-currency-5e", "gpAltRemove");
+		const ignoreEP: boolean = <boolean>game.settings.get("world-currency-5e", "epAltRemove");
+		const ignoreSP: boolean = <boolean>game.settings.get("world-currency-5e", "spAltRemove");
+		const ignoreCP: boolean = <boolean>game.settings.get("world-currency-5e", "cpAltRemove");
 
-	//     if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-	//         cpValue = {}
-	//     }
-	//     if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-	//         cpValue = {
-	//             cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
-	//         };
-	//     }
-	//     if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-	//         // TODO
-	//     }
-	//     if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-	//         // TODO
-	//     }
-
-	// } else {
-	if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
-		cpValue = {
-			pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-			gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
-			sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
-			cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
-		};
+		if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {};
+		}
+		if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				cp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				sp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				sp: <LazyMoneyCurrency>{ value: 10, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				ep: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+			};
+		}
+		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "gp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+			};
+		}
+		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "pp", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "pp", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+			};
+		}
+		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "gp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+			};
+		}
+		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
 	} else {
-		cpValue = {
-			pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-			gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
-			ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
-			sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
-			cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
-		};
+		if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		} else {
+			cpValue = {
+				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+			};
+		}
 	}
-	// }
 
 	let total = 1;
 	//@ts-ignore
