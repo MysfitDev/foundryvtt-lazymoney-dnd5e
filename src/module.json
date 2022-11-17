@@ -80,27 +80,23 @@
 	"bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
 	"allowBugReporter": true,
 	"relationships": {
-		"systems": [],
-		"requires": [
+        "systems": [
 			{
-				"id": "active-effect-manager-lib",
-				"type": "module",
-				"manifest": "https://github.com/p4535992/foundryvtt-active-effect-manager-lib/releases/latest/download/module.json",
-				"compatibility": {}
+				"id": "dnd5e",
+				"type": "system",
+				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
+				"compatibility": {
+					"verified": "2.0.2"
+				}
 			},
 			{
-				"id": "lib-wrapper",
-				"type": "module",
-				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
-				"compatibility": {}
-			},
-			{
-				"id": "socketlib",
-				"type": "module",
-				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+				"id": "sw5e",
+				"type": "system",
+				"manifest": "https://raw.githubusercontent.com/unrealkakeman89/sw5e/master/system.json",
 				"compatibility": {}
 			}
 		],
+		"requires": [],
 		"conflicts": []
 	}
 }
