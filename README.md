@@ -35,14 +35,6 @@ To install this module manually:
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
-### socketLib
-
-This module uses the [socketLib](https://github.com/manuelVo/foundryvtt-socketlib) library like a dependency. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
-
-### active-effect-manager-lib
-
-This module uses the [active-effect-manager-lib](https://github.com/p4535992/foundryvtt-active-effect-manager-lib) library like a dependency. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
-
 ## Known Issue\Limitation
 
 ## Feature
