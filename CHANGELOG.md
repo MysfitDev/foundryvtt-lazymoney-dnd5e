@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.2
+
+- Add hook for preUpdateActor
+
 ### 1.0.1
 
 - Upgrade for fvtt 10
