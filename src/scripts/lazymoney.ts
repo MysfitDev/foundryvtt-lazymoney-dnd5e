@@ -13,6 +13,14 @@ interface LazyMoneyCurrency {
 	down: string;
 }
 
+interface LazyMoneyCP {
+	pp: number;
+	gp: number;
+	ep: number;
+	sp: number;
+	cp: number;
+}
+
 const signCase = {
 	add: "+",
 	subtract: "-",
@@ -112,213 +120,270 @@ function getCpValue() {
 		const ignoreSP: boolean = <boolean>game.settings.get("world-currency-5e", "spAltRemove");
 		const ignoreCP: boolean = <boolean>game.settings.get("world-currency-5e", "cpAltRemove");
 
+		let gpConvertb = <number>game.settings.get("world-currency-5e", "gpConvert");
+		if (!is_real_number(gpConvertb)) {
+			gpConvertb = 1;
+		} else {
+			gpConvertb = gpConvertb;
+		}
+
+		let ppConvertb = <number>game.settings.get("world-currency-5e", "ppConvert");
+		if (!is_real_number(ppConvertb)) {
+			ppConvertb = 0.1;
+		} else {
+			if (ppConvertb >= 1) {
+				ppConvertb = gpConvertb / ppConvertb;
+			} else {
+				ppConvertb = gpConvertb * ppConvertb;
+			}
+		}
+
+		let epConvertb = <number>game.settings.get("world-currency-5e", "epConvert");
+		if (!is_real_number(epConvertb)) {
+			epConvertb = 5;
+		} else {
+			if (epConvertb >= 1) {
+				epConvertb = gpConvertb * epConvertb;
+			} else {
+				epConvertb = gpConvertb / epConvertb;
+			}
+		}
+
+		let spConvertb = <number>game.settings.get("world-currency-5e", "spConvert");
+		if (!is_real_number(spConvertb)) {
+			spConvertb = 10;
+		} else {
+			if (spConvertb >= 1) {
+				spConvertb = gpConvertb * spConvertb;
+			} else {
+				spConvertb = gpConvertb / spConvertb;
+			}
+		}
+
+		let cpConvertb = <number>game.settings.get("world-currency-5e", "cpConvert");
+		if (!is_real_number(cpConvertb)) {
+			cpConvertb = 100;
+		} else {
+			if (cpConvertb >= 1) {
+				cpConvertb = gpConvertb * cpConvertb;
+			} else {
+				cpConvertb = gpConvertb / cpConvertb;
+			}
+		}
+		// Reconvert gold calculation to copper calculation
+		const ppConvert = (gpConvertb / ppConvertb) * cpConvertb;
+		const gpConvert = gpConvertb * cpConvertb;
+		const epConvert = (gpConvertb / epConvertb) * cpConvertb;
+		const spConvert = (gpConvertb / spConvertb) * cpConvertb;
+		const cpConvert = 1;
+
 		if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {};
 		}
 		if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				cp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				sp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+				sp: <LazyMoneyCurrency>{ value: cpConvert, up: "", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				sp: <LazyMoneyCurrency>{ value: 10, up: "", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				ep: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+				ep: <LazyMoneyCurrency>{ value: cpConvert, up: "", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "", down: "sp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "ep", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "" },
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				ep: <LazyMoneyCurrency>{ value: 50, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "gp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "gp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "gp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "ep", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "" },
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				gp: <LazyMoneyCurrency>{ value: 100, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1, up: "", down: "" },
+				pp: <LazyMoneyCurrency>{ value: cpConvert, up: "", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "pp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "pp", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "pp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "pp", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "pp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "pp", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "ep", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "" },
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "pp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "gp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "gp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "gp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "gp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "ep", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "ep", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "" },
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
-				pp: <LazyMoneyCurrency>{ value: 1000, up: "", down: "gp" },
-				gp: <LazyMoneyCurrency>{ value: 100, up: "pp", down: "ep" },
-				ep: <LazyMoneyCurrency>{ value: 50, up: "gp", down: "sp" },
-				sp: <LazyMoneyCurrency>{ value: 10, up: "ep", down: "cp" },
-				cp: <LazyMoneyCurrency>{ value: 1, up: "sp", down: "" },
+				pp: <LazyMoneyCurrency>{ value: ppConvert, up: "", down: "gp" },
+				gp: <LazyMoneyCurrency>{ value: gpConvert, up: "pp", down: "ep" },
+				ep: <LazyMoneyCurrency>{ value: epConvert, up: "gp", down: "sp" },
+				sp: <LazyMoneyCurrency>{ value: spConvert, up: "ep", down: "cp" },
+				cp: <LazyMoneyCurrency>{ value: cpConvert, up: "sp", down: "" },
 			};
 		}
 	} else {
@@ -366,10 +431,11 @@ function getDelta(delta: any, denom: string) {
 	let newDelta: Record<string, number> = {};
 	delta *= cpValue[denom].value;
 	for (let key in cpValue) {
-		let intDiv = Number(~~(delta / cpValue[key].value));
+		const myValue = cpValue[key].value;
+		let intDiv = Number(~~(delta / myValue));
 		if (intDiv > 0) {
 			newDelta[key] = intDiv;
-			delta %= cpValue[key].value;
+			delta %= myValue;
 		}
 	}
 	return newDelta;
@@ -396,17 +462,18 @@ function addMoney(oldAmount, delta, denom) {
 	if (game.settings.get(CONSTANTS.MODULE_NAME, "addConvert")) {
 		let cpDelta = delta * cpValue[denom].value;
 		for (let key in cpValue) {
-			newAmount[key] = oldAmount[key] + ~~(cpDelta / cpValue[key].value);
-			cpDelta %= cpValue[key].value;
+			const myValue = cpValue[key].value;
+			newAmount[key] = oldAmount[key] + ~~(cpDelta / myValue);
+			cpDelta %= myValue;
 		}
 	} else {
 		newAmount[denom] = oldAmount[denom] + delta;
 	}
 	return newAmount;
 }
-function removeMoney(oldAmount, delta, denom) {
+function removeMoney(oldAmount: LazyMoneyCP, delta: number, denom: string) {
 	const cpValue = getCpValue();
-	let newAmount = oldAmount;
+	let newAmount: LazyMoneyCP = oldAmount;
 	let newDelta: Record<string, number> = {};
 	let down;
 	if (oldAmount[denom] >= delta) {
@@ -414,7 +481,8 @@ function removeMoney(oldAmount, delta, denom) {
 		return newAmount;
 	} else {
 		newDelta = getDelta(delta, denom);
-		delta = delta * cpValue[denom].value;
+		const myValue = cpValue[denom].value;
+		delta = delta * myValue;
 	}
 	if (totalMoney(oldAmount) >= delta) {
 		for (let [key, value] of Object.entries(newDelta)) {
@@ -428,7 +496,9 @@ function removeMoney(oldAmount, delta, denom) {
 					down = cpValue[key].down;
 					value -= newAmount[key];
 					newAmount[key] = 0;
-					value *= ~~(cpValue[key].value / cpValue[down].value);
+					const myValue = cpValue[key].value;
+					const myDown = cpValue[down].value;
+					value *= ~~(myValue / myDown);
 					key = down;
 				}
 				newAmount[key] -= value;
@@ -444,11 +514,12 @@ function updateMoney(oldAmount, delta, denom) {
 	newAmount[denom] = delta;
 	return newAmount;
 }
-function totalMoney(money) {
+function totalMoney(money: LazyMoneyCP) {
 	const cpValue = getCpValue();
 	let total = 0;
 	for (let key in cpValue) {
-		total += money[key] * cpValue[key].value;
+		const myValue = cpValue[key].value;
+		total += money[key] * myValue;
 	}
 	return total;
 }
