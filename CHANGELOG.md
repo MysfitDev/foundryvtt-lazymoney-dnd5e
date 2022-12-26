@@ -1,5 +1,10 @@
 ## Changelog
 
+
+### 1.0.3
+
+- Add some more checker
+
 ### 1.0.2
 
 - Add hook for preUpdateActor
