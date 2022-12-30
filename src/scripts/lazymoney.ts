@@ -496,7 +496,6 @@ function getCpValue() {
 				}
 			}
 		});
-
 	// if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
 	// 	cpValue.gp.down = "sp";
 	// 	cpValue.sp.up = "gp";
@@ -607,26 +606,19 @@ function flash(input) {
 		input.style.backgroundColor = "";
 	}, 150);
 }
-export function applyLazyMoney(key) {
-	let sheet = key.split(".")[1];
-	try {
-		Hooks.on("render" + sheet, (app, html, actorData) => {
-			for (const elem of html.find("input[name^='system.currency']")) {
-				elem.type = "text";
-				elem.classList.add("lazymoney");
-			}
-			html.find("input[name^='system.currency']").off("change");
-			html.find("input[name^='system.currency']").change(
-				{
-					app: app,
-					data: actorData,
-				},
-				_onChangeCurrency
-			);
-		});
-	} catch (error) {
-		warn("lazymoney can't hook to " + key);
+export function applyLazyMoney(app, html, actorData) {
+	for (const elem of html.find("input[name^='system.currency']")) {
+		elem.type = "text";
+		elem.classList.add("lazymoney");
 	}
+	html.find("input[name^='system.currency']").off("change");
+	html.find("input[name^='system.currency']").change(
+		{
+			app: app,
+			data: actorData,
+		},
+		_onChangeCurrency
+	);
 }
 function is_real_number(inNumber) {
 	return !isNaN(inNumber) && typeof inNumber === "number" && isFinite(inNumber);

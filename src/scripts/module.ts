@@ -11,11 +11,27 @@ export const readyHooks = async () => {
 	log("Initializing lazymoney");
 	//@ts-ignore
 	Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
-		applyLazyMoney(key);
+		let sheet = key.split(".")[1];
+		try {
+			Hooks.on("render" + sheet, (app, html, actorData) => {
+				applyLazyMoney(app, html, actorData);
+			});
+		} catch (error) {
+			warn("lazymoney can't hook to " + key);
+		}
+		// applyLazyMoney(key);
 	});
 	//@ts-ignore
 	Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
-		applyLazyMoney(key);
+		let sheet = key.split(".")[1];
+		try {
+			Hooks.on("render" + sheet, (app, html, actorData) => {
+				applyLazyMoney(app, html, actorData);
+			});
+		} catch (error) {
+			warn("lazymoney can't hook to " + key);
+		}
+		// applyLazyMoney(key);
 	});
 };
 
