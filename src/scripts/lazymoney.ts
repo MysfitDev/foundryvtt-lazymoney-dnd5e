@@ -666,7 +666,7 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 		if (isCurrencyUndefined) {
 			return;
 		} else {
-			update = patchCurrency(update.system.currency);
+			update.system.currency = patchCurrency(update.system.currency);
 		}
 	}
 	// console.log('actor updated!')
