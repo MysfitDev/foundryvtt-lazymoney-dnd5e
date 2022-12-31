@@ -661,5 +661,5 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 			update.system.currency = patchCurrency(update.system.currency);
 		}
 	}
-	// console.log('actor updated!')
+	// log('actor updated!')
 });

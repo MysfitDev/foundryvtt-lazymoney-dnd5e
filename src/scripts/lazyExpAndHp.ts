@@ -132,7 +132,7 @@ function _onChangeHp(ev) {
 			input.value = Number(getProperty(actor, input.name));
 			sheet.submitOnChange = true;
 		})
-		.catch(console.log.bind(console));
+		.catch(log.bind(console));
 }
 
 function _onChangeHpMax(ev) {
@@ -196,7 +196,7 @@ function _onChangeHpMax(ev) {
 			input.value = Number(getProperty(actor, input.name));
 			sheet.submitOnChange = true;
 		})
-		.catch(console.log.bind(console));
+		.catch(log.bind(console));
 }
 
 export function applyLazyExp(app, html, actorData) {
@@ -315,5 +315,5 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 		}
 		setProperty(update, "system.details.xp.value", Number(xpValue));
 	}
-	// console.log('actor updated!')
+	// log('actor updated!')
 });

@@ -1,5 +1,6 @@
 import API from "./api";
 import CONSTANTS from "./constants";
+import { applyLazyExp, applyLazyHp } from "./lazyExpAndHp";
 import { applyLazyMoney } from "./lazymoney";
 import { warn, error, debug, i18nFormat, log } from "./lib/lib";
 
@@ -15,6 +16,8 @@ export const readyHooks = async () => {
 		try {
 			Hooks.on("render" + sheet, (app, html, actorData) => {
 				applyLazyMoney(app, html, actorData);
+				applyLazyExp(app, html, actorData);
+				applyLazyHp(app, html, actorData);
 			});
 		} catch (error) {
 			warn("lazymoney can't hook to " + key);
@@ -27,6 +30,8 @@ export const readyHooks = async () => {
 		try {
 			Hooks.on("render" + sheet, (app, html, actorData) => {
 				applyLazyMoney(app, html, actorData);
+				applyLazyExp(app, html, actorData);
+				applyLazyHp(app, html, actorData);
 			});
 		} catch (error) {
 			warn("lazymoney can't hook to " + key);
