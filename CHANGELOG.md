@@ -1,5 +1,5 @@
 ## Changelog
-### 1.0.7-8
+### 1.0.7-8-9
 
 - Add support for HP and Experience
 
