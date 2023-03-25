@@ -7,10 +7,19 @@ export const registerSettings = function (): void {
 		hint: `${CONSTANTS.MODULE_NAME}.setting.reset.hint`,
 		icon: "fas fa-coins",
 		type: ResetSettingsDialog,
-		restricted: true,
+		restricted: true
 	});
 
 	// =====================================================================
+
+	game.settings.register(CONSTANTS.MODULE_NAME, "enable", {
+		name: `${CONSTANTS.MODULE_NAME}.setting.enable.name`,
+		hint: `${CONSTANTS.MODULE_NAME}.setting.enable.hint`,
+		scope: "client",
+		config: true,
+		default: true,
+		type: Boolean
+	});
 
 	game.settings.register(CONSTANTS.MODULE_NAME, "addConvert", {
 		name: `${CONSTANTS.MODULE_NAME}.setting.addConvert.name`,
@@ -18,7 +27,7 @@ export const registerSettings = function (): void {
 		scope: "client",
 		config: true,
 		default: false,
-		type: Boolean,
+		type: Boolean
 	});
 
 	game.settings.register(CONSTANTS.MODULE_NAME, "ignoreElectrum", {
@@ -27,7 +36,7 @@ export const registerSettings = function (): void {
 		scope: "world",
 		config: true,
 		default: false,
-		type: Boolean,
+		type: Boolean
 	});
 
 	game.settings.register(CONSTANTS.MODULE_NAME, "chatLog", {
@@ -36,7 +45,7 @@ export const registerSettings = function (): void {
 		scope: "world",
 		config: true,
 		default: false,
-		type: Boolean,
+		type: Boolean
 	});
 
 	// ========================================================================
@@ -47,17 +56,8 @@ export const registerSettings = function (): void {
 		scope: "client",
 		config: true,
 		default: false,
-		type: Boolean,
+		type: Boolean
 	});
-
-	const settings = defaultSettings();
-	for (const [name, data] of Object.entries(settings)) {
-		game.settings.register(CONSTANTS.MODULE_NAME, name, <any>data);
-	}
-
-	// for (const [name, data] of Object.entries(otherSettings)) {
-	//     game.settings.register(CONSTANTS.MODULE_NAME, name, data);
-	// }
 };
 
 class ResetSettingsDialog extends FormApplication<FormApplicationOptions, object, any> {
@@ -76,16 +76,22 @@ class ResetSettingsDialog extends FormApplication<FormApplicationOptions, object
 					icon: '<i class="fas fa-check"></i>',
 					label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.confirm`),
 					callback: async () => {
-						await applyDefaultSettings();
-						window.location.reload();
-					},
+						const worldSettings = game.settings.storage
+							?.get("world")
+							?.filter((setting) => setting.key.startsWith(`${CONSTANTS.MODULE_NAME}.`));
+						for (let setting of worldSettings) {
+							console.log(`Reset setting '${setting.key}'`);
+							await setting.delete();
+						}
+						//window.location.reload();
+					}
 				},
 				cancel: {
 					icon: '<i class="fas fa-times"></i>',
-					label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.cancel`),
-				},
+					label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.cancel`)
+				}
 			},
-			default: "cancel",
+			default: "cancel"
 		});
 	}
 
@@ -93,102 +99,3 @@ class ResetSettingsDialog extends FormApplication<FormApplicationOptions, object
 		// do nothing
 	}
 }
-
-async function applyDefaultSettings() {
-	const settings = defaultSettings(true);
-	// for (const [name, settingData] of Object.entries(settings)) {
-	//   await game.settings.set(CONSTANTS.MODULE_NAME, name, settingData.default);
-	// }
-	const settings2 = otherSettings(true);
-	for (const [name, settingData] of Object.entries(settings2)) {
-		//@ts-ignore
-		await game.settings.set(CONSTANTS.MODULE_NAME, name, settingData.default);
-	}
-}
-
-function defaultSettings(apply = false) {
-	return {
-		//
-	};
-}
-
-function otherSettings(apply = false) {
-	return {
-		addConvert: {
-			name: `${CONSTANTS.MODULE_NAME}.setting.addConvert.name`,
-			hint: `${CONSTANTS.MODULE_NAME}.setting.addConvert.hint`,
-			scope: "client",
-			config: true,
-			default: false,
-			type: Boolean,
-		},
-
-		ignoreElectrum: {
-			name: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.name`,
-			hint: `${CONSTANTS.MODULE_NAME}.setting.ignoreElectrum.hint`,
-			scope: "world",
-			config: true,
-			default: false,
-			type: Boolean,
-		},
-
-		chatLog: {
-			name: `${CONSTANTS.MODULE_NAME}.setting.chatLog.name`,
-			hint: `${CONSTANTS.MODULE_NAME}.setting.chatLog.hint`,
-			scope: "world",
-			config: true,
-			default: false,
-			type: Boolean,
-		},
-
-		debug: {
-			name: `${CONSTANTS.MODULE_NAME}.setting.debug.name`,
-			hint: `${CONSTANTS.MODULE_NAME}.setting.debug.hint`,
-			scope: "client",
-			config: true,
-			default: false,
-			type: Boolean,
-		},
-	};
-}
-
-// export async function checkSystem() {
-//   if (!SYSTEMS.DATA) {
-//     if (game.settings.get(CONSTANTS.MODULE_NAME, 'systemNotFoundWarningShown')) return;
-
-//     await game.settings.set(CONSTANTS.MODULE_NAME, 'systemNotFoundWarningShown', true);
-
-//     return Dialog.prompt({
-//       title: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.nosystemfound.title`),
-//       content: dialogWarning(game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.nosystemfound.content`)),
-//       callback: () => {},
-//     });
-//   }
-
-//   if (game.settings.get(CONSTANTS.MODULE_NAME, 'systemFound')) return;
-
-//   game.settings.set(CONSTANTS.MODULE_NAME, 'systemFound', true);
-
-//   if (game.settings.get(CONSTANTS.MODULE_NAME, 'systemNotFoundWarningShown')) {
-//     return new Dialog({
-//       title: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.systemfound.title`),
-//       content: warn(game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.systemfound.content`), true),
-//       buttons: {
-//         confirm: {
-//           icon: '<i class="fas fa-check"></i>',
-//           label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.systemfound.confirm`),
-//           callback: () => {
-//             applyDefaultSettings();
-//           },
-//         },
-//         cancel: {
-//           icon: '<i class="fas fa-times"></i>',
-//           label: game.i18n.localize('No'),
-//         },
-//       },
-//       default: 'cancel',
-//     }).render(true);
-//   }
-
-//   return applyDefaultSettings();
-// }

@@ -1,5 +1,5 @@
 import CONSTANTS from "./constants";
-import { debug, log, warn } from "./lib/lib";
+import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib";
 
 interface DND5eCurrency {
 	label: string;
@@ -25,7 +25,7 @@ const signCase = {
 	add: "+",
 	subtract: "-",
 	equals: "=",
-	default: " ",
+	default: " "
 };
 function patchCurrency(currency) {
 	if (hasProperty(currency, "pp")) {
@@ -34,7 +34,7 @@ function patchCurrency(currency) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
-		else if (String(ppValue).startsWith("0")) {
+		else if (String(ppValue).startsWith("0") && String(ppValue) !== "0") {
 			while (String(ppValue).startsWith("0")) {
 				if (String(ppValue) === "0") {
 					break;
@@ -42,7 +42,13 @@ function patchCurrency(currency) {
 				ppValue = String(ppValue).slice(1);
 			}
 		}
-		setProperty(currency, "pp", Number(ppValue));
+		if (!is_real_number(ppValue)) {
+			ppValue = 0;
+		}
+		if (getProperty(currency, "pp") !== ppValue) {
+			setProperty(currency, "pp", Number(ppValue ?? 0));
+			info(`patchCurrency | update pp from '${getProperty(currency, "pp")}' to '${ppValue}'`);
+		}
 	}
 	if (hasProperty(currency, "gp")) {
 		let gpValue = getProperty(currency, "gp") || 0;
@@ -50,7 +56,7 @@ function patchCurrency(currency) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
-		else if (String(gpValue).startsWith("0")) {
+		else if (String(gpValue).startsWith("0") && String(gpValue) !== "0") {
 			while (String(gpValue).startsWith("0")) {
 				if (String(gpValue) === "0") {
 					break;
@@ -58,7 +64,13 @@ function patchCurrency(currency) {
 				gpValue = String(gpValue).slice(1);
 			}
 		}
-		setProperty(currency, "gp", Number(gpValue));
+		if (!is_real_number(gpValue)) {
+			gpValue = 0;
+		}
+		if (getProperty(currency, "gp") !== gpValue) {
+			setProperty(currency, "gp", Number(gpValue ?? 0));
+			info(`patchCurrency | update gp from '${getProperty(currency, "gp")}' to '${gpValue}'`);
+		}
 	}
 	if (hasProperty(currency, "ep")) {
 		let epValue = getProperty(currency, "ep") || 0;
@@ -66,7 +78,7 @@ function patchCurrency(currency) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
-		else if (String(epValue).startsWith("0")) {
+		else if (String(epValue).startsWith("0") && String(epValue) !== "0") {
 			while (String(epValue).startsWith("0")) {
 				if (String(epValue) === "0") {
 					break;
@@ -74,7 +86,13 @@ function patchCurrency(currency) {
 				epValue = String(epValue).slice(1);
 			}
 		}
-		setProperty(currency, "ep", Number(epValue));
+		if (!is_real_number(epValue)) {
+			epValue = 0;
+		}
+		if (getProperty(currency, "ep") !== epValue) {
+			setProperty(currency, "ep", Number(epValue ?? 0));
+			info(`patchCurrency | update ep from '${getProperty(currency, "ep")}' to '${epValue}'`);
+		}
 	}
 	if (hasProperty(currency, "sp")) {
 		let spValue = getProperty(currency, "sp") || 0;
@@ -82,7 +100,7 @@ function patchCurrency(currency) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
-		else if (String(spValue).startsWith("0")) {
+		else if (String(spValue).startsWith("0") && String(spValue) !== "0") {
 			while (String(spValue).startsWith("0")) {
 				if (String(spValue) === "0") {
 					break;
@@ -90,7 +108,13 @@ function patchCurrency(currency) {
 				spValue = String(spValue).slice(1);
 			}
 		}
-		setProperty(currency, "sp", Number(spValue));
+		if (!is_real_number(spValue)) {
+			spValue = 0;
+		}
+		if (getProperty(currency, "sp") !== spValue) {
+			setProperty(currency, "sp", Number(spValue ?? 0));
+			info(`patchCurrency | update sp from '${getProperty(currency, "sp")}' to '${spValue}'`);
+		}
 	}
 	if (hasProperty(currency, "cp")) {
 		let cpValue = getProperty(currency, "cp") || 0;
@@ -98,7 +122,7 @@ function patchCurrency(currency) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
-		else if (String(cpValue).startsWith("0")) {
+		else if (String(cpValue).startsWith("0") && String(cpValue) !== "0") {
 			while (String(cpValue).startsWith("0")) {
 				if (String(cpValue) === "0") {
 					break;
@@ -106,7 +130,13 @@ function patchCurrency(currency) {
 				cpValue = String(cpValue).slice(1);
 			}
 		}
-		setProperty(currency, "cp", Number(cpValue));
+		if (!is_real_number(cpValue)) {
+			cpValue = 0;
+		}
+		if (getProperty(currency, "cp") !== cpValue) {
+			setProperty(currency, "cp", Number(cpValue ?? 0));
+			info(`patchCurrency | update cp from '${getProperty(currency, "cp")}' to '${cpValue}'`);
+		}
 	}
 	return currency;
 }
@@ -177,19 +207,19 @@ function _onChangeCurrency(ev) {
 		actor
 			.update({ "system.currency": newAmount })
 			.then(() => {
-				input.value = Number(getProperty(actor, input.name));
+				input.value = Number(getProperty(actor, input.name) ?? 0);
 				sheet.submitOnChange = true;
 			})
-			.catch(log.bind(console));
+			.catch(console.log.bind(console));
 	}
 }
 function chatLog(actor, money) {
-	debug(money);
+	debug(`chatlog | money: ${money}`);
 	if (game.settings.get(CONSTANTS.MODULE_NAME, "chatLog")) {
 		const msgData = {
 			content: money,
 			speaker: ChatMessage.getSpeaker({ actor: actor }),
-			whisper: ChatMessage.getWhisperRecipients("GM"),
+			whisper: ChatMessage.getWhisperRecipients("GM")
 		};
 		return ChatMessage.create(msgData);
 	} else {
@@ -261,88 +291,88 @@ function getCpValue() {
 		}
 		if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
-				cp: { value: cpConvert, up: "", down: "" },
+				cp: { value: cpConvert, up: "", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
-				sp: { value: cpConvert, up: "", down: "" },
+				sp: { value: cpConvert, up: "", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
 				sp: { value: spConvert, up: "", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				ep: { value: cpConvert, up: "", down: "" },
+				ep: { value: cpConvert, up: "", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				ep: { value: epConvert, up: "", down: "sp" },
-				cp: { value: cpConvert, up: "ep", down: "" },
+				cp: { value: cpConvert, up: "ep", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				ep: { value: epConvert, up: "", down: "sp" },
-				sp: { value: spConvert, up: "ep", down: "" },
+				sp: { value: spConvert, up: "ep", down: "" }
 			};
 		}
 		if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
 				ep: { value: epConvert, up: "", down: "sp" },
 				sp: { value: spConvert, up: "ep", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "sp" },
 				sp: { value: spConvert, up: "gp", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "cp" },
-				cp: { value: cpConvert, up: "gp", down: "" },
+				cp: { value: cpConvert, up: "gp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "sp" },
-				sp: { value: spConvert, up: "gp", down: "" },
+				sp: { value: spConvert, up: "gp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "sp" },
 				sp: { value: spConvert, up: "gp", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "ep" },
-				ep: { value: epConvert, up: "gp", down: "" },
+				ep: { value: epConvert, up: "gp", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "cp" },
-				cp: { value: cpConvert, up: "ep", down: "" },
+				cp: { value: cpConvert, up: "ep", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				gp: { value: gpConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "sp" },
-				sp: { value: spConvert, up: "ep", down: "" },
+				sp: { value: spConvert, up: "ep", down: "" }
 			};
 		}
 		if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
@@ -350,51 +380,51 @@ function getCpValue() {
 				gp: { value: gpConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "sp" },
 				sp: { value: spConvert, up: "ep", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
-				pp: { value: cpConvert, up: "", down: "" },
+				pp: { value: cpConvert, up: "", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "cp" },
-				cp: { value: cpConvert, up: "pp", down: "" },
+				cp: { value: cpConvert, up: "pp", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "sp" },
-				sp: { value: spConvert, up: "pp", down: "" },
+				sp: { value: spConvert, up: "pp", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "sp" },
 				sp: { value: spConvert, up: "pp", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "ep" },
-				ep: { value: epConvert, up: "pp", down: "" },
+				ep: { value: epConvert, up: "pp", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "pp", down: "cp" },
-				cp: { value: cpConvert, up: "ep", down: "" },
+				cp: { value: cpConvert, up: "ep", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "pp", down: "sp" },
-				sp: { value: spConvert, up: "ep", down: "" },
+				sp: { value: spConvert, up: "ep", down: "" }
 			};
 		}
 		if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
@@ -402,27 +432,27 @@ function getCpValue() {
 				pp: { value: ppConvert, up: "", down: "ep" },
 				ep: { value: epConvert, up: "pp", down: "sp" },
 				sp: { value: spConvert, up: "ep", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "gp" },
-				gp: { value: gpConvert, up: "pp", down: "" },
+				gp: { value: gpConvert, up: "pp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "cp" },
-				cp: { value: cpConvert, up: "gp", down: "" },
+				cp: { value: cpConvert, up: "gp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "sp" },
-				sp: { value: spConvert, up: "gp", down: "" },
+				sp: { value: spConvert, up: "gp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
@@ -430,14 +460,14 @@ function getCpValue() {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "sp" },
 				sp: { value: spConvert, up: "gp", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
 			cpValue = {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "ep" },
-				ep: { value: epConvert, up: "gp", down: "" },
+				ep: { value: epConvert, up: "gp", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
@@ -445,7 +475,7 @@ function getCpValue() {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "cp" },
-				cp: { value: cpConvert, up: "ep", down: "" },
+				cp: { value: cpConvert, up: "ep", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
@@ -453,7 +483,7 @@ function getCpValue() {
 				pp: { value: ppConvert, up: "", down: "gp" },
 				gp: { value: gpConvert, up: "pp", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "sp" },
-				sp: { value: spConvert, up: "ep", down: "" },
+				sp: { value: spConvert, up: "ep", down: "" }
 			};
 		}
 		if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
@@ -462,7 +492,7 @@ function getCpValue() {
 				gp: { value: gpConvert, up: "pp", down: "ep" },
 				ep: { value: epConvert, up: "gp", down: "sp" },
 				sp: { value: spConvert, up: "ep", down: "cp" },
-				cp: { value: cpConvert, up: "sp", down: "" },
+				cp: { value: cpConvert, up: "sp", down: "" }
 			};
 		}
 	} else {
@@ -471,7 +501,7 @@ function getCpValue() {
 				pp: { value: 1000, up: "", down: "gp" },
 				gp: { value: 100, up: "pp", down: "sp" },
 				sp: { value: 10, up: "gp", down: "cp" },
-				cp: { value: 1, up: "sp", down: "" },
+				cp: { value: 1, up: "sp", down: "" }
 			};
 		} else {
 			cpValue = {
@@ -479,7 +509,7 @@ function getCpValue() {
 				gp: { value: 100, up: "pp", down: "ep" },
 				ep: { value: 50, up: "gp", down: "sp" },
 				sp: { value: 10, up: "ep", down: "cp" },
-				cp: { value: 1, up: "sp", down: "" },
+				cp: { value: 1, up: "sp", down: "" }
 			};
 		}
 	}
@@ -601,12 +631,20 @@ function totalMoney(money: LazyMoneyCP) {
 	return total;
 }
 function flash(input) {
-	input.style.backgroundColor = "rgba(255,0,0,0.5)";
+	input.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
 	setTimeout(() => {
 		input.style.backgroundColor = "";
 	}, 150);
 }
 export function applyLazyMoney(app, html, actorData) {
+	if (!game.settings.get(CONSTANTS.MODULE_NAME, "enable")) {
+		return;
+	}
+	// The module already do the job so for avoid redundance...
+	if (game.modules.get("lazymoney")?.active) {
+		return;
+	}
+
 	for (const elem of html.find("input[name^='system.currency']")) {
 		elem.type = "text";
 		elem.classList.add("lazymoney");
@@ -615,51 +653,30 @@ export function applyLazyMoney(app, html, actorData) {
 	html.find("input[name^='system.currency']").change(
 		{
 			app: app,
-			data: actorData,
+			data: actorData
 		},
 		_onChangeCurrency
 	);
 }
-function is_real_number(inNumber) {
-	return !isNaN(inNumber) && typeof inNumber === "number" && isFinite(inNumber);
-}
-function isEmptyObject(obj) {
-	// because Object.keys(new Date()).length === 0;
-	// we have to do some additional check
-	if (obj === null || obj === undefined) {
-		return true;
-	}
-	const result =
-		obj && // null and undefined check
-		Object.keys(obj).length === 0; // || Object.getPrototypeOf(obj) === Object.prototype);
-	return result;
-}
-function is_lazy_number(inNumber) {
-	const isSign =
-		String(inNumber).startsWith(signCase.add) ||
-		String(inNumber).startsWith(signCase.subtract) ||
-		String(inNumber).startsWith(signCase.equals) ||
-		String(inNumber).startsWith(signCase.default);
-	if (isSign) {
-		const withoutFirst = String(inNumber).slice(1);
-		return is_real_number(withoutFirst);
-	} else {
-		return true;
-	}
-}
+
 Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
+	if (!game.settings.get(CONSTANTS.MODULE_NAME, "enable")) {
+		return;
+	}
+	// The module already do the job so for avoid redundance...
+	if (game.modules.get("lazymoney")?.active) {
+		return;
+	}
 	if (!actorEntity) {
 		return;
 	}
 
 	if (hasProperty(update, "system.currency")) {
 		const currency = getProperty(update, "system.currency");
-		const isCurrencyUndefined = isEmptyObject(currency);
-		if (isCurrencyUndefined) {
-			return;
+		if (isEmptyObject(currency)) {
+			// Do nothing
 		} else {
 			update.system.currency = patchCurrency(update.system.currency);
 		}
 	}
-	// log('actor updated!')
 });

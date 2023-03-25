@@ -1,4 +1,8 @@
 ## Changelog
+### 1.0.10
+
+- Removed lazuHp Feature
+
 ### 1.0.7-8-9
 
 - Add support for HP and Experience
