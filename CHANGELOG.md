@@ -1,4 +1,8 @@
 ## Changelog
+### 1.0.11
+
+- Some bug fix
+
 ### 1.0.10
 
 - Removed lazuHp Feature
