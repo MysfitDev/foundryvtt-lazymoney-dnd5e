@@ -54,13 +54,22 @@
 			"lang": "en",
 			"name": "English",
 			"path": "languages/en.json"
+		},
+		{
+			"lang": "pl",
+			"name": "polski",
+			"path": "languages/pl.json"
 		}
 	],
 	"packs": [],
 	"systems": [],
 	"scripts": [],
-	"esmodules": ["main.js"],
-	"styles": ["styles/lazymoney.css"],
+	"esmodules": [
+		"main.js"
+	],
+	"styles": [
+		"styles/lazymoney.css"
+	],
 	"compatibility": {
 		"minimum": 10,
 		"verified": 10,
