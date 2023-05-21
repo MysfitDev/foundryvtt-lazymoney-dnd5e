@@ -1,5 +1,6 @@
 const CONSTANTS = {
 	MODULE_NAME: "lazymoney",
+	MODULE_ID: "lazymoney",
 	PATH: `modules/lazymoney/`
 };
 

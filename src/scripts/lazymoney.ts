@@ -1,25 +1,6 @@
 import CONSTANTS from "./constants";
+import type { LazyMoneyCP, LazyMoneyCurrency, DND5eCurrency } from "./lazymoneyModels";
 import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib";
-
-interface DND5eCurrency {
-	label: string;
-	abbreviation: string;
-	conversion?: { into: string; each: number };
-}
-
-interface LazyMoneyCurrency {
-	value: number;
-	up: string;
-	down: string;
-}
-
-interface LazyMoneyCP {
-	pp: number;
-	gp: number;
-	ep: number;
-	sp: number;
-	cp: number;
-}
 
 const signCase = {
 	add: "+",
@@ -168,7 +149,7 @@ function _onChangeCurrency(ev) {
 		return;
 	}
 	let newAmount = {};
-	if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum"))) {
+	if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum"))) {
 		switch (sign) {
 			case signCase.add: {
 				newAmount = addMoney(money, delta, denom);
@@ -244,7 +225,7 @@ function _onChangeCurrency(ev) {
 }
 function chatLog(actor, money) {
 	debug(`chatlog | money: ${money}`);
-	if (game.settings.get(CONSTANTS.MODULE_NAME, "chatLog")) {
+	if (game.settings.get(CONSTANTS.MODULE_ID, "chatLog")) {
 		const msgData = {
 			content: money,
 			speaker: ChatMessage.getSpeaker({ actor: actor }),
@@ -525,7 +506,7 @@ function getCpValue() {
 			};
 		}
 	} else {
-		if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
+		if (game.settings.get(CONSTANTS.MODULE_ID, "lazyMoneyIgnoreElectrum")) {
 			cpValue = {
 				pp: { value: 1000, up: "", down: "gp" },
 				gp: { value: 100, up: "pp", down: "sp" },
@@ -595,7 +576,7 @@ function scaleDown(oldAmount, denom) {
 function addMoney(oldAmount, delta, denom) {
 	const cpValue = getCpValue();
 	let newAmount = {};
-	if (game.settings.get(CONSTANTS.MODULE_NAME, "addConvert")) {
+	if (game.settings.get(CONSTANTS.MODULE_ID, "addConvert")) {
 		let cpDelta = delta * cpValue[denom].value;
 		for (let key in cpValue) {
 			const myValue = cpValue[key].value;
@@ -666,7 +647,7 @@ function flash(input) {
 	}, 150);
 }
 export function applyLazyMoney(app, html, actorData) {
-	if (!game.settings.get(CONSTANTS.MODULE_NAME, "enable")) {
+	if (!game.settings.get(CONSTANTS.MODULE_ID, "enable")) {
 		return;
 	}
 	// The module already do the job so for avoid redundance...
@@ -689,7 +670,7 @@ export function applyLazyMoney(app, html, actorData) {
 }
 
 // Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
-// 	if (!game.settings.get(CONSTANTS.MODULE_NAME, "enable")) {
+// 	if (!game.settings.get(CONSTANTS.MODULE_ID, "enable")) {
 // 		return;
 // 	}
 // 	// The module already do the job so for avoid redundance...

@@ -1,5 +1,5 @@
 ## Changelog
-### 1.0.11
+### 1.0.11-12
 
 - Some bug fix
 
