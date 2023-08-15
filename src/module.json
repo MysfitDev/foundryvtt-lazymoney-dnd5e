@@ -2,7 +2,7 @@
   "id": "lazymoney",
   "title": "Lazy Money",
   "description": "Easily add or remove currency with automatic conversion and no overdraft.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "authors": [
     {
       "name": "DeVelox",
@@ -67,16 +67,16 @@
   "esmodules": ["module.js"],
   "styles": ["styles/lazymoney.css"],
   "compatibility": {
-    "minimum": 11,
+    "minimum": 10,
     "verified": 11,
-	"maximum": 11
+    "maximum": 11
   },
   "manifestPlusVersion": "1.2.1",
   "url": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e",
-  "manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/v1.1.0/module.json",
-  "download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/v1.1.0/module.zip",
-  "readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.1.0/README.md",
-  "changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.1.0/CHANGELOG.md",
+  "manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/v1.1.1/module.json",
+  "download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/v1.1.1/module.zip",
+  "readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.1.1/README.md",
+  "changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/v1.1.1/CHANGELOG.md",
   "bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
   "allowBugReporter": true,
   "relationships": {
@@ -86,7 +86,7 @@
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
         "compatibility": {
-          "verified": "2.2.0"
+          "verified": "2.0.2"
         }
       }
     ],

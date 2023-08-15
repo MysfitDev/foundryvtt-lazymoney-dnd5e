@@ -503,7 +503,7 @@ function getCpValue() {
       };
     }
   } else {
-    if (game.settings.get(CONSTANTS.MODULE_ID, "lazyMoneyIgnoreElectrum")) {
+    if (game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum")) {
       cpValue = {
         pp: { value: 1000, up: "", down: "gp" },
         gp: { value: 100, up: "pp", down: "sp" },
@@ -648,9 +648,9 @@ export function applyLazyMoney(app, html, actorData) {
     return;
   }
   // The module already do the job so for avoid redundance...
-  if (game.modules.get("lazymoney")?.active) {
-    return;
-  }
+  // if (game.modules.get("lazymoney")?.active) {
+  //   return;
+  // }
 
   for (const elem of html.find("input[name^='system.currency']")) {
     elem.type = "text";
@@ -665,25 +665,3 @@ export function applyLazyMoney(app, html, actorData) {
     _onChangeCurrency
   );
 }
-
-// Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
-// 	if (!game.settings.get(CONSTANTS.MODULE_ID, "enable")) {
-// 		return;
-// 	}
-// 	// The module already do the job so for avoid redundance...
-// 	if (game.modules.get("lazymoney")?.active) {
-// 		return;
-// 	}
-// 	if (!actorEntity) {
-// 		return;
-// 	}
-
-// 	if (hasProperty(update, "system.currency")) {
-// 		const currency = getProperty(update, "system.currency");
-// 		if (isEmptyObject(currency)) {
-// 			// Do nothing
-// 		} else {
-// 			update.system.currency = patchCurrency(update.system.currency);
-// 		}
-// 	}
-// });
