@@ -13,7 +13,7 @@
 
 // Import TypeScript modules
 import { registerSettings } from "./scripts/settings.js";
-import { initHooks, readyHooks, setupHooks } from "./scripts/module";
+import { initHooks, readyHooks, setupHooks } from "./scripts/main.js";
 import { error, i18n, warn } from "./scripts/lib/lib.js";
 import CONSTANTS from "./scripts/constants.js";
 import type API from "./scripts/api.js";
