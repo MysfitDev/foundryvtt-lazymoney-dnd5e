@@ -1,22 +1,22 @@
-import CONSTANTS from "./constants";
-import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib";
+import CONSTANTS from "./constants.js";
+import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib.js";
 
-export interface DND5eCurrency {
-	label: string;
-	abbreviation: string;
-	conversion?: { into: string; each: number };
+export class DND5eCurrency {
+  label = "";
+  abbreviation = "";
+  conversion = 0;
 }
 
-export interface LazyMoneyCurrency {
-	value: number;
-	up: string;
-	down: string;
+export class LazyMoneyCurrency {
+  value = 0;
+  up = "";
+  down = "";
 }
 
-export interface LazyMoneyCP {
-	pp: number;
-	gp: number;
-	ep: number;
-	sp: number;
-	cp: number;
+export class LazyMoneyCP {
+  pp = 0;
+  gp = 0;
+  ep = 0;
+  sp = 0;
+  cp = 0;
 }

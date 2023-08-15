@@ -1,4 +1,9 @@
 ## Changelog
+
+### 1.1.0
+
+- Upgrade for fvtt11
+
 ### 1.0.11-12
 
 - Some bug fix

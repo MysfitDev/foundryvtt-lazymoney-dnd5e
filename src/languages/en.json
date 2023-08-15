@@ -1,28 +1,28 @@
 {
-	"lazymoney.setting.addConvert.name": "Convert when adding money",
-	"lazymoney.setting.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
+  "lazymoney.setting.addConvert.name": "Convert when adding money",
+  "lazymoney.setting.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
 
-	"lazymoney.setting.ignoreElectrum.name": "Ignore electrum",
-	"lazymoney.setting.ignoreElectrum.hint": "When converting, ignore electrum. This won't affect directly adding or removing it, except in the case when \"Convert when adding money\" is also enabled.",
+  "lazymoney.setting.ignoreElectrum.name": "Ignore electrum",
+  "lazymoney.setting.ignoreElectrum.hint": "When converting, ignore electrum. This won't affect directly adding or removing it, except in the case when \"Convert when adding money\" is also enabled.",
 
-	"lazymoney.setting.chatLog.name": "Chat log",
-	"lazymoney.setting.chatLog.hint": "Whisper any currency changes to the GM.",
+  "lazymoney.setting.chatLog.name": "Chat log",
+  "lazymoney.setting.chatLog.hint": "Whisper any currency changes to the GM.",
 
-	"lazymoney.setting.reset.name": "Reset settings to default",
-	"lazymoney.setting.reset.label": "Reset Settings To Default",
-	"lazymoney.setting.reset.hint": "This will reset all of the settings of back to the active game system's default.",
-	"lazymoney.setting.debug.name": "Enable debugging",
-	"lazymoney.setting.debug.label": "Prints debug messages to the console",
-	"lazymoney.setting.debug.hint": " ",
+  "lazymoney.setting.reset.name": "Reset settings to default",
+  "lazymoney.setting.reset.label": "Reset Settings To Default",
+  "lazymoney.setting.reset.hint": "This will reset all of the settings of back to the active game system's default.",
+  "lazymoney.setting.debug.name": "Enable debugging",
+  "lazymoney.setting.debug.label": "Prints debug messages to the console",
+  "lazymoney.setting.debug.hint": " ",
 
-	"lazymoney.dialogs.resetsettings.title": "Reset Module Settings",
-	"lazymoney.dialogs.resetsettings.content": "Are you sure you want to reset all of the module settings to the current system's defaults? <strong>THIS CANNOT BE UNDONE!</strong>",
-	"lazymoney.dialogs.resetsettings.confirm": "Reset Module Settings",
-	"lazymoney.dialogs.resetsettings.cancel": "Cancel",
+  "lazymoney.dialogs.resetsettings.title": "Reset Module Settings",
+  "lazymoney.dialogs.resetsettings.content": "Are you sure you want to reset all of the module settings to the current system's defaults? <strong>THIS CANNOT BE UNDONE!</strong>",
+  "lazymoney.dialogs.resetsettings.confirm": "Reset Module Settings",
+  "lazymoney.dialogs.resetsettings.cancel": "Cancel",
 
-	"lazymoney.dialogs.nosystemfound.title": "System Not Recognized",
-	"lazymoney.dialogs.nosystemfound.content": "This system is not currently fully supported. This means that the module does not know how to best handle this system's items, but can still operate in a limited fashion.<br><br>You can configure the module's settings yourself, but it requires a bit of technical know-how.<br><br>If you have any questions, ping <strong>Wasp#2005</strong> on the Foundry discord.",
-	"lazymoney.dialogs.systemfound.title": "System Recognized",
-	"lazymoney.dialogs.systemfound.content": "This system was previously not supported, but in an recent update it was added as a supported system!<br><br>Do you want to load this system's default Item Pile settings?",
-	"lazymoney.dialogs.systemfound.confirm": "Apply System Defaults"
+  "lazymoney.dialogs.nosystemfound.title": "System Not Recognized",
+  "lazymoney.dialogs.nosystemfound.content": "This system is not currently fully supported. This means that the module does not know how to best handle this system's items, but can still operate in a limited fashion.<br><br>You can configure the module's settings yourself, but it requires a bit of technical know-how.<br><br>If you have any questions, ping <strong>Wasp#2005</strong> on the Foundry discord.",
+  "lazymoney.dialogs.systemfound.title": "System Recognized",
+  "lazymoney.dialogs.systemfound.content": "This system was previously not supported, but in an recent update it was added as a supported system!<br><br>Do you want to load this system's default Item Pile settings?",
+  "lazymoney.dialogs.systemfound.confirm": "Apply System Defaults"
 }

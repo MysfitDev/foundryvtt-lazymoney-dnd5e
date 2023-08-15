@@ -1,4 +1,4 @@
-# Lazy Money
+# Lazy Money (Dnd5e)
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/foundryvtt-lazymoney-dnd5e/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
@@ -46,6 +46,49 @@ To install this module manually:
 
 ## Api
 
+TODO...
+
+# Build
+
+## Install all packages
+
+```bash
+npm install
+```
+
+### dev
+
+`dev` will let you develop you own code with hot reloading on the browser
+
+```bash
+npm run dev
+```
+
+## npm build scripts
+
+### build
+
+`build` will build and set up a symlink between `dist` and your `dataPath`.
+
+```bash
+npm run build
+```
+
+### build-watch
+
+`build-watch` will build and watch for changes, rebuilding automatically.
+
+```bash
+npm run build-watch
+```
+
+### prettier-format
+
+`prettier-format` launch the prettier plugin based on the configuration [here](./.prettierrc)
+
+```bash
+npm run-script prettier-format
+```
 
 ## [Changelog](./CHANGELOG.md)
 
