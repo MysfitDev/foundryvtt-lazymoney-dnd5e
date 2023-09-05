@@ -37,6 +37,10 @@ To install this module manually:
 
 ## Known Issue\Limitation
 
+# API
+
+The wiki for the API is [here](wiki/api.md)
+
 ## Feature
 
 | **Name** | Works | Notes |

@@ -3,6 +3,7 @@
 // ================================
 
 import CONSTANTS from "../constants";
+import { LazyMoneyHelpers } from "../lazymoney-helpers";
 
 // export let debugEnabled = 0;
 // 0 = none, warnings = 1, debug = 2, all = 3
@@ -91,19 +92,12 @@ export function isEmptyObject(obj) {
   return result;
 }
 
-const signCase = {
-  add: "+",
-  subtract: "-",
-  equals: "=",
-  default: " ",
-};
-
 export function is_lazy_number(inNumber) {
   const isSign =
-    String(inNumber).startsWith(signCase.add) ||
-    String(inNumber).startsWith(signCase.subtract) ||
-    String(inNumber).startsWith(signCase.equals) ||
-    String(inNumber).startsWith(signCase.default);
+    String(inNumber).startsWith(LazyMoneyHelpers.signCase.add) ||
+    String(inNumber).startsWith(LazyMoneyHelpers.signCase.subtract) ||
+    String(inNumber).startsWith(LazyMoneyHelpers.signCase.equals) ||
+    String(inNumber).startsWith(LazyMoneyHelpers.signCase.default);
   if (isSign) {
     const withoutFirst = String(inNumber).slice(1);
     return is_real_number(withoutFirst);
@@ -114,4 +108,34 @@ export function is_lazy_number(inNumber) {
 
 export function isLessThanOneIsOne(inNumber) {
   return inNumber < 1 ? 1 : inNumber;
+}
+
+export function getDocument(target) {
+  if (stringIsUuid(target)) {
+    target = fromUuidSync(target);
+  }
+  return target?.document ?? target;
+}
+
+export function getActor(target) {
+  if (stringIsUuid(target)) {
+    target = fromUuidSync(target);
+  }
+  // Type checking
+  if (!(target instanceof CONFIG.Actor.documentClass)) {
+    throw error(`Invalid actor`, true);
+  }
+  return target;
+}
+
+export function stringIsUuid(inId) {
+  return typeof inId === "string" && (inId.match(/\./g) || []).length && !inId.endsWith(".");
+}
+
+export function getUuid(target) {
+  if (stringIsUuid(target)) {
+    return target;
+  }
+  const document = getDocument(target);
+  return document?.uuid ?? false;
 }
