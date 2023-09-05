@@ -1,5 +1,5 @@
-import { isEmptyObject } from "jquery";
-import { getActor, info, warn } from "./lib/lib";
+import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActor } from "./lib/lib.js";
+import CONSTANTS from "./constants.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
@@ -202,6 +202,9 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
 
+    let money = actor.system.currency;
+    money = LazyMoneyHelpers.patchCurrency(money);
+
     let value = String(valueS);
 
     let isValidCurrencyDenom = false;
@@ -230,12 +233,12 @@ export class LazyMoneyHelpers {
     let newAmount = {};
     if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum"))) {
       switch (sign) {
-        case signCase.add: {
+        case LazyMoneyHelpers.signCase.add: {
           newAmount = LazyMoneyHelpers.addMoney(money, delta, denom);
           LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
           break;
         }
-        case signCase.subtract: {
+        case LazyMoneyHelpers.signCase.subtract: {
           newAmount = LazyMoneyHelpers.removeMoney(money, delta, denom);
           LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
           if (!newAmount) {
@@ -244,7 +247,7 @@ export class LazyMoneyHelpers {
           }
           break;
         }
-        case signCase.equals: {
+        case LazyMoneyHelpers.signCase.equals: {
           newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
           LazyMoneyHelpers.chatLog(
             actor,
@@ -263,17 +266,17 @@ export class LazyMoneyHelpers {
       }
     } else {
       switch (sign) {
-        case signCase.add: {
+        case LazyMoneyHelpers.signCase.add: {
           newAmount[denom] = money[denom] + delta;
           LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
           break;
         }
-        case signCase.subtract: {
+        case LazyMoneyHelpers.signCase.subtract: {
           newAmount[denom] = money[denom] - delta;
           LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
           break;
         }
-        case signCase.equals: {
+        case LazyMoneyHelpers.signCase.equals: {
           newAmount[denom] = money[denom];
           LazyMoneyHelpers.chatLog(
             actor,

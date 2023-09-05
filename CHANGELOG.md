@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.2 
+
+- Add API for use on external modules
+
 ### 1.1.0-1
 
 - Upgrade for fvtt11
