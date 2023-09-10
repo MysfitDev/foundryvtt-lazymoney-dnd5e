@@ -1,4 +1,7 @@
 ## Changelog
+### 1.1.3
+
+- fix on "is lazy number" function
 
 ### 1.1.2 
 

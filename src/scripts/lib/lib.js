@@ -93,6 +93,9 @@ export function isEmptyObject(obj) {
 }
 
 export function is_lazy_number(inNumber) {
+  if (!inNumber) {
+    return false;
+  }
   const isSign =
     String(inNumber).startsWith(LazyMoneyHelpers.signCase.add) ||
     String(inNumber).startsWith(LazyMoneyHelpers.signCase.subtract) ||
@@ -100,7 +103,12 @@ export function is_lazy_number(inNumber) {
     String(inNumber).startsWith(LazyMoneyHelpers.signCase.default);
   if (isSign) {
     const withoutFirst = String(inNumber).slice(1);
-    return is_real_number(withoutFirst);
+    try {
+      return is_real_number(parseInt(withoutFirst));
+    } catch (e) {
+      error(e);
+      return false;
+    }
   } else {
     return true;
   }
