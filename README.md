@@ -20,9 +20,6 @@ Easily add or remove currency with automatic conversion and no overdraft.
 
 ![img](wiki/IUml0iX.gif)
 
-## NOTE: If you are a javascript developer and not a typescript developer, you can just use the javascript files under the dist folder
-
-
 ## Installation
 
 It's always easiest to install modules from the in game add-on browser.
