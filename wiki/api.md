@@ -129,7 +129,7 @@ Convert currency to Gold
 ```
 game.modules.get('lazymoney').api.convertToGold({
     currencyValue: 30,
-    currencyDenom: "gp"
+    currencyDenom: "pp"
 })
 
 ```

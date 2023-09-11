@@ -3,6 +3,16 @@ import CONSTANTS from "./constants.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actorSync = getActor(actorOrActorUuid);
+    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+
+    if (isEmptyObject(currencyValue)) {
+      throw error(`The currency value is empty or null`, true);
+    }
+
     let sign = LazyMoneyHelpers.signCase.default;
     for (const val of Object.values(LazyMoneyHelpers.signCase)) {
       if (value.includes(val)) {
@@ -10,13 +20,36 @@ export class LazyMoneyHelpers {
         break;
       }
     }
-    const actor = getActor(actorOrActorUuid);
+
     const newAmount = LazyMoneyHelpers.calculateNewAmount(actor, currencyValue, currencyDenom, sign);
     actor.update({ "system.currency": newAmount });
   }
 
   static async addCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActor(actorOrActorUuid);
+    const actorSync = getActor(actorOrActorUuid);
+    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+
+    if (isEmptyObject(currencyValue)) {
+      throw error(`The currency value is empty or null`, true);
+    }
+    let currencyValueS = "";
+    if (is_real_number(currencyValue)) {
+      if (currencyValue < 0) {
+        currencyValueS = "-" + String(currencyValue * -1);
+      } else {
+        currencyValueS = "+" + String(currencyValue);
+      }
+    } else {
+      if (!is_lazy_number(currencyValue)) {
+        currencyValueS = String(currencyValue);
+        if (!currencyValueS.startsWith("+")) {
+          currencyValueS = "+" + currencyValueS;
+        }
+      }
+    }
     const newAmount = LazyMoneyHelpers.calculateNewAmount(
       actor,
       currencyValue,
@@ -27,7 +60,30 @@ export class LazyMoneyHelpers {
   }
 
   static async subtractCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActor(actorOrActorUuid);
+    const actorSync = getActor(actorOrActorUuid);
+    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+
+    if (isEmptyObject(currencyValue)) {
+      throw error(`The currency value is empty or null`, true);
+    }
+    let currencyValueS = "";
+    if (is_real_number(currencyValue)) {
+      if (currencyValue < 0) {
+        currencyValueS = "-" + String(currencyValue * -1);
+      } else {
+        currencyValueS = "-" + String(currencyValue);
+      }
+    } else {
+      if (!is_lazy_number(currencyValue)) {
+        currencyValueS = String(currencyValue);
+        if (!currencyValueS.startsWith("-")) {
+          currencyValueS = "-" + currencyValueS;
+        }
+      }
+    }
     const newAmount = LazyMoneyHelpers.calculateNewAmount(
       actor,
       currencyValue,
