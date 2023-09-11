@@ -17,7 +17,7 @@ Manage currency on actor
 
 ```
 game.modules.get('lazymoney').api.manageCurrency({
-    item: "Actor.7bm6EK8jnopnGRS4",
+    actor: "Actor.7bm6EK8jnopnGRS4",
     currencyValue: 30,
     currencyDenom: "gp"
 })
@@ -40,7 +40,7 @@ Add currency on actor
 
 ```
 game.modules.get('lazymoney').api.addCurrency({
-    item: "Actor.7bm6EK8jnopnGRS4",
+    actor: "Actor.7bm6EK8jnopnGRS4",
     currencyValue: 30,
     currencyDenom: "gp"
 })
@@ -64,7 +64,7 @@ Subtract currency on actor
 
 ```
 game.modules.get('lazymoney').api.subtractCurrency({
-    item: "Actor.7bm6EK8jnopnGRS4",
+    actor: "Actor.7bm6EK8jnopnGRS4",
     currencyValue: 30,
     currencyDenom: "gp"
 })

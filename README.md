@@ -44,11 +44,6 @@ The wiki for the API is [here](wiki/api.md)
 | -------- | :---: | ----- |
 | [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) | :heavy_check_mark: | Works with 1.0.1 |
 
-
-## Api
-
-TODO...
-
 # Build
 
 ## Install all packages
