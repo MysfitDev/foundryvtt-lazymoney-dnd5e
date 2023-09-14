@@ -13,16 +13,34 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
 
+    let currencyValueS = "";
+    if (is_real_number(currencyValue)) {
+      if (currencyValue < 0) {
+        currencyValueS = "-" + String(currencyValue * -1);
+      } else {
+        currencyValueS = "+" + String(currencyValue);
+      }
+    } else {
+      if (!is_lazy_number(currencyValue)) {
+        currencyValueS = String(currencyValue);
+        if (!currencyValueS.startsWith("+")) {
+          currencyValueS = "+" + currencyValueS;
+        }
+      }
+    }
+
     let sign = LazyMoneyHelpers.signCase.default;
     for (const val of Object.values(LazyMoneyHelpers.signCase)) {
-      if (value.includes(val)) {
+      if (currencyValueS.includes(val)) {
         sign = val;
         break;
       }
     }
 
-    const newAmount = LazyMoneyHelpers.calculateNewAmount(actor, currencyValue, currencyDenom, sign);
-    actor.update({ "system.currency": newAmount });
+    const newAmount = LazyMoneyHelpers.calculateNewAmount(actor, currencyValueS, currencyDenom, sign);
+    if (newAmount) {
+      actor.update({ "system.currency": newAmount });
+    }
   }
 
   static async addCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
@@ -52,11 +70,13 @@ export class LazyMoneyHelpers {
     }
     const newAmount = LazyMoneyHelpers.calculateNewAmount(
       actor,
-      currencyValue,
+      currencyValueS,
       currencyDenom,
       LazyMoneyHelpers.signCase.add
     );
-    actor.update({ "system.currency": newAmount });
+    if (newAmount) {
+      actor.update({ "system.currency": newAmount });
+    }
   }
 
   static async subtractCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
@@ -86,11 +106,13 @@ export class LazyMoneyHelpers {
     }
     const newAmount = LazyMoneyHelpers.calculateNewAmount(
       actor,
-      currencyValue,
+      currencyValueS,
       currencyDenom,
       LazyMoneyHelpers.signCase.subtract
     );
-    actor.update({ "system.currency": newAmount });
+    if (newAmount) {
+      actor.update({ "system.currency": newAmount });
+    }
   }
 
   /* =============================================== */
@@ -284,7 +306,7 @@ export class LazyMoneyHelpers {
         actor,
         `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
       );
-      return;
+      // return;
     }
     let newAmount = {};
     if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum"))) {
@@ -661,9 +683,9 @@ export class LazyMoneyHelpers {
       .reverse()
       .forEach((v) => {
         if (v.conversion !== undefined) {
-          total *= v.conversion.each;
-          if (cpValue[v.conversion.into]) {
-            cpValue[v.conversion.into].value = total;
+          total *= v.conversion * 100; // Changed from cp to gp with 2.3.1
+          if (cpValue[v.abbreviation]) {
+            cpValue[v.abbreviation].value = total;
           }
         }
       });

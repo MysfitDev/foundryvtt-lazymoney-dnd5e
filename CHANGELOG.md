@@ -1,4 +1,9 @@
 ## Changelog
+
+### 1.1.4-1.1.5
+
+- Bug fixing and update the api
+
 ### 1.1.3
 
 - fix on "is lazy number" function

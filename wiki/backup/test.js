@@ -109,7 +109,7 @@ function _onChangeCurrency(ev) {
   } else {
     delta = Number(splitVal[0]);
     chatLog(actor, `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`);
-    return;
+    // return;
   }
   let newAmount = {};
   if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum"))) {

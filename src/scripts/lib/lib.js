@@ -86,6 +86,9 @@ export function isEmptyObject(obj) {
   if (obj === null || obj === undefined) {
     return true;
   }
+  if (is_real_number(obj)) {
+    return false;
+  }
   const result =
     obj && // null and undefined check
     Object.keys(obj).length === 0; // || Object.getPrototypeOf(obj) === Object.prototype);
