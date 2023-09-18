@@ -1,7 +1,7 @@
 The api is reachable from the variable `game.modules.get('lazymoney').api` or from the socket libary `socketLib` on the variable `game.modules.get('lazymoney').socket` if present and active.
 
 
-#### manageCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
+## manageCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
 
 Manage currency on actor
 
@@ -24,7 +24,7 @@ game.modules.get('lazymoney').api.manageCurrency({
 
 ```
 
-#### addCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
+## addCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
 
 Add currency on actor
 
@@ -48,7 +48,7 @@ game.modules.get('lazymoney').api.addCurrency({
 ```
 
 
-#### subtractCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
+## subtractCurrency({actor: uuid|Actor, currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;void&gt;</code>
 
 Subtract currency on actor
 
@@ -71,7 +71,7 @@ game.modules.get('lazymoney').api.subtractCurrency({
 
 ```
 
-#### convertToCopper({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
+## convertToCopper({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
 
 Convert currency to Copper
 
@@ -92,7 +92,7 @@ game.modules.get('lazymoney').api.convertToCopper({
 
 ```
 
-#### convertToSilver({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
+## convertToSilver({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
 
 Convert currency to Silver
 
@@ -113,7 +113,7 @@ game.modules.get('lazymoney').api.convertToSilver({
 
 ```
 
-#### convertToGold({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
+## convertToGold({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
 
 Convert currency to Gold
 
@@ -134,7 +134,7 @@ game.modules.get('lazymoney').api.convertToGold({
 
 ```
 
-#### convertToElectrum({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
+## convertToElectrum({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
 
 Convert currency to Electrum
 
@@ -155,7 +155,7 @@ game.modules.get('lazymoney').api.convertToElectrum({
 
 ```
 
-#### convertToPlatinum({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
+## convertToPlatinum({currencyValue:string|number, currencyDenom:string}):void ⇒ <code>Promise&lt;number&gt;</code>
 
 Convert currency to Platinum
 
