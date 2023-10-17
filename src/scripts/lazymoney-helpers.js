@@ -683,10 +683,15 @@ export class LazyMoneyHelpers {
       .reverse()
       .forEach((v) => {
         if (v.conversion !== undefined) {
-          total *= v.conversion * 100; // Changed from cp to gp with 2.3.1
-          if (cpValue[v.abbreviation]) {
-            cpValue[v.abbreviation].value = total;
+          total *= v.conversion.each;
+          if (v.conversion?.into && cpValue[v.conversion.into]) {
+            cpValue[v.conversion?.into].value = total;
           }
+          // TODO why is not work right ???
+          //   total *= v.conversion * 100; // Changed from cp to gp with 2.3.1
+          //   if (cpValue[v.abbreviation]) {
+          //     cpValue[v.abbreviation].value = total;
+          //   }
         }
       });
     // if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {

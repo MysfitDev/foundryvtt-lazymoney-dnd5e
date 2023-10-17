@@ -1,6 +1,6 @@
 ## Changelog
 
-### 1.1.4-1.1.5
+### 1.1.4-1.1.5-1.1.6
 
 - Bug fixing and update the api
 
@@ -8,7 +8,7 @@
 
 - fix on "is lazy number" function
 
-### 1.1.2 
+### 1.1.2
 
 - Add API for use on external modules
 
