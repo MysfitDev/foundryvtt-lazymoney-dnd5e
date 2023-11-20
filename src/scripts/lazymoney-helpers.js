@@ -1,5 +1,6 @@
 import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActor } from "./lib/lib.js";
 import CONSTANTS from "./constants.js";
+import { LazyMoneyDnd5eHelpers } from "./systems/dnd5e.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
@@ -389,8 +390,8 @@ export class LazyMoneyHelpers {
     }
   }
 
-  static getCpValue() {
-    let cpValue = {};
+  static prepareConvertionMap() {
+    let cpMap = {};
     if (game.modules.get("world-currency-5e")?.active) {
       const ignorePP = game.settings.get("world-currency-5e", "ppAltRemove");
       const ignoreGP = game.settings.get("world-currency-5e", "gpAltRemove");
@@ -450,96 +451,96 @@ export class LazyMoneyHelpers {
       const spConvert = (gpConvertb / spConvertb) * cpConvertb;
       const cpConvert = 1;
       if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {};
+        cpMap = {};
       }
       if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           cp: { value: cpConvert, up: "", down: "" },
         };
       }
       if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           sp: { value: cpConvert, up: "", down: "" },
         };
       }
       if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           sp: { value: spConvert, up: "", down: "cp" },
           cp: { value: cpConvert, up: "sp", down: "" },
         };
       }
       if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           ep: { value: cpConvert, up: "", down: "" },
         };
       }
       if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           ep: { value: epConvert, up: "", down: "sp" },
           cp: { value: cpConvert, up: "ep", down: "" },
         };
       }
       if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           ep: { value: epConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "" },
         };
       }
       if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           ep: { value: epConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "cp" },
           cp: { value: cpConvert, up: "sp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "gp", down: "cp" },
           cp: { value: cpConvert, up: "sp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "cp" },
           cp: { value: cpConvert, up: "gp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "gp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "gp", down: "cp" },
           cp: { value: cpConvert, up: "sp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "cp" },
           cp: { value: cpConvert, up: "ep", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "" },
         };
       }
       if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           gp: { value: gpConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "cp" },
@@ -547,51 +548,51 @@ export class LazyMoneyHelpers {
         };
       }
       if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: cpConvert, up: "", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "cp" },
           cp: { value: cpConvert, up: "pp", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "pp", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "sp" },
           sp: { value: spConvert, up: "pp", down: "cp" },
           cp: { value: cpConvert, up: "sp", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "pp", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "pp", down: "cp" },
           cp: { value: cpConvert, up: "ep", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "pp", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "" },
         };
       }
       if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "ep" },
           ep: { value: epConvert, up: "pp", down: "sp" },
           sp: { value: spConvert, up: "ep", down: "cp" },
@@ -599,27 +600,27 @@ export class LazyMoneyHelpers {
         };
       }
       if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "" },
         };
       }
       if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "cp" },
           cp: { value: cpConvert, up: "gp", down: "" },
         };
       }
       if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "sp" },
           sp: { value: spConvert, up: "gp", down: "" },
         };
       }
       if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "sp" },
           sp: { value: spConvert, up: "gp", down: "cp" },
@@ -627,14 +628,14 @@ export class LazyMoneyHelpers {
         };
       }
       if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "" },
         };
       }
       if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "cp" },
@@ -642,7 +643,7 @@ export class LazyMoneyHelpers {
         };
       }
       if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "sp" },
@@ -650,7 +651,7 @@ export class LazyMoneyHelpers {
         };
       }
       if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpValue = {
+        cpMap = {
           pp: { value: ppConvert, up: "", down: "gp" },
           gp: { value: gpConvert, up: "pp", down: "ep" },
           ep: { value: epConvert, up: "gp", down: "sp" },
@@ -660,14 +661,14 @@ export class LazyMoneyHelpers {
       }
     } else {
       if (game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum")) {
-        cpValue = {
+        cpMap = {
           pp: { value: 1000, up: "", down: "gp" },
           gp: { value: 100, up: "pp", down: "sp" },
           sp: { value: 10, up: "gp", down: "cp" },
           cp: { value: 1, up: "sp", down: "" },
         };
       } else {
-        cpValue = {
+        cpMap = {
           pp: { value: 1000, up: "", down: "gp" },
           gp: { value: 100, up: "pp", down: "ep" },
           ep: { value: 50, up: "gp", down: "sp" },
@@ -677,36 +678,45 @@ export class LazyMoneyHelpers {
       }
     }
     let total = 1;
-    //@ts-ignore
-    const convert = CONFIG.DND5E.currencies;
-    Object.values(convert)
-      .reverse()
-      .forEach((v) => {
-        if (v.conversion !== undefined) {
-          total *= v.conversion.each;
-          if (v.conversion?.into && cpValue[v.conversion.into]) {
-            cpValue[v.conversion?.into].value = total;
-          }
-          // TODO why is not work right ???
-          //   total *= v.conversion * 100; // Changed from cp to gp with 2.3.1
-          //   if (cpValue[v.abbreviation]) {
-          //     cpValue[v.abbreviation].value = total;
-          //   }
-        }
-      });
+
+    const convert = LazyMoneyDnd5eHelpers.currencies;
+    // Object.values(convert)
+    //   .reverse()
+    //   .forEach((v) => {
+    //     if (v.conversion !== undefined) {
+    //         // 1)
+    //         // total *= v.conversion.each;
+    //         // if (v.conversion?.into && cpMap[v.conversion.into]) {
+    //         //   cpMap[v.conversion?.into].value = total;
+    //         // }
+    //         // 2)
+    //         // TODO why is not work right ???
+    //         //   total *= v.conversion * 100; // Changed from cp to gp with 2.3.1
+    //         //   if (cpMap[v.abbreviation]) {
+    //         //     cpMap[v.abbreviation].value = total;
+    //         //   }
+    //     }
+    // });
+
+    for (const [denom, v] of Object.entries(convert)) {
+      total *= v.conversion; // Changed from cp to gp with 2.3.1
+      if (cpMap[denom]) {
+        cpMap[denom].value = total;
+      }
+    }
     // if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
-    // 	cpValue.gp.down = "sp";
-    // 	cpValue.sp.up = "gp";
-    // 	delete cpValue.ep;
+    // 	cpMap.gp.down = "sp";
+    // 	cpMap.sp.up = "gp";
+    // 	delete cpMap.ep;
     // }
-    return cpValue;
+    return cpMap;
   }
   static getDelta(delta, denom) {
-    const cpValue = LazyMoneyHelpers.getCpValue();
+    const convertionMap = LazyMoneyHelpers.prepareConvertionMap();
     let newDelta = {};
-    delta *= cpValue[denom].value;
-    for (let key in cpValue) {
-      const myValue = cpValue[key].value;
+    delta *= convertionMap[denom].value;
+    for (let key in convertionMap) {
+      const myValue = convertionMap[key].value;
       let intDiv = Number(~~(delta / myValue));
       if (intDiv > 0) {
         newDelta[key] = intDiv;
@@ -716,12 +726,12 @@ export class LazyMoneyHelpers {
     return newDelta;
   }
   static scaleDown(oldAmount, denom) {
-    const cpValue = LazyMoneyHelpers.getCpValue();
-    const up = cpValue[denom].up;
+    const convertionMap = LazyMoneyHelpers.prepareConvertionMap();
+    const up = convertionMap[denom].up;
     let newAmount = oldAmount;
     if (newAmount[up] > 0) {
       newAmount[up] -= 1;
-      newAmount[denom] += ~~(cpValue[up].value / cpValue[denom].value);
+      newAmount[denom] += ~~(convertionMap[up].value / convertionMap[denom].value);
       return newAmount;
     } else if (newAmount[up] === 0) {
       newAmount = LazyMoneyHelpers.scaleDown(newAmount, up);
@@ -732,12 +742,12 @@ export class LazyMoneyHelpers {
     }
   }
   static addMoney(oldAmount, delta, denom) {
-    const cpValue = LazyMoneyHelpers.getCpValue();
+    const convertionMap = LazyMoneyHelpers.prepareConvertionMap();
     let newAmount = {};
     if (game.settings.get(CONSTANTS.MODULE_ID, "addConvert")) {
-      let cpDelta = delta * cpValue[denom].value;
-      for (let key in cpValue) {
-        const myValue = cpValue[key].value;
+      let cpDelta = delta * convertionMap[denom].value;
+      for (let key in convertionMap) {
+        const myValue = convertionMap[key].value;
         newAmount[key] = oldAmount[key] + ~~(cpDelta / myValue);
         cpDelta %= myValue;
       }
@@ -747,7 +757,7 @@ export class LazyMoneyHelpers {
     return newAmount;
   }
   static removeMoney(oldAmount, delta, denom) {
-    const cpValue = LazyMoneyHelpers.getCpValue();
+    const convertionMap = LazyMoneyHelpers.prepareConvertionMap();
     let newAmount = oldAmount;
     let newDelta = {};
     let down;
@@ -756,7 +766,7 @@ export class LazyMoneyHelpers {
       return newAmount;
     } else {
       newDelta = LazyMoneyHelpers.getDelta(delta, denom);
-      const myValue = cpValue[denom].value;
+      const myValue = convertionMap[denom].value;
       delta = delta * myValue;
     }
     if (LazyMoneyHelpers.totalMoney(oldAmount) >= delta) {
@@ -768,11 +778,11 @@ export class LazyMoneyHelpers {
         } else {
           newAmount = oldAmount;
           while (newAmount[key] <= value && LazyMoneyHelpers.totalMoney(newAmount) > 0 && key !== "cp") {
-            down = cpValue[key].down;
+            down = convertionMap[key].down;
             value -= newAmount[key];
             newAmount[key] = 0;
-            const myValue = cpValue[key].value;
-            const myDown = cpValue[down].value;
+            const myValue = convertionMap[key].value;
+            const myDown = convertionMap[down].value;
             value *= ~~(myValue / myDown);
             key = down;
           }
@@ -791,7 +801,7 @@ export class LazyMoneyHelpers {
     return newAmount;
   }
   static totalMoney(money) {
-    const cpValue = LazyMoneyHelpers.getCpValue();
+    const cpValue = LazyMoneyHelpers.prepareConvertionMap();
     let total = 0;
     for (let key in cpValue) {
       const myValue = cpValue[key].value;
