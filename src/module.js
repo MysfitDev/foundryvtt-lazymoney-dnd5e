@@ -14,9 +14,7 @@
 // Import TypeScript modules
 import { registerSettings } from "./scripts/settings.js";
 import { initHooks, readyHooks, setupHooks } from "./scripts/main.js";
-import { error, i18n, warn } from "./scripts/lib/lib.js";
 import CONSTANTS from "./scripts/constants.js";
-import API from "./scripts/api.js";
 
 /* ------------------------------------ */
 /* Initialize module					*/
@@ -66,38 +64,38 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(CONSTANTS.MODULE_NAME);
 });
 
-/**
- * Initialization helper, to set API.
- * @param api to set to game module.
- */
-export function setApi(api) {
-  const data = game.modules.get(CONSTANTS.MODULE_NAME);
-  data.api = api;
-}
+// /**
+//  * Initialization helper, to set API.
+//  * @param api to set to game module.
+//  */
+// export function setApi(api) {
+//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   data.api = api;
+// }
 
-/**
- * Returns the set API.
- * @returns Api from games module.
- */
-export function getApi() {
-  const data = game.modules.get(CONSTANTS.MODULE_NAME);
-  return data.api;
-}
+// /**
+//  * Returns the set API.
+//  * @returns Api from games module.
+//  */
+// export function getApi() {
+//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   return data.api;
+// }
 
-/**
- * Initialization helper, to set Socket.
- * @param socket to set to game module.
- */
-export function setSocket(socket) {
-  const data = game.modules.get(CONSTANTS.MODULE_NAME);
-  data.socket = socket;
-}
+// /**
+//  * Initialization helper, to set Socket.
+//  * @param socket to set to game module.
+//  */
+// export function setSocket(socket) {
+//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   data.socket = socket;
+// }
 
-/*
- * Returns the set socket.
- * @returns Socket from games module.
- */
-export function getSocket() {
-  const data = game.modules.get(CONSTANTS.MODULE_NAME);
-  return data.socket;
-}
+// /*
+//  * Returns the set socket.
+//  * @returns Socket from games module.
+//  */
+// export function getSocket() {
+//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   return data.socket;
+// }

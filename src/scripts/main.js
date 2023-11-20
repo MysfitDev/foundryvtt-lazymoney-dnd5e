@@ -3,12 +3,12 @@ import CONSTANTS from "./constants.js";
 // import { applyLazyExp, applyLazyHp } from "./lazyExpAndHp.js";
 import { applyLazyMoney } from "./lazymoney.js";
 import { warn, error, debug, i18nFormat, log } from "./lib/lib";
-import { setApi } from "../module.js";
 
 export const initHooks = () => {};
 
 export const setupHooks = () => {
-  setApi(API);
+  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  data.api = API;
 };
 
 export const readyHooks = async () => {

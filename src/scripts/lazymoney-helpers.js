@@ -677,9 +677,9 @@ export class LazyMoneyHelpers {
         };
       }
     }
-    let total = 1;
 
     const convert = LazyMoneyDnd5eHelpers.currencies;
+    // let total = 1;
     // Object.values(convert)
     //   .reverse()
     //   .forEach((v) => {
@@ -697,18 +697,17 @@ export class LazyMoneyHelpers {
     //         //   }
     //     }
     // });
-
+    //// if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
+    //// 	cpMap.gp.down = "sp";
+    //// 	cpMap.sp.up = "gp";
+    //// 	delete cpMap.ep;
+    //// }
     for (const [denom, v] of Object.entries(convert)) {
-      total *= v.conversion; // Changed from cp to gp with 2.3.1
       if (cpMap[denom]) {
-        cpMap[denom].value = total;
+        cpMap[denom].value = v.conversion;
       }
     }
-    // if (game.settings.get(CONSTANTS.MODULE_NAME, "ignoreElectrum")) {
-    // 	cpMap.gp.down = "sp";
-    // 	cpMap.sp.up = "gp";
-    // 	delete cpMap.ep;
-    // }
+
     return cpMap;
   }
   static getDelta(delta, denom) {

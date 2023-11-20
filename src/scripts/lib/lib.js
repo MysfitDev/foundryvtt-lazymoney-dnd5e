@@ -2,8 +2,8 @@
 // Logger utility
 // ================================
 
-import CONSTANTS from "../constants";
-import { LazyMoneyHelpers } from "../lazymoney-helpers";
+import CONSTANTS from "../constants.js";
+import { LazyMoneyHelpers } from "../lazymoney-helpers.js";
 
 // export let debugEnabled = 0;
 // 0 = none, warnings = 1, debug = 2, all = 3
