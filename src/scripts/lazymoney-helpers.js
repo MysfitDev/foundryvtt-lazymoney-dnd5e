@@ -2,7 +2,7 @@ import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, 
 import CONSTANTS from "./constants.js";
 import { LazyMoneyDnd5eHelpers } from "./systems/dnd5e.js";
 import { LazyMoneyGenericHelpers } from "./systems/generic.js";
-import { LazyMoneyA5eHelpers } from "./systems/ae5.js";
+import { LazyMoneyA5eHelpers } from "./systems/a5e.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {

@@ -1,6 +1,6 @@
 ## Changelog
 
-### 1.1.7
+### 1.1.7-8
 
 - Bug fix: https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues/8
 - Start something for the multisystem behaviour
