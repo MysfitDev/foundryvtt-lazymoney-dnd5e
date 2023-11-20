@@ -38,11 +38,12 @@ To install this module manually:
 
 The wiki for the API is [here](wiki/api.md)
 
-## Feature
+## System supported (the api can be extended for any system with a little effort)
 
-| **Name** | Works | Notes |
-| -------- | :---: | ----- |
-| [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) | :heavy_check_mark: | Works with 1.0.1 |
+| **Name**         | Sheet              |  API      | Notes      |
+| ---------------- | :----------------: | :-------: | ---------- |
+| Dnd5e (dnd5e)    | :heavy_check_mark: | :warning: | Compatibility with [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) Works with 1.0.1 |
+| Level Up: Advanced 5th Edition (a5e)  | :warning: | :heavy_check_mark: |            |
 
 # Build
 

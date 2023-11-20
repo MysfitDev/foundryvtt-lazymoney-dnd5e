@@ -1,4 +1,7 @@
 {
+  "lazymoney.setting.addConvert.name": "Enable Lazy Money feature",
+  "lazymoney.setting.addConvert.hint": "Automatically convert currency based on the system rule",
+
   "lazymoney.setting.addConvert.name": "Convert when adding money",
   "lazymoney.setting.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
 
