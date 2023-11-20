@@ -42,7 +42,7 @@ The wiki for the API is [here](wiki/api.md)
 
 | **Name**         | Sheet              |  API      | Notes      |
 | ---------------- | :----------------: | :-------: | ---------- |
-| Dnd5e (dnd5e)    | :heavy_check_mark: | :warning: | Compatibility with [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) Works with 1.0.1 |
+| Dnd5e (dnd5e)    | :heavy_check_mark: | :heavy_check_mark: | Compatibility with [World Currency 5e module for Foundry VTT](https://github.com/cstby/foundryvtt-world-currency-5e) Works with 1.0.1 |
 | Level Up: Advanced 5th Edition (a5e)  | :warning: | :heavy_check_mark: |            |
 
 # Build
