@@ -1,5 +1,5 @@
 import API from "./api.js";
-import CONSTANTS from "./constants.js";
+import CONSTANTS from "./constants/constants.js";
 // import { applyLazyExp, applyLazyHp } from "./lazyExpAndHp.js";
 import { applyLazyMoney } from "./lazymoney.js";
 import { warn, error, debug, i18nFormat, log } from "./lib/lib";
@@ -7,40 +7,40 @@ import { warn, error, debug, i18nFormat, log } from "./lib/lib";
 export const initHooks = () => {};
 
 export const setupHooks = () => {
-  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  const data = game.modules.get(CONSTANTS.MODULE_ID);
   data.api = API;
 };
 
 export const readyHooks = async () => {
   log("Initializing lazymoney");
-  //@ts-ignore
-  Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
-    let sheet = key.split(".")[1];
-    try {
-      Hooks.on("render" + sheet, (app, html, actorData) => {
-        applyLazyMoney(app, html, actorData);
-        // applyLazyExp(app, html, actorData);
-        // applyLazyHp(app, html, actorData);
-      });
-    } catch (error) {
-      warn("lazymoney can't hook to " + key);
-    }
-    // applyLazyMoney(key);
-  });
-  //@ts-ignore
-  Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
-    let sheet = key.split(".")[1];
-    try {
-      Hooks.on("render" + sheet, (app, html, actorData) => {
-        applyLazyMoney(app, html, actorData);
-        // applyLazyExp(app, html, actorData);
-        // applyLazyHp(app, html, actorData);
-      });
-    } catch (error) {
-      warn("lazymoney can't hook to " + key);
-    }
-    // applyLazyMoney(key);
-  });
+  // //@ts-ignore
+  // Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
+  //   let sheet = key.split(".")[1];
+  //   try {
+  //     Hooks.on("render" + sheet, (app, html, actorData) => {
+  //       applyLazyMoney(app, html, actorData);
+  //       // applyLazyExp(app, html, actorData);
+  //       // applyLazyHp(app, html, actorData);
+  //     });
+  //   } catch (error) {
+  //     warn("lazymoney can't hook to " + key);
+  //   }
+  //   // applyLazyMoney(key);
+  // });
+  // //@ts-ignore
+  // Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
+  //   let sheet = key.split(".")[1];
+  //   try {
+  //     Hooks.on("render" + sheet, (app, html, actorData) => {
+  //       applyLazyMoney(app, html, actorData);
+  //       // applyLazyExp(app, html, actorData);
+  //       // applyLazyHp(app, html, actorData);
+  //     });
+  //   } catch (error) {
+  //     warn("lazymoney can't hook to " + key);
+  //   }
+  //   // applyLazyMoney(key);
+  // });
 };
 
 // ==========================================

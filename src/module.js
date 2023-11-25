@@ -14,13 +14,13 @@
 // Import TypeScript modules
 import { registerSettings } from "./scripts/settings.js";
 import { initHooks, readyHooks, setupHooks } from "./scripts/main.js";
-import CONSTANTS from "./scripts/constants.js";
+import CONSTANTS from "./scripts/constants/constants.js";
 
 /* ------------------------------------ */
 /* Initialize module					*/
 /* ------------------------------------ */
 Hooks.once("init", async () => {
-  // log(`${CONSTANTS.MODULE_NAME} | Initializing ${CONSTANTS.MODULE_NAME}`);
+  // log(`${CONSTANTS.MODULE_ID} | Initializing ${CONSTANTS.MODULE_ID}`);
 
   // Register custom module settings
   registerSettings();
@@ -61,7 +61,7 @@ Hooks.once("ready", async () => {
 /* ------------------------------------ */
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
-  registerPackageDebugFlag(CONSTANTS.MODULE_NAME);
+  registerPackageDebugFlag(CONSTANTS.MODULE_ID);
 });
 
 // /**
@@ -69,7 +69,7 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
 //  * @param api to set to game module.
 //  */
 // export function setApi(api) {
-//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   const data = game.modules.get(CONSTANTS.MODULE_ID);
 //   data.api = api;
 // }
 
@@ -78,7 +78,7 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
 //  * @returns Api from games module.
 //  */
 // export function getApi() {
-//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   const data = game.modules.get(CONSTANTS.MODULE_ID);
 //   return data.api;
 // }
 
@@ -87,7 +87,7 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
 //  * @param socket to set to game module.
 //  */
 // export function setSocket(socket) {
-//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   const data = game.modules.get(CONSTANTS.MODULE_ID);
 //   data.socket = socket;
 // }
 
@@ -96,6 +96,6 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
 //  * @returns Socket from games module.
 //  */
 // export function getSocket() {
-//   const data = game.modules.get(CONSTANTS.MODULE_NAME);
+//   const data = game.modules.get(CONSTANTS.MODULE_ID);
 //   return data.socket;
 // }

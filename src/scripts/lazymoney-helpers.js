@@ -1,6 +1,6 @@
 import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActor } from "./lib/lib.js";
-import CONSTANTS from "./constants.js";
-import { LazyMoneyDnd5eHelpers } from "./systems/dnd5e.js";
+import CONSTANTS from "./constants/constants.js";
+import { LazyMoneyDnd5eHelpers } from "./systems/dnd5eHelpers.js";
 import { LazyMoneyGenericHelpers } from "./systems/generic.js";
 import { LazyMoneyA5eHelpers } from "./systems/a5e.js";
 
@@ -500,64 +500,5 @@ export class LazyMoneyHelpers {
       total += money[key] * myValue;
     }
     return total;
-  }
-
-  /* ============================================== */
-  // https://oatcookies.neocities.org/dndmoney
-
-  static I(str) {
-    return Number.parseInt(str, 10);
-  }
-  static F(str) {
-    return Number.parseFloat(str);
-  }
-  static N(value) {
-    if (Number.isNaN(value)) {
-      return 0;
-    }
-    return value;
-  }
-
-  static recalcItemPriceValue(priceValue, priceDenom) {
-    let copper = 0;
-    let silver = 0;
-    let gold = 0;
-    let electrum = 0;
-    let platinum = 0;
-
-    if (priceDenom === "cp") {
-      copper = LazyMoneyHelpers.N(LazyMoneyHelpers.F(priceValue));
-    }
-    if (priceDenom === "sp") {
-      silver = LazyMoneyHelpers.N(LazyMoneyHelpers.F(priceValue));
-    }
-    if (priceDenom === "gp") {
-      gold = LazyMoneyHelpers.N(LazyMoneyHelpers.F(priceValue));
-    }
-    if (priceDenom === "ep") {
-      electrum = LazyMoneyHelpers.N(LazyMoneyHelpers.F(priceValue));
-    }
-    if (priceDenom === "pp") {
-      platinum = LazyMoneyHelpers.N(LazyMoneyHelpers.F(priceValue));
-    }
-    const pennies = copper + 10 * silver + 50 * electrum + 100 * gold + 1000 * platinum;
-    return LazyMoneyHelpers.recalc_pennies(pennies);
-  }
-
-  static recalc_pennies(pennies) {
-    // const pennies = N(F(getvalue("pennies")));
-    const copper = pennies % 10;
-    const silver = ((pennies - copper) % 100) / 10;
-    const gold = (pennies - copper - 10 * silver) / 100;
-    const electrum = gold * 2;
-    const platinum = gold / 10;
-    //console.log(copper, silver, gold, pennies, pennies-copper);
-    return {
-      gold: gold,
-      silver: silver,
-      copper: copper,
-      electrum: electrum,
-      platinum: platinum,
-    };
   }
 }

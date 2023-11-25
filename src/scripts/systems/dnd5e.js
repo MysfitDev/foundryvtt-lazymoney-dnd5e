@@ -1,334 +1,94 @@
-import CONSTANTS from "../constants";
+export default {
+  // The item price attribute is the path to the attribute on each item that determine how much it costs
+  ITEM_PRICE_ATTRIBUTE: "system.price.value",
 
-export class LazyMoneyDnd5eHelpers {
-  /**
-   * The valid currency denominations with localized labels, abbreviations, and conversions.
-   * The conversion number defines how many of that currency are equal to one GP.
-   * @enum {CurrencyConfiguration}
-   */
-  static currencies = {
-    pp: {
-      label: "DND5E.CurrencyPP",
-      abbreviation: "DND5E.CurrencyAbbrPP",
-      conversion: 1000,
+  // Currencies in item piles is a versatile system that can accept actor attributes (a number field on the actor's sheet) or items (actual items in their inventory)
+  // In the case of attributes, the path is relative to the "actor.system"
+  // In the case of items, it is recommended you export the item with `.toObject()` and strip out any module data
+  CURRENCIES: [
+    {
+      type: "attribute",
+      name: "DND5E.CurrencyPP",
+      img: "icons/commodities/currency/coin-inset-snail-silver.webp",
+      abbreviation: "{#}PP",
+      data: {
+        path: "system.currency.pp",
+      },
+      primary: false,
+      exchangeRate: 10,
+      denomination: "pp",
     },
-    gp: {
-      label: "DND5E.CurrencyGP",
-      abbreviation: "DND5E.CurrencyAbbrGP",
-      conversion: 100,
+    {
+      type: "attribute",
+      name: "DND5E.CurrencyGP",
+      img: "icons/commodities/currency/coin-embossed-crown-gold.webp",
+      abbreviation: "{#}GP",
+      data: {
+        path: "system.currency.gp",
+      },
+      primary: true,
+      exchangeRate: 1,
+      denomination: "gp",
     },
-    ep: {
-      label: "DND5E.CurrencyEP",
-      abbreviation: "DND5E.CurrencyAbbrEP",
-      conversion: 50,
+    {
+      type: "attribute",
+      name: "DND5E.CurrencyEP",
+      img: "icons/commodities/currency/coin-inset-copper-axe.webp",
+      abbreviation: "{#}EP",
+      data: {
+        path: "system.currency.ep",
+      },
+      primary: false,
+      exchangeRate: 0.5,
+      denomination: "ep",
     },
-    sp: {
-      label: "DND5E.CurrencySP",
-      abbreviation: "DND5E.CurrencyAbbrSP",
-      conversion: 10,
+    {
+      type: "attribute",
+      name: "DND5E.CurrencySP",
+      img: "icons/commodities/currency/coin-engraved-moon-silver.webp",
+      abbreviation: "{#}SP",
+      data: {
+        path: "system.currency.sp",
+      },
+      primary: false,
+      exchangeRate: 0.1,
+      denomination: "sp",
     },
-    cp: {
-      label: "DND5E.CurrencyCP",
-      abbreviation: "DND5E.CurrencyAbbrCP",
-      conversion: 1,
+    {
+      type: "attribute",
+      name: "DND5E.CurrencyCP",
+      img: "icons/commodities/currency/coin-engraved-waves-copper.webp",
+      abbreviation: "{#}CP",
+      data: {
+        path: "system.currency.cp",
+      },
+      primary: false,
+      exchangeRate: 0.01,
+      denomination: "cp",
     },
-  };
+  ],
 
-  static convertionMap() {
-    let cpMap = {};
-    if (game.modules.get("world-currency-5e")?.active) {
-      const ignorePP = game.settings.get("world-currency-5e", "ppAltRemove");
-      const ignoreGP = game.settings.get("world-currency-5e", "gpAltRemove");
-      const ignoreEP = game.settings.get("world-currency-5e", "epAltRemove");
-      const ignoreSP = game.settings.get("world-currency-5e", "spAltRemove");
-      const ignoreCP = game.settings.get("world-currency-5e", "cpAltRemove");
-      let gpConvertb = game.settings.get("world-currency-5e", "gpConvert");
-      if (!is_real_number(gpConvertb)) {
-        gpConvertb = 1;
-      } else {
-        gpConvertb = gpConvertb;
+  SYSTEM_HOOKS: () => {
+    Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
+      let sheet = key.split(".")[1];
+      try {
+        Hooks.on("render" + sheet, (app, html, actorData) => {
+          applyLazyMoney(app, html, actorData);
+        });
+      } catch (error) {
+        console.warn("lazymoney can't hook to " + key);
       }
-      let ppConvertb = game.settings.get("world-currency-5e", "ppConvert");
-      if (!is_real_number(ppConvertb)) {
-        ppConvertb = 0.1;
-      } else {
-        if (ppConvertb >= 1) {
-          ppConvertb = gpConvertb / ppConvertb;
-        } else {
-          ppConvertb = gpConvertb * ppConvertb;
-        }
-      }
-      let epConvertb = game.settings.get("world-currency-5e", "epConvert");
-      if (!is_real_number(epConvertb)) {
-        epConvertb = 5;
-      } else {
-        if (epConvertb >= 1) {
-          epConvertb = gpConvertb * epConvertb;
-        } else {
-          epConvertb = gpConvertb / epConvertb;
-        }
-      }
-      let spConvertb = game.settings.get("world-currency-5e", "spConvert");
-      if (!is_real_number(spConvertb)) {
-        spConvertb = 10;
-      } else {
-        if (spConvertb >= 1) {
-          spConvertb = gpConvertb * spConvertb;
-        } else {
-          spConvertb = gpConvertb / spConvertb;
-        }
-      }
-      let cpConvertb = game.settings.get("world-currency-5e", "cpConvert");
-      if (!is_real_number(cpConvertb)) {
-        cpConvertb = 100;
-      } else {
-        if (cpConvertb >= 1) {
-          cpConvertb = gpConvertb * cpConvertb;
-        } else {
-          cpConvertb = gpConvertb / cpConvertb;
-        }
-      }
-      // Reconvert gold calculation to copper calculation
-      const ppConvert = (gpConvertb / ppConvertb) * cpConvertb;
-      const gpConvert = gpConvertb * cpConvertb;
-      const epConvert = (gpConvertb / epConvertb) * cpConvertb;
-      const spConvert = (gpConvertb / spConvertb) * cpConvertb;
-      const cpConvert = 1;
-      if (ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {};
-      }
-      if (ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          cp: { value: cpConvert, up: "", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          sp: { value: cpConvert, up: "", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          sp: { value: spConvert, up: "", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          ep: { value: cpConvert, up: "", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          ep: { value: epConvert, up: "", down: "sp" },
-          cp: { value: cpConvert, up: "ep", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          ep: { value: epConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "" },
-        };
-      }
-      if (ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          ep: { value: epConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "gp", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "cp" },
-          cp: { value: cpConvert, up: "gp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "gp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "gp", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "cp" },
-          cp: { value: cpConvert, up: "ep", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "" },
-        };
-      }
-      if (ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          gp: { value: gpConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: cpConvert, up: "", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "cp" },
-          cp: { value: cpConvert, up: "pp", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "pp", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "sp" },
-          sp: { value: spConvert, up: "pp", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "pp", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "pp", down: "cp" },
-          cp: { value: cpConvert, up: "ep", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "pp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "" },
-        };
-      }
-      if (!ignorePP && ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "ep" },
-          ep: { value: epConvert, up: "pp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "cp" },
-          cp: { value: cpConvert, up: "gp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "sp" },
-          sp: { value: spConvert, up: "gp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "sp" },
-          sp: { value: spConvert, up: "gp", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && !ignoreEP && ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "cp" },
-          cp: { value: cpConvert, up: "ep", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "" },
-        };
-      }
-      if (!ignorePP && !ignoreGP && !ignoreEP && !ignoreSP && !ignoreCP) {
-        cpMap = {
-          pp: { value: ppConvert, up: "", down: "gp" },
-          gp: { value: gpConvert, up: "pp", down: "ep" },
-          ep: { value: epConvert, up: "gp", down: "sp" },
-          sp: { value: spConvert, up: "ep", down: "cp" },
-          cp: { value: cpConvert, up: "sp", down: "" },
-        };
-      }
-    } else {
-      if (game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum")) {
-        cpMap = {
-          pp: { value: 1000, up: "", down: "gp" },
-          gp: { value: 100, up: "pp", down: "sp" },
-          sp: { value: 10, up: "gp", down: "cp" },
-          cp: { value: 1, up: "sp", down: "" },
-        };
-      } else {
-        cpMap = {
-          pp: { value: 1000, up: "", down: "gp" },
-          gp: { value: 100, up: "pp", down: "ep" },
-          ep: { value: 50, up: "gp", down: "sp" },
-          sp: { value: 10, up: "ep", down: "cp" },
-          cp: { value: 1, up: "sp", down: "" },
-        };
-      }
-    }
+    });
 
-    // const convert = LazyMoneyDnd5eHelpers.currencies;
-    // for (const [denom, v] of Object.entries(convert)) {
-    //   if (cpMap[denom]) {
-    //     cpMap[denom].value = v.conversion;
-    //   }
-    // }
-
-    return cpMap;
-  }
-}
+    Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
+      let sheet = key.split(".")[1];
+      try {
+        Hooks.on("render" + sheet, (app, html, actorData) => {
+          applyLazyMoney(app, html, actorData);
+        });
+      } catch (error) {
+        console.warn("lazymoney can't hook to " + key);
+      }
+    });
+  },
+};

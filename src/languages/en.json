@@ -1,22 +1,44 @@
 {
-  "lazymoney.setting.addConvert.name": "Enable Lazy Money feature",
-  "lazymoney.setting.addConvert.hint": "Automatically convert currency based on the system rule",
+  "lazymoney.settings.addConvert.title": "Enable Lazy Money feature",
+  "lazymoney.settings.addConvert.hint": "Automatically convert currency based on the system rule",
 
-  "lazymoney.setting.addConvert.name": "Convert when adding money",
-  "lazymoney.setting.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
+  "lazymoney.settings.addConvert.title": "Convert when adding money",
+  "lazymoney.settings.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
 
-  "lazymoney.setting.ignoreElectrum.name": "Ignore electrum",
-  "lazymoney.setting.ignoreElectrum.hint": "When converting, ignore electrum. This won't affect directly adding or removing it, except in the case when \"Convert when adding money\" is also enabled.",
+  "lazymoney.settings.ignoreElectrum.title": "Ignore electrum",
+  "lazymoney.settings.ignoreElectrum.hint": "When converting, ignore electrum. This won't affect directly adding or removing it, except in the case when \"Convert when adding money\" is also enabled.",
 
-  "lazymoney.setting.chatLog.name": "Chat log",
-  "lazymoney.setting.chatLog.hint": "Whisper any currency changes to the GM.",
+  "lazymoney.settings.chatLog.title": "Chat log",
+  "lazymoney.settings.chatLog.hint": "Whisper any currency changes to the GM.",
 
-  "lazymoney.setting.reset.name": "Reset settings to default",
-  "lazymoney.setting.reset.label": "Reset Settings To Default",
-  "lazymoney.setting.reset.hint": "This will reset all of the settings of back to the active game system's default.",
-  "lazymoney.setting.debug.name": "Enable debugging",
-  "lazymoney.setting.debug.label": "Prints debug messages to the console",
-  "lazymoney.setting.debug.hint": " ",
+  "lazymoney.settings.price.title": "Item price attribute",
+  "lazymoney.settings.price.hint": "Here you can configure what the attribute path is for each item's price. For example, in D&D5e system, each item's quantity is stored in the item's \"item.system.price\" attribute, so you'd put \"system.price\" in this setting.",
+
+  "lazymoney.settings.currencies.title": "Currencies",
+  "lazymoney.settings.currencies.label": "Configure Currencies",
+  "lazymoney.settings.currencies.hint": "This setting define the currencies that are eligible for pickup, which may not be actual items but numerical inputs on the character sheet.",
+
+  "lazymoney.settings.secondaryCurrencies.title": "Secondary Currencies",
+  "lazymoney.settings.secondaryCurrencies.label": "Configure Secondary Currencies",
+  "lazymoney.settings.secondaryCurrencies.hint": "This setting define secondary currencies, similar to but separate from regular currencies. These cannot have exchange rates or be split into other custom currencies.",
+
+  "lazymoney.settings.currencyDecimalDigits.title": "Currency Decimal Digits",
+  "lazymoney.settings.currencyDecimalDigits.hint": "This setting defines the lowest decimal digit your currencies round to. For example in a modern setting with modern currencies, '0.01' allows for two decimal digits. This is not used if you have more than one currency.",
+
+  "lazymoney.settings.cssVariables.title": "CSS Variables Styles",
+  "lazymoney.settings.cssVariables.label": "Configure CSS Variables",
+  "lazymoney.settings.cssVariables.hint": "This allows you to configure the various CSS variables that drive the colors and other styles within item piles' interfaces.",
+
+  "lazymoney.settings.pricePresets.title": "Price Presets",
+  "lazymoney.settings.pricePresets.label": "Configure Price Presets",
+  "lazymoney.settings.pricePresets.hint": "Here you can configure custom preset prices that you can then easily import onto items.",
+
+  "lazymoney.settings.reset.title": "Reset settings to default",
+  "lazymoney.settings.reset.label": "Reset Settings To Default",
+  "lazymoney.settings.reset.hint": "This will reset all of the settings of back to the active game system's default.",
+  "lazymoney.settings.debug.title": "Enable debugging",
+  "lazymoney.settings.debug.label": "Prints debug messages to the console",
+  "lazymoney.settings.debug.hint": " ",
 
   "lazymoney.dialogs.resetsettings.title": "Reset Module Settings",
   "lazymoney.dialogs.resetsettings.content": "Are you sure you want to reset all of the module settings to the current system's defaults? <strong>THIS CANNOT BE UNDONE!</strong>",
