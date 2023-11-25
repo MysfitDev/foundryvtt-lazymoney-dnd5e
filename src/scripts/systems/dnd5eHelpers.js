@@ -346,6 +346,120 @@ export class LazyMoneyDnd5eHelpers {
     return cpMap;
   }
 
+  static patchCurrency(currency) {
+    if (hasProperty(currency, "pp")) {
+      let ppValue = getProperty(currency, "pp") || 0;
+      if (!is_lazy_number(ppValue)) {
+        // Do nothing
+      }
+      // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
+      else if (String(ppValue).startsWith("0") && String(ppValue) !== "0") {
+        while (String(ppValue).startsWith("0")) {
+          if (String(ppValue) === "0") {
+            break;
+          }
+          ppValue = String(ppValue).slice(1);
+        }
+      }
+      if (!is_real_number(ppValue)) {
+        ppValue = 0;
+      }
+      if (getProperty(currency, "pp") !== ppValue) {
+        setProperty(currency, "pp", Number(ppValue ?? 0));
+        info(`patchCurrency | update pp from '${getProperty(currency, "pp")}' to '${ppValue}'`);
+      }
+    }
+    if (hasProperty(currency, "gp")) {
+      let gpValue = getProperty(currency, "gp") || 0;
+      if (!is_lazy_number(gpValue)) {
+        // Do nothing
+      }
+      // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
+      else if (String(gpValue).startsWith("0") && String(gpValue) !== "0") {
+        while (String(gpValue).startsWith("0")) {
+          if (String(gpValue) === "0") {
+            break;
+          }
+          gpValue = String(gpValue).slice(1);
+        }
+      }
+      if (!is_real_number(gpValue)) {
+        gpValue = 0;
+      }
+      if (getProperty(currency, "gp") !== gpValue) {
+        setProperty(currency, "gp", Number(gpValue ?? 0));
+        info(`patchCurrency | update gp from '${getProperty(currency, "gp")}' to '${gpValue}'`);
+      }
+    }
+    if (hasProperty(currency, "ep")) {
+      let epValue = getProperty(currency, "ep") || 0;
+      if (!is_lazy_number(epValue)) {
+        // Do nothing
+      }
+      // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
+      else if (String(epValue).startsWith("0") && String(epValue) !== "0") {
+        while (String(epValue).startsWith("0")) {
+          if (String(epValue) === "0") {
+            break;
+          }
+          epValue = String(epValue).slice(1);
+        }
+      }
+      if (!is_real_number(epValue)) {
+        epValue = 0;
+      }
+      if (getProperty(currency, "ep") !== epValue) {
+        setProperty(currency, "ep", Number(epValue ?? 0));
+        info(`patchCurrency | update ep from '${getProperty(currency, "ep")}' to '${epValue}'`);
+      }
+    }
+    if (hasProperty(currency, "sp")) {
+      let spValue = getProperty(currency, "sp") || 0;
+      if (!is_lazy_number(spValue)) {
+        // Do nothing
+      }
+      // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
+      else if (String(spValue).startsWith("0") && String(spValue) !== "0") {
+        while (String(spValue).startsWith("0")) {
+          if (String(spValue) === "0") {
+            break;
+          }
+          spValue = String(spValue).slice(1);
+        }
+      }
+      if (!is_real_number(spValue)) {
+        spValue = 0;
+      }
+      if (getProperty(currency, "sp") !== spValue) {
+        setProperty(currency, "sp", Number(spValue ?? 0));
+        info(`patchCurrency | update sp from '${getProperty(currency, "sp")}' to '${spValue}'`);
+      }
+    }
+    if (hasProperty(currency, "cp")) {
+      let cpValue = getProperty(currency, "cp") || 0;
+      if (!is_lazy_number(cpValue)) {
+        // Do nothing
+      }
+      // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
+      else if (String(cpValue).startsWith("0") && String(cpValue) !== "0") {
+        while (String(cpValue).startsWith("0")) {
+          if (String(cpValue) === "0") {
+            break;
+          }
+          cpValue = String(cpValue).slice(1);
+        }
+      }
+      if (!is_real_number(cpValue)) {
+        cpValue = 0;
+      }
+      if (getProperty(currency, "cp") !== cpValue) {
+        setProperty(currency, "cp", Number(cpValue ?? 0));
+        info(`patchCurrency | update cp from '${getProperty(currency, "cp")}' to '${cpValue}'`);
+      }
+    }
+    return currency;
+  }
+
   /* =============================================== */
 
   static convertToGold(currencyValue, currencyDenom) {

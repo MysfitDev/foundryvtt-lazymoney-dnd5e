@@ -1,5 +1,8 @@
 export default {
   // The item price attribute is the path to the attribute on each item that determine how much it costs
+  ACTOR_CURRENCY_ATTRIBUTE: "system.currency",
+
+  // The item price attribute is the path to the attribute on each item that determine how much it costs
   ITEM_PRICE_ATTRIBUTE: "system.price.value",
 
   // Currencies in item piles is a versatile system that can accept actor attributes (a number field on the actor's sheet) or items (actual items in their inventory)

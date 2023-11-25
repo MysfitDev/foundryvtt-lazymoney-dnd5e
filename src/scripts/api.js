@@ -57,9 +57,7 @@ const API = {
    * @returns {Array<{primary: boolean, name: string, data: Object, img: string, abbreviation: string, exchange: number, denomination: string, up: string, down: string, convertedRate: number}>}
    */
   get CURRENCIES() {
-    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.CURRENCIES).map((currency) => {
-      return currency;
-    });
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.CURRENCIES);
   },
 
   /**
@@ -68,9 +66,11 @@ const API = {
    * @returns {Array<{name: string, data: Object, img: string, abbreviation: string, up: string, down: string, denomination: string, up: string, down: string, convertedRate: number}>}
    */
   get SECONDARY_CURRENCIES() {
-    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.SECONDARY_CURRENCIES).map((currency) => {
-      return currency;
-    });
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.SECONDARY_CURRENCIES);
+  },
+
+  get ACTOR_CURRENCY_ATTRIBUTE() {
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.ACTOR_CURRENCY_ATTRIBUTE);
   },
 
   /* ============================================= */

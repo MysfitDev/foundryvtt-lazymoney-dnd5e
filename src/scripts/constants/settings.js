@@ -1,4 +1,5 @@
 import { SYSTEMS } from "../systems.js";
+import CONSTANTS from "./constants.js";
 
 const SETTINGS = {
   // Client settings
@@ -19,6 +20,7 @@ const SETTINGS = {
   SECONDARY_CURRENCIES: "secondaryCurrencies",
   CURRENCY_DECIMAL_DIGITS: "currencyDecimalDigits",
   ITEM_PRICE_ATTRIBUTE: "itemPriceAttribute",
+  ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
 
   // Hidden settings
   SYSTEM_FOUND: "systemFound",
@@ -122,6 +124,16 @@ const SETTINGS = {
       config: false,
       system: true,
       default: SYSTEMS.DATA.ITEM_PRICE_ATTRIBUTE,
+      type: String,
+    },
+
+    [SETTINGS.ACTOR_CURRENCY_ATTRIBUTE]: {
+      name: `${CONSTANTS.MODULE_ID}.settings.currency.title`,
+      hint: `${CONSTANTS.MODULE_ID}.settings.currency.hint`,
+      scope: "world",
+      config: false,
+      system: true,
+      default: SYSTEMS.DATA.ACTOR_CURRENCY_ATTRIBUTE,
       type: String,
     },
 

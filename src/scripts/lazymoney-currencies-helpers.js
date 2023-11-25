@@ -21,7 +21,7 @@ export class LazyMoneyCurrencyHelpers {
     const convertionMap = {};
     const currencies = LazyMoneyCurrencyHelpers.getCurrencyList();
     for (const currency of currencies) {
-      if (currency.up && currency.down && currency.denomination) {
+      if ((currency.up || currency.down) && currency.denomination) {
         const downDenominationConvertion = currency.down;
         const upDenominationConvertion = currency.up;
         const downCurrency = currencies.find((currency) => {
@@ -30,20 +30,30 @@ export class LazyMoneyCurrencyHelpers {
         const upCurrency = currencies.find((currency) => {
           return currency.denomination === upDenominationConvertion;
         });
-        if (downCurrency && upCurrency) {
-          convertionMap[currency.denomination] = {
-            value: currency.convertedRate,
-            up: currency.up,
-            down: currency.down,
-          };
-        } else {
-          // TODO
-          continue;
-        }
+        convertionMap[currency.denomination] = {
+          value: currency.convertedRate ?? 1,
+          up: currency.up ?? "",
+          down: currency.down ?? "",
+        };
       } else {
         // TODO
         continue;
       }
     }
+    return convertionMap;
+  }
+
+  static currencyDenomCase() {
+    const denominations = {};
+    const currencies = LazyMoneyCurrencyHelpers.getCurrencyList();
+    for (const currency of currencies) {
+      if (currency.denomination) {
+        denominations[currency.denomination] = currency.denomination;
+      } else {
+        // TODO
+        continue;
+      }
+    }
+    return denominations;
   }
 }

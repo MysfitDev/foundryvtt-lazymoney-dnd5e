@@ -1,4 +1,5 @@
 import CONSTANTS from "./constants/constants.js";
+import SETTINGS from "./constants/settings.js";
 import { dialogWarning, i18n, warn } from "./lib/lib.js";
 
 export const registerSettings = function () {
