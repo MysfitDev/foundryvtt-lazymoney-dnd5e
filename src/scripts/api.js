@@ -1,3 +1,5 @@
+import CONSTANTS from "./constants/constants";
+import SETTINGS from "./constants/settings";
 import { LazyMoneyHelpers } from "./lazymoney-helpers";
 
 const API = {
@@ -48,6 +50,32 @@ const API = {
       inAttributes.currencyDenom
     );
   },
+
+  /**
+   * The currencies used in this system
+   *
+   * @returns {Array<{primary: boolean, name: string, data: Object, img: string, abbreviation: string, exchange: number, denomination: string, up: string, down: string, convertedRate: number}>}
+   */
+  get CURRENCIES() {
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.CURRENCIES).map((currency) => {
+      return currency;
+    });
+  },
+
+  /**
+   * The secondary currencies used in this system
+   *
+   * @returns {Array<{name: string, data: Object, img: string, abbreviation: string, up: string, down: string, denomination: string, up: string, down: string, convertedRate: number}>}
+   */
+  get SECONDARY_CURRENCIES() {
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.SECONDARY_CURRENCIES).map((currency) => {
+      return currency;
+    });
+  },
+
+  /* ============================================= */
+  /* TO REMOVE ONLY FOR DND5E */
+  /* ============================================= */
 
   async convertToGold(inAttributes) {
     // if (!Array.isArray(inAttributes)) {

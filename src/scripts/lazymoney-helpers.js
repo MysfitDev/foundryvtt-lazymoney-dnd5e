@@ -1,8 +1,6 @@
 import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActor } from "./lib/lib.js";
 import CONSTANTS from "./constants/constants.js";
-import { LazyMoneyDnd5eHelpers } from "./systems/dnd5eHelpers.js";
-import { LazyMoneyGenericHelpers } from "./systems/generic.js";
-import { LazyMoneyA5eHelpers } from "./systems/a5e.js";
+import { LazyMoneyCurrencyHelpers } from "./lazymoney-currencies-helpers.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
@@ -393,13 +391,15 @@ export class LazyMoneyHelpers {
   }
 
   static prepareConvertionMap() {
+    /*
     let cpMap = LazyMoneyGenericHelpers.convertionMap();
     if (game.system.id === "dnd5e") {
       cpMap = LazyMoneyDnd5eHelpers.convertionMap();
     } else if (game.system.id === "ae5") {
       cpMap = LazyMoneyA5eHelpers.convertionMap();
     }
-
+    */
+    let cpMap = LazyMoneyCurrencyHelpers.recalculateConvertionMap();
     return cpMap;
   }
 

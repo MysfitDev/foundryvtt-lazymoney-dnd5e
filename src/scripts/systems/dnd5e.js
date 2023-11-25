@@ -17,6 +17,9 @@ export default {
       primary: false,
       exchangeRate: 10,
       denomination: "pp",
+      convertedRate: 1000,
+      up: "",
+      down: "gp",
     },
     {
       type: "attribute",
@@ -29,6 +32,9 @@ export default {
       primary: true,
       exchangeRate: 1,
       denomination: "gp",
+      convertedRate: 100,
+      up: "pp",
+      down: "ep",
     },
     {
       type: "attribute",
@@ -41,6 +47,9 @@ export default {
       primary: false,
       exchangeRate: 0.5,
       denomination: "ep",
+      convertedRate: 50,
+      up: "gp",
+      down: "sp",
     },
     {
       type: "attribute",
@@ -53,6 +62,9 @@ export default {
       primary: false,
       exchangeRate: 0.1,
       denomination: "sp",
+      convertedRate: 10,
+      up: "ep",
+      down: "cp",
     },
     {
       type: "attribute",
@@ -65,6 +77,9 @@ export default {
       primary: false,
       exchangeRate: 0.01,
       denomination: "cp",
+      convertedRate: 1,
+      up: "sp",
+      down: "",
     },
   ],
 
