@@ -1,4 +1,5 @@
 import API from "./api";
+import CONSTANTS from "./constants/constants";
 import { getActorSync, getUuid } from "./lib/lib";
 
 export class LazyMoneyCurrencyHelpers {
@@ -99,19 +100,36 @@ export class LazyMoneyCurrencyHelpers {
     const convertionMap = {};
     const currencies = LazyMoneyCurrencyHelpers.getCurrencyList();
     for (const currency of currencies) {
-      if ((currency.up || currency.down) && currency.denomination) {
-        const downDenominationConvertion = currency.down;
-        const upDenominationConvertion = currency.up;
+      let upDenominationConvertion = currency.up;
+      let downDenominationConvertion = currency.down;
+      if ((upDenominationConvertion || downDenominationConvertion) && currency.denomination) {
         const downCurrency = currencies.find((currency) => {
           return currency.denomination === downDenominationConvertion;
         });
         const upCurrency = currencies.find((currency) => {
           return currency.denomination === upDenominationConvertion;
         });
+        // TODO MAKE MULTISYSTEM
+        if (game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum")) {
+          const epCurrency = currencies.find((currency) => {
+            return currency.denomination === "ep";
+          });
+          if (currency?.denomination === "ep") {
+            continue;
+          }
+          if (downCurrency?.denomination === "ep") {
+            downDenominationConvertion = epCurrency.down;
+          }
+          if (upCurrency?.denomination === "ep") {
+            upDenominationConvertion = epCurrency.up;
+          }
+        }
+
         convertionMap[currency.denomination] = {
           value: currency.convertedRate ?? 1,
-          up: currency.up ?? "",
-          down: currency.down ?? "",
+          up: upDenominationConvertion ?? "",
+          down: downDenominationConvertion ?? "",
+          denomination: currency.denomination ?? "",
         };
       } else {
         // TODO

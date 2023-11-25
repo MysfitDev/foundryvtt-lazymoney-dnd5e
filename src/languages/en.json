@@ -1,11 +1,11 @@
 {
-  "lazymoney.settings.addConvert.title": "Enable Lazy Money feature",
-  "lazymoney.settings.addConvert.hint": "Automatically convert currency based on the system rule",
+  "lazymoney.settings.enable.title": "Enable Lazy Money feature",
+  "lazymoney.settings.enable.hint": "Automatically convert currency based on the system rule",
 
   "lazymoney.settings.addConvert.title": "Convert when adding money",
   "lazymoney.settings.addConvert.hint": "Automatically convert currency to higher denominations when adding money instead of the default behaviour of preserving the denominations you receive.",
 
-  "lazymoney.settings.ignoreElectrum.title": "Ignore electrum",
+  "lazymoney.settings.ignoreElectrum.title": "Ignore electrum (Only for Dnd5e)",
   "lazymoney.settings.ignoreElectrum.hint": "When converting, ignore electrum. This won't affect directly adding or removing it, except in the case when \"Convert when adding money\" is also enabled.",
 
   "lazymoney.settings.chatLog.title": "Chat log",
@@ -13,6 +13,9 @@
 
   "lazymoney.settings.price.title": "Item price attribute",
   "lazymoney.settings.price.hint": "Here you can configure what the attribute path is for each item's price. For example, in D&D5e system, each item's quantity is stored in the item's \"item.system.price\" attribute, so you'd put \"system.price\" in this setting.",
+
+  "lazymoney.settings.quantity.title": "Item quantity attribute",
+  "lazymoney.settings.quantity.hint": "Here you can configure what the attribute path is for each item's quantity. For example, in D&D5e system, each item's quantity is stored in the item's \"item.system.quantity\" attribute, so you'd put \"system.quantity\" in this setting.",
 
   "lazymoney.settings.currencies.title": "Currencies",
   "lazymoney.settings.currencies.label": "Configure Currencies",

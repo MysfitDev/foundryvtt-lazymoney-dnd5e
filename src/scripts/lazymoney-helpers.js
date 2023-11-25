@@ -176,69 +176,97 @@ export class LazyMoneyHelpers {
       // return;
     }
     let newAmount = {};
-    if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum"))) {
-      switch (sign) {
-        case LazyMoneyHelpers.signCase.add: {
-          newAmount = LazyMoneyHelpers.addMoney(money, delta, denom);
-          LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
-          break;
-        }
-        case LazyMoneyHelpers.signCase.subtract: {
-          newAmount = LazyMoneyHelpers.removeMoney(money, delta, denom);
-          LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
-          if (!newAmount) {
-            // flash(input);
-            newAmount = money;
-          }
-          break;
-        }
-        case LazyMoneyHelpers.signCase.equals: {
-          newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
-          LazyMoneyHelpers.chatLog(
-            actor,
-            `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
-          );
-          break;
-        }
-        default: {
-          newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
-          LazyMoneyHelpers.chatLog(
-            actor,
-            `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
-          );
-          break;
-        }
+    switch (sign) {
+      case LazyMoneyHelpers.signCase.add: {
+        newAmount[denom] = money[denom] + delta;
+        LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
+        break;
       }
-    } else {
-      switch (sign) {
-        case LazyMoneyHelpers.signCase.add: {
-          newAmount[denom] = money[denom] + delta;
-          LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
-          break;
-        }
-        case LazyMoneyHelpers.signCase.subtract: {
-          newAmount[denom] = money[denom] - delta;
-          LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
-          break;
-        }
-        case LazyMoneyHelpers.signCase.equals: {
-          newAmount[denom] = money[denom];
-          LazyMoneyHelpers.chatLog(
-            actor,
-            `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
-          );
-          break;
-        }
-        default: {
-          newAmount[denom] = money[denom];
-          LazyMoneyHelpers.chatLog(
-            actor,
-            `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
-          );
-          break;
-        }
+      case LazyMoneyHelpers.signCase.subtract: {
+        newAmount[denom] = money[denom] - delta;
+        LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
+        break;
+      }
+      case LazyMoneyHelpers.signCase.equals: {
+        newAmount[denom] = money[denom];
+        LazyMoneyHelpers.chatLog(
+          actor,
+          `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+        );
+        break;
+      }
+      default: {
+        newAmount[denom] = money[denom];
+        LazyMoneyHelpers.chatLog(
+          actor,
+          `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+        );
+        break;
       }
     }
+    // if (!(denom === "ep" && game.settings.get(CONSTANTS.MODULE_ID, "ignoreElectrum"))) {
+    //   switch (sign) {
+    //     case LazyMoneyHelpers.signCase.add: {
+    //       newAmount = LazyMoneyHelpers.addMoney(money, delta, denom);
+    //       LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
+    //       break;
+    //     }
+    //     case LazyMoneyHelpers.signCase.subtract: {
+    //       newAmount = LazyMoneyHelpers.removeMoney(money, delta, denom);
+    //       LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
+    //       if (!newAmount) {
+    //         // flash(input);
+    //         newAmount = money;
+    //       }
+    //       break;
+    //     }
+    //     case LazyMoneyHelpers.signCase.equals: {
+    //       newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
+    //       LazyMoneyHelpers.chatLog(
+    //         actor,
+    //         `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+    //       );
+    //       break;
+    //     }
+    //     default: {
+    //       newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
+    //       LazyMoneyHelpers.chatLog(
+    //         actor,
+    //         `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+    //       );
+    //       break;
+    //     }
+    //   }
+    // } else {
+    //   switch (sign) {
+    //     case LazyMoneyHelpers.signCase.add: {
+    //       newAmount[denom] = money[denom] + delta;
+    //       LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
+    //       break;
+    //     }
+    //     case LazyMoneyHelpers.signCase.subtract: {
+    //       newAmount[denom] = money[denom] - delta;
+    //       LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
+    //       break;
+    //     }
+    //     case LazyMoneyHelpers.signCase.equals: {
+    //       newAmount[denom] = money[denom];
+    //       LazyMoneyHelpers.chatLog(
+    //         actor,
+    //         `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+    //       );
+    //       break;
+    //     }
+    //     default: {
+    //       newAmount[denom] = money[denom];
+    //       LazyMoneyHelpers.chatLog(
+    //         actor,
+    //         `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+    //       );
+    //       break;
+    //     }
+    //   }
+    // }
     return newAmount;
   }
 
@@ -257,15 +285,14 @@ export class LazyMoneyHelpers {
   }
 
   static prepareConvertionMap() {
-    /*
-    let cpMap = LazyMoneyGenericHelpers.convertionMap();
-    if (game.system.id === "dnd5e") {
-      cpMap = LazyMoneyDnd5eHelpers.convertionMap();
-    } else if (game.system.id === "ae5") {
-      cpMap = LazyMoneyA5eHelpers.convertionMap();
-    }
-    */
     let cpMap = LazyMoneyCurrencyHelpers.recalculateConvertionMap();
+    // const sortableValues = Object.values(cpMap);
+    // .sort(([,a],[,b]) => a.value - b.value)
+    // .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+    // let newCpMap = {};
+    // for (const v of sortableValues) {
+    //   newCpMap[v.denomination] = v;
+    // }
     return cpMap;
   }
 
