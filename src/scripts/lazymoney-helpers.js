@@ -178,17 +178,21 @@ export class LazyMoneyHelpers {
     let newAmount = {};
     switch (sign) {
       case LazyMoneyHelpers.signCase.add: {
-        newAmount[denom] = money[denom] + delta;
+        newAmount = LazyMoneyHelpers.addMoney(money, delta, denom);
         LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
         break;
       }
       case LazyMoneyHelpers.signCase.subtract: {
-        newAmount[denom] = money[denom] - delta;
+        newAmount = LazyMoneyHelpers.removeMoney(money, delta, denom);
         LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
+        if (!newAmount) {
+          // flash(input);
+          newAmount = money;
+        }
         break;
       }
       case LazyMoneyHelpers.signCase.equals: {
-        newAmount[denom] = money[denom];
+        newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
         LazyMoneyHelpers.chatLog(
           actor,
           `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
@@ -196,7 +200,7 @@ export class LazyMoneyHelpers {
         break;
       }
       default: {
-        newAmount[denom] = money[denom];
+        newAmount = LazyMoneyHelpers.updateMoney(money, delta, denom);
         LazyMoneyHelpers.chatLog(
           actor,
           `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
