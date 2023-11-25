@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.2.0 [BREAKING CHANGES]
+
+- Integrate item piles multisystem integration
+- Add explicit support for a5e
+
 ### 1.1.7-8
 
 - Bug fix: https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues/8
