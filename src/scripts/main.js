@@ -45,16 +45,3 @@ export const readyHooks = async () => {
 };
 
 // ==========================================
-
-// async function _preUpdateActor(wrapped, update, options, user) {
-//   try {
-//     const hpUpdate = <number>getProperty(update, "system.attributes.hp.value");
-//     // await checkAndApply(this, update, options, user);
-//     await zeroHPExpiry(this,  hpUpdate, user);
-//   } catch (err) {
-//     warn("preUpdateActor failed ", err)
-//   }
-//   finally {
-//     return wrapped(update, options, user);
-//   }
-// }

@@ -1,6 +1,7 @@
 import CONSTANTS from "./constants/constants";
 import SETTINGS from "./constants/settings";
 import { LazyMoneyHelpers } from "./lazymoney-helpers";
+import { LazyMoneyDnd5eHelpers } from "./systems/dnd5eHelpers";
 
 const API = {
   async manageCurrency(inAttributes) {
@@ -69,6 +70,15 @@ const API = {
     return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.SECONDARY_CURRENCIES);
   },
 
+  /**
+   * The attribute used to track the quantity of items in this system
+   *
+   * @returns {string}
+   */
+  get ITEM_QUANTITY_ATTRIBUTE() {
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.ITEM_QUANTITY_ATTRIBUTE);
+  },
+
   get ACTOR_CURRENCY_ATTRIBUTE() {
     return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.ACTOR_CURRENCY_ATTRIBUTE);
   },
@@ -86,7 +96,7 @@ const API = {
       throw error("convertToGold| inAttributes must be of type object");
     }
 
-    return await LazyMoneyHelpers.convertToGold(inAttributes.currencyValue, inAttributes.currencyDenom);
+    return await LazyMoneyDnd5eHelpers.convertToGold(inAttributes.currencyValue, inAttributes.currencyDenom);
   },
 
   async convertToSilver(inAttributes) {
@@ -98,7 +108,7 @@ const API = {
       throw error("convertToSilver | inAttributes must be of type object");
     }
 
-    return await LazyMoneyHelpers.convertToSilver(inAttributes.currencyValue, inAttributes.currencyDenom);
+    return await LazyMoneyDnd5eHelpers.convertToSilver(inAttributes.currencyValue, inAttributes.currencyDenom);
   },
 
   async convertToCopper(inAttributes) {
@@ -110,7 +120,7 @@ const API = {
       throw error("convertToCopper | inAttributes must be of type object");
     }
 
-    return await LazyMoneyHelpers.convertToCopper(inAttributes.currencyValue, inAttributes.currencyDenom);
+    return await LazyMoneyDnd5eHelpers.convertToCopper(inAttributes.currencyValue, inAttributes.currencyDenom);
   },
 
   async convertToElectrum(inAttributes) {
@@ -122,7 +132,7 @@ const API = {
       throw error("convertToElectrum | inAttributes must be of type object");
     }
 
-    return await LazyMoneyHelpers.convertToElectrum(inAttributes.currencyValue, inAttributes.currencyDenom);
+    return await LazyMoneyDnd5eHelpers.convertToElectrum(inAttributes.currencyValue, inAttributes.currencyDenom);
   },
 
   async convertToPlatinum(inAttributes) {
@@ -134,7 +144,7 @@ const API = {
       throw error("convertToPlatinum | inAttributes must be of type object");
     }
 
-    return await LazyMoneyHelpers.convertToPlatinum(inAttributes.currencyValue, inAttributes.currencyDenom);
+    return await LazyMoneyDnd5eHelpers.convertToPlatinum(inAttributes.currencyValue, inAttributes.currencyDenom);
   },
 };
 

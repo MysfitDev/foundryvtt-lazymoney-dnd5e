@@ -1,4 +1,4 @@
-import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActor } from "./lib/lib.js";
+import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActorAsync } from "./lib/lib.js";
 import CONSTANTS from "./constants/constants.js";
 import { LazyMoneyCurrencyHelpers } from "./lazymoney-currencies-helpers.js";
 import SETTINGS from "./constants/settings.js";
@@ -6,8 +6,7 @@ import API from "./api.js";
 
 export class LazyMoneyHelpers {
   async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actorSync = getActor(actorOrActorUuid);
-    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
@@ -47,8 +46,7 @@ export class LazyMoneyHelpers {
   }
 
   static async addCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actorSync = getActor(actorOrActorUuid);
-    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
@@ -83,8 +81,7 @@ export class LazyMoneyHelpers {
   }
 
   static async subtractCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actorSync = getActor(actorOrActorUuid);
-    const actor = actorSync ? await fromUuid(actorSync.uuid) : undefined;
+    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }

@@ -19,6 +19,7 @@ const SETTINGS = {
   CURRENCIES: "currencies",
   SECONDARY_CURRENCIES: "secondaryCurrencies",
   CURRENCY_DECIMAL_DIGITS: "currencyDecimalDigits",
+  ITEM_QUANTITY_ATTRIBUTE: "itemQuantityAttribute",
   ITEM_PRICE_ATTRIBUTE: "itemPriceAttribute",
   ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
 
@@ -124,6 +125,16 @@ const SETTINGS = {
       config: false,
       system: true,
       default: SYSTEMS.DATA.ITEM_PRICE_ATTRIBUTE,
+      type: String,
+    },
+
+    [SETTINGS.ITEM_QUANTITY_ATTRIBUTE]: {
+      name: `${CONSTANTS.MODULE_ID}.settings.quantity.title`,
+      hint: `${CONSTANTS.MODULE_ID}.settings.quantity.hint`,
+      scope: "world",
+      config: false,
+      system: true,
+      default: SYSTEMS.DATA.ITEM_QUANTITY_ATTRIBUTE,
       type: String,
     },
 

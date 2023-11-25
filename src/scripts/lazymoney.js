@@ -10,7 +10,6 @@ function _onChangeCurrency(ev) {
   const sheet = ev.data.app.options;
   // let money = ev.data.app.actor.system.currency;
   // money = LazyMoneyHelpers.patchCurrency(money);
-  let money = getProperty(actor, API.ACTOR_CURRENCY_ATTRIBUTE);
 
   const denom = input.name.split(".")[2];
   const value = input.value;

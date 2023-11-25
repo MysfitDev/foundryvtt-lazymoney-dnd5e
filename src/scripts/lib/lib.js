@@ -121,22 +121,15 @@ export function isLessThanOneIsOne(inNumber) {
   return inNumber < 1 ? 1 : inNumber;
 }
 
+// ================================
+// Retrieve document utility
+// ================================
+
 export function getDocument(target) {
   if (stringIsUuid(target)) {
     target = fromUuidSync(target);
   }
   return target?.document ?? target;
-}
-
-export function getActor(target) {
-  if (stringIsUuid(target)) {
-    target = fromUuidSync(target);
-  }
-  // Type checking
-  if (!(target instanceof CONFIG.Actor.documentClass)) {
-    throw error(`Invalid actor`, true);
-  }
-  return target;
 }
 
 export function stringIsUuid(inId) {
@@ -149,4 +142,72 @@ export function getUuid(target) {
   }
   const document = getDocument(target);
   return document?.uuid ?? false;
+}
+
+export function getActorSync(target, ignoreError) {
+  if (!target) {
+    throw error(`Actor is undefined`, true, target);
+  }
+  if (target instanceof Actor) {
+    return target;
+  }
+  // This is just a patch for compatibility with others modules
+  if (target.document) {
+    target = target.document;
+  }
+  if (target instanceof Actor) {
+    return target;
+  }
+  if (stringIsUuid(target)) {
+    target = fromUuidSync(target);
+  } else {
+    target = game.actors.get(target) ?? game.actors.getName(target);
+  }
+  if (!target) {
+    if (ignoreError) {
+      warn(`Actor is not found`, false, target);
+      return target;
+    } else {
+      throw error(`Actor is not found`, true, target);
+    }
+  }
+  // Type checking
+  if (!(target instanceof Actor)) {
+    throw error(`Invalid Actor`, true, target);
+  }
+  return target;
+}
+
+export async function getActorAsync(target, ignoreError) {
+  if (!target) {
+    throw error(`Actor is undefined`, true, target);
+  }
+  if (target instanceof Actor) {
+    return target;
+  }
+  // This is just a patch for compatibility with others modules
+  if (target.document) {
+    target = target.document;
+  }
+  if (target instanceof Actor) {
+    return target;
+  }
+  if (stringIsUuid(target)) {
+    target = await fromUuid(target);
+  } else {
+    target = game.actors.get(target) ?? game.actors.getName(target);
+  }
+  if (!target) {
+    if (ignoreError) {
+      warn(`Actor is not found`, false, target);
+      return target;
+    } else {
+      throw error(`Actor is not found`, true, target);
+    }
+  }
+  // Type checking
+  if (!(target instanceof Actor)) {
+    throw error(`Invalid Actor`, true, target);
+  }
+  return target;
 }
