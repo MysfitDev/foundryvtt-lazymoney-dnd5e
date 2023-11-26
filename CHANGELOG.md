@@ -1,6 +1,6 @@
 ## Changelog
 
-### 1.2.0 [BREAKING CHANGES]
+### 1.2.0-1 [BREAKING CHANGES]
 
 - Integrate item piles multisystem integration
 - Add explicit support for a5e
