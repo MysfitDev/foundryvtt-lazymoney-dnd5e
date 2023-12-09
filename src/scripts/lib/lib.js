@@ -144,7 +144,7 @@ export function getUuid(target) {
   return document?.uuid ?? false;
 }
 
-export function getActorSync(target, ignoreError) {
+export function getActorSync(target, ignoreError = false, ignoreName = true) {
   if (!target) {
     throw error(`Actor is undefined`, true, target);
   }
@@ -155,30 +155,42 @@ export function getActorSync(target, ignoreError) {
   if (target.document) {
     target = target.document;
   }
+  if (target.uuid) {
+    target = target.uuid;
+  }
+
   if (target instanceof Actor) {
     return target;
   }
   if (stringIsUuid(target)) {
     target = fromUuidSync(target);
   } else {
-    target = game.actors.get(target) ?? game.actors.getName(target);
+    target = game.actors.get(target);
+    if (!target && !ignoreName) {
+      target = game.actors.getName(target);
+    }
   }
   if (!target) {
     if (ignoreError) {
       warn(`Actor is not found`, false, target);
-      return target;
+      return;
     } else {
       throw error(`Actor is not found`, true, target);
     }
   }
   // Type checking
   if (!(target instanceof Actor)) {
-    throw error(`Invalid Actor`, true, target);
+    if (ignoreError) {
+      warn(`Invalid Actor`, true, target);
+      return;
+    } else {
+      throw error(`Invalid Actor`, true, target);
+    }
   }
   return target;
 }
 
-export async function getActorAsync(target, ignoreError) {
+export async function getActorAsync(target, ignoreError = false, ignoreName = true) {
   if (!target) {
     throw error(`Actor is undefined`, true, target);
   }
@@ -189,25 +201,37 @@ export async function getActorAsync(target, ignoreError) {
   if (target.document) {
     target = target.document;
   }
+  if (target.uuid) {
+    target = target.uuid;
+  }
+
   if (target instanceof Actor) {
     return target;
   }
   if (stringIsUuid(target)) {
     target = await fromUuid(target);
   } else {
-    target = game.actors.get(target) ?? game.actors.getName(target);
+    target = game.actors.get(target);
+    if (!target && !ignoreName) {
+      target = game.actors.getName(target);
+    }
   }
   if (!target) {
     if (ignoreError) {
       warn(`Actor is not found`, false, target);
-      return target;
+      return;
     } else {
       throw error(`Actor is not found`, true, target);
     }
   }
   // Type checking
   if (!(target instanceof Actor)) {
-    throw error(`Invalid Actor`, true, target);
+    if (ignoreError) {
+      warn(`Invalid Actor`, true, target);
+      return;
+    } else {
+      throw error(`Invalid Actor`, true, target);
+    }
   }
   return target;
 }

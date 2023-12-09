@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.2.2 
+
+- Little fix on lib.js methods
+
 ### 1.2.0-1 [BREAKING CHANGES]
 
 - Integrate item piles multisystem integration
