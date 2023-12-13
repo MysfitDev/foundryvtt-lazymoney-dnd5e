@@ -36,6 +36,9 @@
   "lazymoney.settings.pricePresets.label": "Configure Price Presets",
   "lazymoney.settings.pricePresets.hint": "Here you can configure custom preset prices that you can then easily import onto items.",
 
+  "lazymoney.settings.currencyDenominationBase.title": "Currency denomination base",
+  "lazymoney.settings.currencyDenominationBase.hint": "Currency denomination base",
+
   "lazymoney.settings.reset.title": "Reset settings to default",
   "lazymoney.settings.reset.label": "Reset Settings To Default",
   "lazymoney.settings.reset.hint": "This will reset all of the settings of back to the active game system's default.",

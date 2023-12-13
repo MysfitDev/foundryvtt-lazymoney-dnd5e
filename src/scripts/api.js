@@ -52,6 +52,22 @@ const API = {
     );
   },
 
+  async hasEnoughCurrency(inAttributes) {
+    // if (!Array.isArray(inAttributes)) {
+    //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
+    // }
+    // const [uuidOrItem] = inAttributes;
+    if (typeof inAttributes !== "object") {
+      throw error("hasEnoughCurrency | inAttributes must be of type object");
+    }
+
+    return await LazyMoneyHelpers.hasEnoughCurrency(
+      inAttributes.actor,
+      inAttributes.currencyValue,
+      inAttributes.currencyDenom
+    );
+  },
+
   /**
    * The currencies used in this system
    *
@@ -81,6 +97,10 @@ const API = {
 
   get ACTOR_CURRENCY_ATTRIBUTE() {
     return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.ACTOR_CURRENCY_ATTRIBUTE);
+  },
+
+  get ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE() {
+    return game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE);
   },
 
   /* ============================================= */

@@ -115,6 +115,71 @@ export class LazyMoneyHelpers {
     }
   }
 
+  static async hasEnoughCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+
+    if (isEmptyObject(currencyValue)) {
+      throw error(`The currency value is empty or null`, true);
+    }
+    let currencyValueS = "";
+    if (is_real_number(currencyValue)) {
+      if (currencyValue < 0) {
+        currencyValueS = "-" + String(currencyValue * -1);
+      } else {
+        currencyValueS = "-" + String(currencyValue);
+      }
+    } else {
+      if (!is_lazy_number(currencyValue)) {
+        currencyValueS = String(currencyValue);
+        if (!currencyValueS.startsWith("-")) {
+          currencyValueS = "-" + currencyValueS;
+        }
+      }
+    }
+    // const newAmount = LazyMoneyHelpers.calculateNewAmount(
+    //   actor,
+    //   currencyValueS,
+    //   currencyDenom,
+    //   LazyMoneyHelpers.signCase.subtract
+    // );
+    // if (newAmount) {
+    //   actor.update({ [API.ACTOR_CURRENCY_ATTRIBUTE]: newAmount });
+    // }
+
+    let money = getProperty(actor, API.ACTOR_CURRENCY_ATTRIBUTE);
+
+    let value = String(currencyValueS);
+
+    let isValidCurrencyDenom = false;
+    let currencyDenomCase = LazyMoneyCurrencyHelpers.currencyDenomCase();
+    for (const val of Object.values(currencyDenomCase)) {
+      if (currencyDenom === val) {
+        isValidCurrencyDenom = true;
+        break;
+      }
+    }
+    if (!isValidCurrencyDenom) {
+      throw error(`The currency currencyDenomination '${currencyDenomCase}' is not valid`, true);
+    }
+
+    const splitVal = value.split(sign);
+    let delta;
+    if (splitVal.length > 1) {
+      delta = Number(splitVal[1]);
+    } else {
+      delta = Number(splitVal[0]);
+    }
+    let newAmount = {};
+    newAmount = LazyMoneyHelpers.removeMoney(money, delta, currencyDenom);
+    if (!newAmount) {
+      return false;
+    }
+    return true;
+  }
+
   /* =============================================== */
 
   static signCase = {
@@ -123,14 +188,6 @@ export class LazyMoneyHelpers {
     equals: "=",
     default: " ",
   };
-
-  // static currencyDenomCase = {
-  //   cp: "cp",
-  //   sp: "sp",
-  //   ep: "ep",
-  //   gp: "gp",
-  //   pp: "pp",
-  // };
 
   /* ============================================ */
   /* PRIVATE FUNCTIONS */
@@ -366,7 +423,11 @@ export class LazyMoneyHelpers {
           newAmount[key] -= value;
         } else {
           newAmount = oldAmount;
-          while (newAmount[key] <= value && LazyMoneyHelpers.totalMoney(newAmount) > 0 && key !== "cp") {
+          while (
+            newAmount[key] <= value &&
+            LazyMoneyHelpers.totalMoney(newAmount) > 0 &&
+            key !== API.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE
+          ) {
             down = convertionMap[key].down;
             value -= newAmount[key];
             newAmount[key] = 0;

@@ -20,7 +20,8 @@ const SETTINGS = {
   SECONDARY_CURRENCIES: "secondaryCurrencies",
   CURRENCY_DECIMAL_DIGITS: "currencyDecimalDigits",
   ITEM_QUANTITY_ATTRIBUTE: "itemQuantityAttribute",
-  ITEM_PRICE_ATTRIBUTE: "itemPriceAttribute",
+  ITEM_PRICE_VALUE_ATTRIBUTE: "itemPriceAttribute",
+  ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE: "itemCurrencyDenominationBaseAttribute",
   ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
 
   // Hidden settings
@@ -118,13 +119,23 @@ const SETTINGS = {
     //   type: Object
     // },
 
-    [SETTINGS.ITEM_PRICE_ATTRIBUTE]: {
+    [SETTINGS.ITEM_PRICE_VALUE_ATTRIBUTE]: {
       name: `${CONSTANTS.MODULE_ID}.settings.price.title`,
       hint: `${CONSTANTS.MODULE_ID}.settings.price.hint`,
       scope: "world",
       config: false,
       system: true,
-      default: SYSTEMS.DATA.ITEM_PRICE_ATTRIBUTE,
+      default: SYSTEMS.DATA.ITEM_PRICE_VALUE_ATTRIBUTE,
+      type: String,
+    },
+
+    [SETTINGS.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE]: {
+      name: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.title`,
+      hint: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.hint`,
+      scope: "world",
+      config: false,
+      system: true,
+      default: SYSTEMS.DATA.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE,
       type: String,
     },
 
