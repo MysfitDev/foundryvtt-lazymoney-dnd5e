@@ -165,7 +165,7 @@ export class LazyMoneyHelpers {
       throw error(`The currency currencyDenomination '${currencyDenomCase}' is not valid`, true);
     }
 
-    const splitVal = value.split(sign);
+    const splitVal = value.split(LazyMoneyHelpers.signCase.subtract);
     let delta;
     if (splitVal.length > 1) {
       delta = Number(splitVal[1]);
