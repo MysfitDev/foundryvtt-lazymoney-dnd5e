@@ -10,10 +10,26 @@ const API = {
     // }
     // const [uuidOrItem] = inAttributes;
     if (typeof inAttributes !== "object") {
-      throw error("addCurrency | inAttributes must be of type object");
+      throw error("manageCurrency | inAttributes must be of type object");
     }
 
     return await LazyMoneyHelpers.manageCurrency(
+      inAttributes.actor,
+      inAttributes.currencyValue,
+      inAttributes.currencyDenom
+    );
+  },
+
+  manageCurrencySync(inAttributes) {
+    // if (!Array.isArray(inAttributes)) {
+    //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
+    // }
+    // const [uuidOrItem] = inAttributes;
+    if (typeof inAttributes !== "object") {
+      throw error("manageCurrencySync | inAttributes must be of type object");
+    }
+
+    return LazyMoneyHelpers.manageCurrencySync(
       inAttributes.actor,
       inAttributes.currencyValue,
       inAttributes.currencyDenom
@@ -36,6 +52,18 @@ const API = {
     );
   },
 
+  addCurrencySync(inAttributes) {
+    // if (!Array.isArray(inAttributes)) {
+    //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
+    // }
+    // const [uuidOrItem] = inAttributes;
+    if (typeof inAttributes !== "object") {
+      throw error("addCurrencySync | inAttributes must be of type object");
+    }
+
+    return LazyMoneyHelpers.addCurrencySync(inAttributes.actor, inAttributes.currencyValue, inAttributes.currencyDenom);
+  },
+
   async subtractCurrency(inAttributes) {
     // if (!Array.isArray(inAttributes)) {
     //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
@@ -52,6 +80,22 @@ const API = {
     );
   },
 
+  subtractCurrencySync(inAttributes) {
+    // if (!Array.isArray(inAttributes)) {
+    //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
+    // }
+    // const [uuidOrItem] = inAttributes;
+    if (typeof inAttributes !== "object") {
+      throw error("subtractCurrencySync | inAttributes must be of type object");
+    }
+
+    return LazyMoneyHelpers.subtractCurrencySync(
+      inAttributes.actor,
+      inAttributes.currencyValue,
+      inAttributes.currencyDenom
+    );
+  },
+
   async hasEnoughCurrency(inAttributes) {
     // if (!Array.isArray(inAttributes)) {
     //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
@@ -62,6 +106,22 @@ const API = {
     }
 
     return await LazyMoneyHelpers.hasEnoughCurrency(
+      inAttributes.actor,
+      inAttributes.currencyValue,
+      inAttributes.currencyDenom
+    );
+  },
+
+  hasEnoughCurrencySync(inAttributes) {
+    // if (!Array.isArray(inAttributes)) {
+    //   throw error("retrieveAndApplyBonuses| inAttributes must be of type array");
+    // }
+    // const [uuidOrItem] = inAttributes;
+    if (typeof inAttributes !== "object") {
+      throw error("hasEnoughCurrencySync | inAttributes must be of type object");
+    }
+
+    return LazyMoneyHelpers.hasEnoughCurrencySync(
       inAttributes.actor,
       inAttributes.currencyValue,
       inAttributes.currencyDenom

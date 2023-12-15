@@ -1,16 +1,37 @@
-import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn, getActorAsync } from "./lib/lib.js";
+import {
+  debug,
+  info,
+  isEmptyObject,
+  is_lazy_number,
+  is_real_number,
+  log,
+  warn,
+  getActorAsync,
+  getActorSync,
+} from "./lib/lib.js";
 import CONSTANTS from "./constants/constants.js";
 import { LazyMoneyCurrencyHelpers } from "./lazymoney-currencies-helpers.js";
 import SETTINGS from "./constants/settings.js";
 import API from "./api.js";
 
 export class LazyMoneyHelpers {
-  async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
+  static async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
+    return LazyMoneyHelpers._manageCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
 
+  static manageCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+    return LazyMoneyHelpers._manageCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
+
+  static _manageCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
       throw error(`The currency value is empty or null`, true);
     }
@@ -50,7 +71,18 @@ export class LazyMoneyHelpers {
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
+    return LazyMoneyHelpers._addCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
 
+  static addCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+    return LazyMoneyHelpers._addCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
+
+  static _addCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
       throw error(`The currency value is empty or null`, true);
     }
@@ -85,7 +117,18 @@ export class LazyMoneyHelpers {
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
+    return LazyMoneyHelpers._subtractCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
 
+  static subtractCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+    return LazyMoneyHelpers._subtractCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
+
+  static _subtractCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
       throw error(`The currency value is empty or null`, true);
     }
@@ -120,7 +163,18 @@ export class LazyMoneyHelpers {
     if (!actor) {
       throw error(`No actor is been passed`, true);
     }
+    return LazyMoneyHelpers._hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
 
+  static hasEnoughCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
+    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    if (!actor) {
+      throw error(`No actor is been passed`, true);
+    }
+    return LazyMoneyHelpers._hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom);
+  }
+
+  static _hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
       throw error(`The currency value is empty or null`, true);
     }
