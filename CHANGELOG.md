@@ -1,4 +1,8 @@
 ## Changelog
+### 1.2.4
+
+- Update api and api doumentation
+
 ### 1.2.3 
 
 - Add some new API methods
