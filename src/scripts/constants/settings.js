@@ -1,4 +1,4 @@
-import { SYSTEMS } from "../systems.js";
+// import { SYSTEMS } from "../systems.js";
 import CONSTANTS from "./constants.js";
 
 const SETTINGS = {
@@ -16,18 +16,18 @@ const SETTINGS = {
   //   CSS_VARIABLES: "cssVariables",
 
   // System Settings
-  CURRENCIES: "currencies",
-  SECONDARY_CURRENCIES: "secondaryCurrencies",
-  CURRENCY_DECIMAL_DIGITS: "currencyDecimalDigits",
-  ITEM_QUANTITY_ATTRIBUTE: "itemQuantityAttribute",
-  ITEM_PRICE_VALUE_ATTRIBUTE: "itemPriceAttribute",
-  ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE: "itemCurrencyDenominationBaseAttribute",
-  ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
+  // CURRENCIES: "currencies",
+  // SECONDARY_CURRENCIES: "secondaryCurrencies",
+  // CURRENCY_DECIMAL_DIGITS: "currencyDecimalDigits",
+  // ITEM_QUANTITY_ATTRIBUTE: "itemQuantityAttribute",
+  // ITEM_PRICE_VALUE_ATTRIBUTE: "itemPriceAttribute",
+  // ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE: "itemCurrencyDenominationBaseAttribute",
+  // ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
 
   // Hidden settings
-  SYSTEM_FOUND: "systemFound",
-  SYSTEM_NOT_FOUND_WARNING_SHOWN: "systemNotFoundWarningShown",
-  SYSTEM_VERSION: "systemVersion",
+  // SYSTEM_FOUND: "systemFound",
+  // SYSTEM_NOT_FOUND_WARNING_SHOWN: "systemNotFoundWarningShown",
+  // SYSTEM_VERSION: "systemVersion",
 
   //   HIDE_TOKEN_BORDER_OPTIONS: {
   //     EVERYONE: "everyone",
@@ -51,134 +51,134 @@ const SETTINGS = {
     return foundry.utils.deepClone(SETTINGS.DEFAULTS());
   },
 
-  GET_SYSTEM_DEFAULTS() {
-    return Object.fromEntries(
-      Object.entries(SETTINGS.GET_DEFAULT()).filter((entry) => {
-        return entry[1].system;
-      })
-    );
-  },
+  // GET_SYSTEM_DEFAULTS() {
+  //   return Object.fromEntries(
+  //     Object.entries(SETTINGS.GET_DEFAULT()).filter((entry) => {
+  //       return entry[1].system;
+  //     })
+  //   );
+  // },
 
   DEFAULTS: () => ({
-    [SETTINGS.CURRENCIES]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.currencies.title`,
-      label: `${CONSTANTS.MODULE_ID}.settings.currencies.label`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.currencies.hint`,
-      icon: "fa fa-money-bill-alt",
-      application: "currencies",
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.CURRENCIES,
-      type: Array,
-    },
-
-    [SETTINGS.SECONDARY_CURRENCIES]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.title`,
-      label: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.label`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.hint`,
-      icon: "fa fa-money-bill-alt",
-      application: "secondary-currencies",
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.SECONDARY_CURRENCIES,
-      type: Array,
-    },
-
-    [SETTINGS.CURRENCY_DECIMAL_DIGITS]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.currencyDecimalDigits.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.currencyDecimalDigits.hint`,
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.CURRENCY_DECIMAL_DIGITS,
-      step: 0.00001,
-      min: 0,
-      max: 1,
-      type: Number,
-    },
-
-    // [SETTINGS.CSS_VARIABLES]: {
-    //   name: `${CONSTANTS.MODULE_ID}.settings.cssVariables.title`,
-    //   label: `${CONSTANTS.MODULE_ID}.settings.cssVariables.label`,
-    //   hint: `${CONSTANTS.MODULE_ID}.settings.cssVariables.hint`,
-    //   icon: "fa-solid fa-wand-magic-sparkles",
-    //   application: "styles",
-    //   applicationOptions: {
-    //     readOnly: true,
-    //     variables: true
-    //   },
+    // [SETTINGS.CURRENCIES]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.currencies.title`,
+    //   label: `${CONSTANTS.MODULE_ID}.settings.currencies.label`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.currencies.hint`,
+    //   icon: "fa fa-money-bill-alt",
+    //   application: "currencies",
     //   scope: "world",
     //   config: false,
-    //   default: SYSTEMS.DATA.CSS_VARIABLES,
-    //   mergedDefaults: SETTINGS.DEFAULT_CSS_VARIABLES,
-    //   onchange: (data) => {
-    //     applySystemSpecificStyles(data);
-    //   },
-    //   type: Object
+    //   system: true,
+    //   default: SYSTEMS.DATA.CURRENCIES,
+    //   type: Array,
     // },
 
-    [SETTINGS.ITEM_PRICE_VALUE_ATTRIBUTE]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.price.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.price.hint`,
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.ITEM_PRICE_VALUE_ATTRIBUTE,
-      type: String,
-    },
+    // [SETTINGS.SECONDARY_CURRENCIES]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.title`,
+    //   label: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.label`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.secondaryCurrencies.hint`,
+    //   icon: "fa fa-money-bill-alt",
+    //   application: "secondary-currencies",
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.SECONDARY_CURRENCIES,
+    //   type: Array,
+    // },
 
-    [SETTINGS.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.hint`,
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE,
-      type: String,
-    },
+    // [SETTINGS.CURRENCY_DECIMAL_DIGITS]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.currencyDecimalDigits.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.currencyDecimalDigits.hint`,
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.CURRENCY_DECIMAL_DIGITS,
+    //   step: 0.00001,
+    //   min: 0,
+    //   max: 1,
+    //   type: Number,
+    // },
 
-    [SETTINGS.ITEM_QUANTITY_ATTRIBUTE]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.quantity.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.quantity.hint`,
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.ITEM_QUANTITY_ATTRIBUTE,
-      type: String,
-    },
+    // // [SETTINGS.CSS_VARIABLES]: {
+    // //   name: `${CONSTANTS.MODULE_ID}.settings.cssVariables.title`,
+    // //   label: `${CONSTANTS.MODULE_ID}.settings.cssVariables.label`,
+    // //   hint: `${CONSTANTS.MODULE_ID}.settings.cssVariables.hint`,
+    // //   icon: "fa-solid fa-wand-magic-sparkles",
+    // //   application: "styles",
+    // //   applicationOptions: {
+    // //     readOnly: true,
+    // //     variables: true
+    // //   },
+    // //   scope: "world",
+    // //   config: false,
+    // //   default: SYSTEMS.DATA.CSS_VARIABLES,
+    // //   mergedDefaults: SETTINGS.DEFAULT_CSS_VARIABLES,
+    // //   onchange: (data) => {
+    // //     applySystemSpecificStyles(data);
+    // //   },
+    // //   type: Object
+    // // },
 
-    [SETTINGS.ACTOR_CURRENCY_ATTRIBUTE]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.currency.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.currency.hint`,
-      scope: "world",
-      config: false,
-      system: true,
-      default: SYSTEMS.DATA.ACTOR_CURRENCY_ATTRIBUTE,
-      type: String,
-    },
+    // [SETTINGS.ITEM_PRICE_VALUE_ATTRIBUTE]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.price.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.price.hint`,
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.ITEM_PRICE_VALUE_ATTRIBUTE,
+    //   type: String,
+    // },
 
-    [SETTINGS.SYSTEM_VERSION]: {
-      scope: "world",
-      config: false,
-      default: "0.0.0",
-      type: String,
-    },
+    // [SETTINGS.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.currencyDenominationBase.hint`,
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE,
+    //   type: String,
+    // },
 
-    [SETTINGS.SYSTEM_FOUND]: {
-      scope: "world",
-      config: false,
-      default: false,
-      type: Boolean,
-    },
+    // [SETTINGS.ITEM_QUANTITY_ATTRIBUTE]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.quantity.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.quantity.hint`,
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.ITEM_QUANTITY_ATTRIBUTE,
+    //   type: String,
+    // },
 
-    [SETTINGS.SYSTEM_NOT_FOUND_WARNING_SHOWN]: {
-      scope: "world",
-      config: false,
-      default: false,
-      type: Boolean,
-    },
+    // [SETTINGS.ACTOR_CURRENCY_ATTRIBUTE]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.currency.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.currency.hint`,
+    //   scope: "world",
+    //   config: false,
+    //   system: true,
+    //   default: SYSTEMS.DATA.ACTOR_CURRENCY_ATTRIBUTE,
+    //   type: String,
+    // },
+
+    // [SETTINGS.SYSTEM_VERSION]: {
+    //   scope: "world",
+    //   config: false,
+    //   default: "0.0.0",
+    //   type: String,
+    // },
+
+    // [SETTINGS.SYSTEM_FOUND]: {
+    //   scope: "world",
+    //   config: false,
+    //   default: false,
+    //   type: Boolean,
+    // },
+
+    // [SETTINGS.SYSTEM_NOT_FOUND_WARNING_SHOWN]: {
+    //   scope: "world",
+    //   config: false,
+    //   default: false,
+    //   type: Boolean,
+    // },
 
     // [SETTINGS.PRICE_PRESETS]: {
     //   name: `${CONSTANTS.MODULE_ID}.settings.pricePresets.title`,

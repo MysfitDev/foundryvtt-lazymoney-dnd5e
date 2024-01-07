@@ -13,6 +13,7 @@ function _onChangeCurrency(ev) {
 
   const denom = input.name.split(".")[2];
   const value = input.value;
+  /*
   let sign = LazyMoneyHelpers.signCase.default;
   for (const val of Object.values(LazyMoneyHelpers.signCase)) {
     if (value.includes(val)) {
@@ -34,6 +35,9 @@ function _onChangeCurrency(ev) {
       })
       .catch(console.log.bind(console));
   }
+  */
+  flash(input);
+  LazyMoneyHelpers.manageCurrencySync(actor, value, denom);
 }
 
 function flash(input) {
