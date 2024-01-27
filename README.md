@@ -61,22 +61,12 @@ npm install
 npm run dev
 ```
 
-## npm build scripts
-
 ### build
 
 `build` will build and set up a symlink between `dist` and your `dataPath`.
 
 ```bash
 npm run build
-```
-
-### build-watch
-
-`build-watch` will build and watch for changes, rebuilding automatically.
-
-```bash
-npm run build-watch
 ```
 
 ### prettier-format
