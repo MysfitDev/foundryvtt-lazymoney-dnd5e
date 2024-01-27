@@ -1,4 +1,4 @@
-// import { SYSTEMS } from "../systems.js";
+import { SYSTEMS } from "../systems.js";
 import CONSTANTS from "./constants.js";
 
 const SETTINGS = {
@@ -8,7 +8,7 @@ const SETTINGS = {
   // Module Settings
   ENABLE: "enable",
   ADD_CONVERT: "addConvert",
-  IGNORE_ELECTRUM: "ignoreElectrum",
+  // IGNORE_ELECTRUM: "ignoreElectrum",
   CHAT_LOG: "chatLog",
   //   PRICE_PRESETS: "pricePresets",
 
@@ -22,12 +22,12 @@ const SETTINGS = {
   // ITEM_QUANTITY_ATTRIBUTE: "itemQuantityAttribute",
   // ITEM_PRICE_VALUE_ATTRIBUTE: "itemPriceAttribute",
   // ITEM_CURRENCY_DENOMINATION_BASE_ATTRIBUTE: "itemCurrencyDenominationBaseAttribute",
-  // ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
+  ACTOR_CURRENCY_ATTRIBUTE: "actorCurrencyAttribute",
 
   // Hidden settings
-  // SYSTEM_FOUND: "systemFound",
-  // SYSTEM_NOT_FOUND_WARNING_SHOWN: "systemNotFoundWarningShown",
-  // SYSTEM_VERSION: "systemVersion",
+  SYSTEM_FOUND: "systemFound",
+  SYSTEM_NOT_FOUND_WARNING_SHOWN: "systemNotFoundWarningShown",
+  SYSTEM_VERSION: "systemVersion",
 
   //   HIDE_TOKEN_BORDER_OPTIONS: {
   //     EVERYONE: "everyone",
@@ -51,13 +51,13 @@ const SETTINGS = {
     return foundry.utils.deepClone(SETTINGS.DEFAULTS());
   },
 
-  // GET_SYSTEM_DEFAULTS() {
-  //   return Object.fromEntries(
-  //     Object.entries(SETTINGS.GET_DEFAULT()).filter((entry) => {
-  //       return entry[1].system;
-  //     })
-  //   );
-  // },
+  GET_SYSTEM_DEFAULTS() {
+    return Object.fromEntries(
+      Object.entries(SETTINGS.GET_DEFAULT()).filter((entry) => {
+        return entry[1].system;
+      })
+    );
+  },
 
   DEFAULTS: () => ({
     // [SETTINGS.CURRENCIES]: {
@@ -149,36 +149,36 @@ const SETTINGS = {
     //   type: String,
     // },
 
-    // [SETTINGS.ACTOR_CURRENCY_ATTRIBUTE]: {
-    //   name: `${CONSTANTS.MODULE_ID}.settings.currency.title`,
-    //   hint: `${CONSTANTS.MODULE_ID}.settings.currency.hint`,
-    //   scope: "world",
-    //   config: false,
-    //   system: true,
-    //   default: SYSTEMS.DATA.ACTOR_CURRENCY_ATTRIBUTE,
-    //   type: String,
-    // },
+    [SETTINGS.ACTOR_CURRENCY_ATTRIBUTE]: {
+      name: `${CONSTANTS.MODULE_ID}.settings.currency.title`,
+      hint: `${CONSTANTS.MODULE_ID}.settings.currency.hint`,
+      scope: "world",
+      config: false,
+      system: true,
+      default: SYSTEMS.DATA.ACTOR_CURRENCY_ATTRIBUTE,
+      type: String,
+    },
 
-    // [SETTINGS.SYSTEM_VERSION]: {
-    //   scope: "world",
-    //   config: false,
-    //   default: "0.0.0",
-    //   type: String,
-    // },
+    [SETTINGS.SYSTEM_VERSION]: {
+      scope: "world",
+      config: false,
+      default: "0.0.0",
+      type: String,
+    },
 
-    // [SETTINGS.SYSTEM_FOUND]: {
-    //   scope: "world",
-    //   config: false,
-    //   default: false,
-    //   type: Boolean,
-    // },
+    [SETTINGS.SYSTEM_FOUND]: {
+      scope: "world",
+      config: false,
+      default: false,
+      type: Boolean,
+    },
 
-    // [SETTINGS.SYSTEM_NOT_FOUND_WARNING_SHOWN]: {
-    //   scope: "world",
-    //   config: false,
-    //   default: false,
-    //   type: Boolean,
-    // },
+    [SETTINGS.SYSTEM_NOT_FOUND_WARNING_SHOWN]: {
+      scope: "world",
+      config: false,
+      default: false,
+      type: Boolean,
+    },
 
     // [SETTINGS.PRICE_PRESETS]: {
     //   name: `${CONSTANTS.MODULE_ID}.settings.pricePresets.title`,
@@ -210,14 +210,14 @@ const SETTINGS = {
       type: Boolean,
     },
 
-    [SETTINGS.IGNORE_ELECTRUM]: {
-      name: `${CONSTANTS.MODULE_ID}.settings.ignoreElectrum.title`,
-      hint: `${CONSTANTS.MODULE_ID}.settings.ignoreElectrum.hint`,
-      scope: "world",
-      config: true,
-      default: false,
-      type: Boolean,
-    },
+    // [SETTINGS.IGNORE_ELECTRUM]: {
+    //   name: `${CONSTANTS.MODULE_ID}.settings.ignoreElectrum.title`,
+    //   hint: `${CONSTANTS.MODULE_ID}.settings.ignoreElectrum.hint`,
+    //   scope: "world",
+    //   config: true,
+    //   default: false,
+    //   type: Boolean,
+    // },
 
     [SETTINGS.CHAT_LOG]: {
       name: `${CONSTANTS.MODULE_ID}.settings.chatLog.title`,

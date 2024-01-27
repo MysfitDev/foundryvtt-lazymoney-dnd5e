@@ -1,4 +1,4 @@
-# Lazy Money (Dnd5e)
+# Lazy Money Dnd5e (Powered by Item Piles)
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/foundryvtt-lazymoney-dnd5e/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 

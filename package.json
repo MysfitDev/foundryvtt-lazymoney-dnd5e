@@ -1,8 +1,8 @@
 {
-	"name": "additional-cards",
-	"title": "Additional FoundryVTT Cards",
-    "description": "Additional card decks for FoundryVTT.",
-    "version": "1.5.1",
+	"name": "lazymoney",
+	"title": "Lazy Money",
+	"description": "Easily add or remove currency with automatic conversion and no overdraft.",
+	"version": "1.2.4",
 	"main": "module.js",
 	"license": "SEE LICENSE IN LICENSE",
 	"private": true,

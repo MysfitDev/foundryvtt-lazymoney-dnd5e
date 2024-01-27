@@ -2,12 +2,13 @@ import {
   debug,
   info,
   isEmptyObject,
-  is_lazy_number,
-  is_real_number,
+  isLazyNumber,
+  isRealNumber,
   log,
   warn,
   getActorAsync,
   getActorSync,
+  retrieveLazyNumber,
 } from "./lib/lib.js";
 
 export class LazyMoneyHelpers {
@@ -33,18 +34,20 @@ export class LazyMoneyHelpers {
     }
 
     let currencyValueS = "";
-    if (is_real_number(currencyValue)) {
+    if (isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
         }
+      } else {
+        currencyValueS = currencyValue;
       }
     }
 
@@ -59,28 +62,41 @@ export class LazyMoneyHelpers {
     switch (sign) {
       case LazyMoneyHelpers.signCase.add: {
         LazyMoneyHelpers._addCurrencyCommon(actor, currencyValueS, currencyDenom);
-        LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has added ${delta} ${denom}.`);
+        LazyMoneyHelpers.chatLog(
+          actor,
+          `${game.user?.name} on ${actor.name} has added ${currencyValueS} ${currencyDenom}.`
+        );
         break;
       }
       case LazyMoneyHelpers.signCase.subtract: {
         LazyMoneyHelpers._subtractCurrencyCommon(actor, currencyValueS, currencyDenom);
-        LazyMoneyHelpers.chatLog(actor, `${game.user?.name} on ${actor.name} has removed ${delta} ${denom}.`);
+        LazyMoneyHelpers.chatLog(
+          actor,
+          `${game.user?.name} on ${actor.name} has removed ${currencyValueS} ${currencyDenom}.`
+        );
         break;
       }
       case LazyMoneyHelpers.signCase.equals: {
         LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValueS, currencyDenom);
         LazyMoneyHelpers.chatLog(
           actor,
-          `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+          `${game.user?.name} on ${actor.name} has replaced ${currencyValueS} ${currencyDenom}.`
         );
+
         break;
       }
       default: {
-        LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValueS, currencyDenom);
-        LazyMoneyHelpers.chatLog(
-          actor,
-          `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
-        );
+        // const currencies = {
+        //   cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+        //   abbreviation: currencyDenom.toUpperCase(),
+        // };
+        // const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+        // LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValueS, currencyDenom);
+        // LazyMoneyHelpers.chatLog(
+        //   actor,
+        //   `${game.user?.name} on ${actor.name} has replaced ${money[denom]} ${denom} with ${delta} ${denom}.`
+        // );
+        // DO NOTHING
         break;
       }
     }
@@ -107,26 +123,28 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (is_real_number(currencyValue)) {
+    if (isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
         }
+      } else {
+        currencyValueS = currencyValue;
       }
     }
 
     const currencies = {
-      cost: parseInt(currencyValueS),
+      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies(currencies);
+    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
     game.itempiles.API.addCurrencies(actor, currencyS);
   }
 
@@ -151,26 +169,28 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (is_real_number(currencyValue)) {
+    if (isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;
         }
+      } else {
+        currencyValueS = currencyValue;
       }
     }
 
     const currencies = {
-      cost: parseInt(currencyValueS),
+      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies(currencies);
+    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
     game.itempiles.API.removeCurrencies(actor, currencyS);
   }
 
@@ -195,26 +215,28 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (is_real_number(currencyValue)) {
+    if (isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;
         }
+      } else {
+        currencyValueS = currencyValue;
       }
     }
 
     const currencies = {
-      cost: parseInt(currencyValueS),
+      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies(currencies);
+    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
     const currencyData = game.itempiles.API.getPaymentData(currencyS, { target: actor });
     return currencyData.canBuy;
   }
@@ -240,26 +262,28 @@ export class LazyMoneyHelpers {
       throw error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (is_real_number(currencyValue)) {
+    if (isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
         }
+      } else {
+        currencyValueS = currencyValue;
       }
     }
 
     const currencies = {
-      cost: parseInt(currencyValueS),
+      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies(currencies);
+    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
     game.itempiles.API.updateCurrencies(actor, currencyS);
   }
 
