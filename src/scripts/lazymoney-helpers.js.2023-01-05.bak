@@ -2,7 +2,7 @@ import {
   debug,
   info,
   isEmptyObject,
-  is_lazy_number,
+  isLazyNumber,
   is_real_number,
   log,
   warn,
@@ -44,7 +44,7 @@ export class LazyMoneyHelpers {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
@@ -94,7 +94,7 @@ export class LazyMoneyHelpers {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
@@ -140,7 +140,7 @@ export class LazyMoneyHelpers {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;
@@ -186,7 +186,7 @@ export class LazyMoneyHelpers {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!is_lazy_number(currencyValue)) {
+      if (!isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;

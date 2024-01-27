@@ -1,6 +1,6 @@
 import CONSTANTS from "./constants/constants.js";
 import SETTINGS from "./constants/settings.js";
-import { dialogWarning, i18n, warn } from "./lib/lib.js";
+import Logger from "./lib/Logger.js";
 import { SYSTEMS } from "./systems.js";
 
 export const registerSettings = function () {
@@ -107,7 +107,7 @@ export async function checkSystem() {
 
     new Dialog({
       title: game.i18n.localize(`${CONSTANTS.MODULE_ID}.Dialog.systemfound.title`),
-      content: warn(game.i18n.localize(`${CONSTANTS.MODULE_ID}.Dialog.systemfound.content`), true),
+      content: Logger.warn(game.i18n.localize(`${CONSTANTS.MODULE_ID}.Dialog.systemfound.content`), true),
       buttons: {
         confirm: {
           icon: '<i class="fas fa-check"></i>',
@@ -141,7 +141,7 @@ export async function checkSystem() {
   await game.settings.set(CONSTANTS.MODULE_ID, SETTINGS.SYSTEM_FOUND, true);
 
   if (game.settings.get(CONSTANTS.MODULE_ID, SETTINGS.SYSTEM_NOT_FOUND_WARNING_SHOWN)) {
-    dialogWarning(game.i18n.localize(`${CONSTANTS.MODULE_ID}.Dialog.nosystemfound.content`));
+    Logger.dialogWarning(game.i18n.localize(`${CONSTANTS.MODULE_ID}.Dialog.nosystemfound.content`));
   }
 
   return applyDefaultSettings();

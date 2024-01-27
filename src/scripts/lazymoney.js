@@ -2,7 +2,7 @@ import API from "./api.js";
 import CONSTANTS from "./constants/constants.js";
 import SETTINGS from "./constants/settings.js";
 import { LazyMoneyHelpers } from "./lazymoney-helpers.js";
-import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib.js";
+import { isEmptyObject, isLazyNumber, isRealNumber } from "./lib/lib.js";
 
 function _onChangeCurrency(ev) {
   const input = ev.target;
@@ -37,6 +37,7 @@ function _onChangeCurrency(ev) {
   }
   */
   flash(input);
+  sheet.submitOnChange = false;
   LazyMoneyHelpers.manageCurrencySync(actor, value, denom);
 }
 

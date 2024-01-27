@@ -1,6 +1,3 @@
-import CONSTANTS from "./constants/constants.js";
-import { debug, info, isEmptyObject, is_lazy_number, is_real_number, log, warn } from "./lib/lib.js";
-
 export class DND5eCurrency {
   label = "";
   abbreviation = "";

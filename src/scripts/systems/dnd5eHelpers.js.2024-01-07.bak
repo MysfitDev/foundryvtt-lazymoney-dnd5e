@@ -349,7 +349,7 @@ export class LazyMoneyDnd5eHelpers {
   static patchCurrency(currency) {
     if (hasProperty(currency, "pp")) {
       let ppValue = getProperty(currency, "pp") || 0;
-      if (!is_lazy_number(ppValue)) {
+      if (!isLazyNumber(ppValue)) {
         // Do nothing
       }
       // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -371,7 +371,7 @@ export class LazyMoneyDnd5eHelpers {
     }
     if (hasProperty(currency, "gp")) {
       let gpValue = getProperty(currency, "gp") || 0;
-      if (!is_lazy_number(gpValue)) {
+      if (!isLazyNumber(gpValue)) {
         // Do nothing
       }
       // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -393,7 +393,7 @@ export class LazyMoneyDnd5eHelpers {
     }
     if (hasProperty(currency, "ep")) {
       let epValue = getProperty(currency, "ep") || 0;
-      if (!is_lazy_number(epValue)) {
+      if (!isLazyNumber(epValue)) {
         // Do nothing
       }
       // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -415,7 +415,7 @@ export class LazyMoneyDnd5eHelpers {
     }
     if (hasProperty(currency, "sp")) {
       let spValue = getProperty(currency, "sp") || 0;
-      if (!is_lazy_number(spValue)) {
+      if (!isLazyNumber(spValue)) {
         // Do nothing
       }
       // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -437,7 +437,7 @@ export class LazyMoneyDnd5eHelpers {
     }
     if (hasProperty(currency, "cp")) {
       let cpValue = getProperty(currency, "cp") || 0;
-      if (!is_lazy_number(cpValue)) {
+      if (!isLazyNumber(cpValue)) {
         // Do nothing
       }
       // Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e

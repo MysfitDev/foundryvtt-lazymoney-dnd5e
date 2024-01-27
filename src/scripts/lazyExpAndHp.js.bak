@@ -255,7 +255,7 @@ function is_real_number(inNumber) {
 	return !isNaN(inNumber) && typeof inNumber === "number" && isFinite(inNumber);
 }
 
-function is_lazy_number(inNumber) {
+function isLazyNumber(inNumber) {
 	const isSign =
 		String(inNumber).startsWith(signCase.add) ||
 		String(inNumber).startsWith(signCase.subtract) ||
@@ -275,7 +275,7 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 	}
 	if (hasProperty(update, "system.attributes.hp.value")) {
 		let hpValue = getProperty(update, "system.attributes.hp.value") || 0;
-		if (!is_lazy_number(hpValue)) {
+		if (!isLazyNumber(hpValue)) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -292,7 +292,7 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 	}
 	if (hasProperty(update, "system.attributes.hp.max")) {
 		let hpMaxValue = getProperty(update, "system.attributes.hp.max") || 0;
-		if (!is_lazy_number(hpMaxValue)) {
+		if (!isLazyNumber(hpMaxValue)) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e
@@ -309,7 +309,7 @@ Hooks.on("preUpdateActor", function (actorEntity, update, options, userId) {
 	}
 	if (hasProperty(update, "system.details.xp.value")) {
 		let xpValue = getProperty(update, "system.details.xp.value") || 0;
-		if (!is_lazy_number(xpValue)) {
+		if (!isLazyNumber(xpValue)) {
 			// Do nothing
 		}
 		// Module compatibility with https://foundryvtt.com/packages/link-item-resource-5e

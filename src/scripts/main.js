@@ -2,17 +2,17 @@ import API from "./api.js";
 import CONSTANTS from "./constants/constants.js";
 // import { applyLazyExp, applyLazyHp } from "./lazyExpAndHp.js";
 import { applyLazyMoney } from "./lazymoney.js";
-import { warn, error, debug, i18nFormat, log } from "./lib/lib";
+import Logger from "./lib/Logger.js";
 
 export const initHooks = () => {};
 
 export const setupHooks = () => {
-  const data = game.modules.get(CONSTANTS.MODULE_ID);
-  data.api = API;
+  // Set up API
+  game.modules.get(CONSTANTS.MODULE_ID).api = API;
 };
 
 export const readyHooks = async () => {
-  log("Initializing lazymoney");
+  Logger.log("Initializing lazymoney");
   if (game.system.id === "dnd5e") {
     Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
       let sheet = key.split(".")[1];
@@ -23,7 +23,7 @@ export const readyHooks = async () => {
           // applyLazyHp(app, html, actorData);
         });
       } catch (error) {
-        warn("lazymoney can't hook to " + key);
+        Logger.warn("lazymoney can't hook to " + key);
       }
       // applyLazyMoney(key);
     });
@@ -37,7 +37,7 @@ export const readyHooks = async () => {
           // applyLazyHp(app, html, actorData);
         });
       } catch (error) {
-        warn("lazymoney can't hook to " + key);
+        Logger.warn("lazymoney can't hook to " + key);
       }
       // applyLazyMoney(key);
     });

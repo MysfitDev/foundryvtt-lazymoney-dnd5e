@@ -1,21 +1,20 @@
+import CONSTANTS from "./constants/constants.js";
 import {
-  debug,
-  info,
   isEmptyObject,
   isLazyNumber,
   isRealNumber,
-  log,
-  warn,
   getActorAsync,
   getActorSync,
   retrieveLazyNumber,
 } from "./lib/lib.js";
 
+import Logger from "./lib/Logger.js";
+
 export class LazyMoneyHelpers {
   static async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._manageCurrencyCommon(actor, currencyValue, currencyDenom);
   }
@@ -23,14 +22,14 @@ export class LazyMoneyHelpers {
   static manageCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._manageCurrencyCommon(actor, currencyValue, currencyDenom);
   }
 
   static _manageCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
-      throw error(`The currency value is empty or null`, true);
+      throw Logger.error(`The currency value is empty or null`, true);
     }
 
     let currencyValueS = "";
@@ -105,7 +104,7 @@ export class LazyMoneyHelpers {
   static async addCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._addCurrencyCommon(actor, currencyValue, currencyDenom);
   }
@@ -113,14 +112,14 @@ export class LazyMoneyHelpers {
   static addCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._addCurrencyCommon(actor, currencyValue, currencyDenom);
   }
 
   static _addCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
-      throw error(`The currency value is empty or null`, true);
+      throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
     if (isRealNumber(currencyValue)) {
@@ -151,7 +150,7 @@ export class LazyMoneyHelpers {
   static async subtractCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._subtractCurrencyCommon(actor, currencyValue, currencyDenom);
   }
@@ -159,14 +158,14 @@ export class LazyMoneyHelpers {
   static subtractCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._subtractCurrencyCommon(actor, currencyValue, currencyDenom);
   }
 
   static _subtractCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
-      throw error(`The currency value is empty or null`, true);
+      throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
     if (isRealNumber(currencyValue)) {
@@ -197,7 +196,7 @@ export class LazyMoneyHelpers {
   static async hasEnoughCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom);
   }
@@ -205,14 +204,14 @@ export class LazyMoneyHelpers {
   static hasEnoughCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom);
   }
 
   static _hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
-      throw error(`The currency value is empty or null`, true);
+      throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
     if (isRealNumber(currencyValue)) {
@@ -244,7 +243,7 @@ export class LazyMoneyHelpers {
   static async updateCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValue, currencyDenom);
   }
@@ -252,14 +251,14 @@ export class LazyMoneyHelpers {
   static updateCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
     const actor = getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
-      throw error(`No actor is been passed`, true);
+      throw Logger.error(`No actor is been passed`, true);
     }
     return LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValue, currencyDenom);
   }
 
   static _updateCurrencyCommon(actor, currencyValue, currencyDenom) {
     if (isEmptyObject(currencyValue)) {
-      throw error(`The currency value is empty or null`, true);
+      throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
     if (isRealNumber(currencyValue)) {
@@ -295,4 +294,18 @@ export class LazyMoneyHelpers {
     equals: "=",
     default: " ",
   };
+
+  static chatLog(actor, messageContent) {
+    Logger.debug(`chatlog | ${messageContent}`);
+    if (game.settings.get(CONSTANTS.MODULE_ID, "chatLog")) {
+      const msgData = {
+        content: messageContent,
+        speaker: ChatMessage.getSpeaker({ actor: actor }),
+        whisper: ChatMessage.getWhisperRecipients("GM"),
+      };
+      return ChatMessage.create(msgData);
+    } else {
+      return undefined;
+    }
+  }
 }
