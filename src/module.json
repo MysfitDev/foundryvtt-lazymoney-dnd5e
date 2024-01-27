@@ -67,12 +67,12 @@
     "maximum": 11
   },
   "manifestPlusVersion": "1.2.1",
-  "url": "https://github.com/p4535992/foundryvtt-lazymoney",
-  "manifest": "https://github.com/p4535992/foundryvtt-lazymoney/releases/download/1.3.0/module.json",
-  "download": "https://github.com/p4535992/foundryvtt-lazymoney/releases/download/1.3.0/module.zip",
-  "readme": "https://github.com/p4535992/foundryvtt-lazymoney/blob/master/README.md",
-  "changelog": "https://github.com/p4535992/foundryvtt-lazymoney/blob/master/CHANGELOG.md",
-  "bugs": "https://github.com/p4535992/foundryvtt-lazymoney/issues",
+  "url": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e",
+  "manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.0/module.json",
+  "download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.0/module.zip",
+  "readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/README.md",
+  "changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/CHANGELOG.md",
+  "bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
   "allowBugReporter": true,
   "relationships": {
     "systems": [],

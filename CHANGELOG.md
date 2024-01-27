@@ -1,4 +1,9 @@
 ## Changelog
+
+### 1.3.0 [BREAKING CHANGES]
+
+- Add Item Piles module as dependency
+
 ### 1.2.4
 
 - Update api and api doumentation

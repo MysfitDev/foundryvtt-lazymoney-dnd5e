@@ -39,6 +39,9 @@ function _onChangeCurrency(ev) {
   flash(input);
   sheet.submitOnChange = false;
   LazyMoneyHelpers.manageCurrencySync(actor, value, denom);
+  setTimeout(() => {
+    sheet.submitOnChange = true;
+  }, 300);
 }
 
 function flash(input) {
