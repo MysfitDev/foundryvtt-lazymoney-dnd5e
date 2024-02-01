@@ -156,7 +156,7 @@ export class LazyMoneyHelpers {
       abbreviation: currencyDenom.toUpperCase(),
     };
     Logger.debug("Currencies:", currencies);
-    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
     Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.addCurrencies(actor, currencyS);
   }
@@ -209,7 +209,7 @@ export class LazyMoneyHelpers {
       abbreviation: currencyDenom.toUpperCase(),
     };
     Logger.debug("Currencies:", currencies);
-    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
     Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.removeCurrencies(actor, currencyS);
   }
@@ -262,7 +262,7 @@ export class LazyMoneyHelpers {
       abbreviation: currencyDenom.toUpperCase(),
     };
     Logger.debug("Currencies:", currencies);
-    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
     Logger.debug("Currencies string for Item Piles:" + currencyS);
     const currencyData = game.itempiles.API.getPaymentData(currencyS, { target: actor });
     return currencyData.canBuy;
@@ -316,7 +316,7 @@ export class LazyMoneyHelpers {
       abbreviation: currencyDenom.toUpperCase(),
     };
     Logger.debug("Currencies:", currencies);
-    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
     Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.updateCurrencies(actor, currencyS);
   }
