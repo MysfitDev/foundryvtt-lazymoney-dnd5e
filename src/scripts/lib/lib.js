@@ -49,7 +49,7 @@ export function isLazyNumber(inNumber) {
 
 export function retrieveLazyNumber(inNumber) {
   if (!inNumber) {
-    return inNumber;
+    return undefined;
   }
   let inNumberTmp = String(inNumber).trim();
   const isSign =

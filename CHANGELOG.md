@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.3.1
+
+- Bug fix: https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues/10
+
 ### 1.3.0 [BREAKING CHANGES]
 
 - Add Item Piles module as dependency
@@ -8,11 +12,11 @@
 
 - Update api and api doumentation
 
-### 1.2.3 
+### 1.2.3
 
 - Add some new API methods
 
-### 1.2.2 
+### 1.2.2
 
 - Little fix on lib.js methods
 

@@ -85,11 +85,18 @@ export class LazyMoneyHelpers {
         break;
       }
       default: {
+        // const lazyNum = retrieveLazyNumber(currencyValueS);
+        // if(!isRealNumber(lazyNum)) {
+        //     Logger.debug("lazyNum is not a valid number:", currencyValueS);
+        //     return;
+        // }
         // const currencies = {
-        //   cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+        //   cost: Math.abs(lazyNum),
         //   abbreviation: currencyDenom.toUpperCase(),
         // };
-        // const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+        // Logger.debug("Currencies:", currencies);
+        //const currencyS = cost+abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+        //Logger.debug("Currencies string for Item Piles:" + currencyS);
         // LazyMoneyHelpers._updateCurrencyCommon(actor, currencyValueS, currencyDenom);
         // LazyMoneyHelpers.chatLog(
         //   actor,
@@ -139,11 +146,18 @@ export class LazyMoneyHelpers {
       }
     }
 
+    const lazyNum = retrieveLazyNumber(currencyValueS);
+    if (!isRealNumber(lazyNum)) {
+      Logger.debug("lazyNum is not a valid number:", currencyValueS);
+      return;
+    }
     const currencies = {
-      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+      cost: Math.abs(lazyNum),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies:", currencies);
+    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.addCurrencies(actor, currencyS);
   }
 
@@ -185,11 +199,18 @@ export class LazyMoneyHelpers {
       }
     }
 
+    const lazyNum = retrieveLazyNumber(currencyValueS);
+    if (!isRealNumber(lazyNum)) {
+      Logger.debug("lazyNum is not a valid number:", currencyValueS);
+      return;
+    }
     const currencies = {
-      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+      cost: Math.abs(lazyNum),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies:", currencies);
+    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.removeCurrencies(actor, currencyS);
   }
 
@@ -231,11 +252,18 @@ export class LazyMoneyHelpers {
       }
     }
 
+    const lazyNum = retrieveLazyNumber(currencyValueS);
+    if (!isRealNumber(lazyNum)) {
+      Logger.debug("lazyNum is not a valid number:", currencyValueS);
+      return;
+    }
     const currencies = {
-      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+      cost: Math.abs(lazyNum),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies:", currencies);
+    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies string for Item Piles:" + currencyS);
     const currencyData = game.itempiles.API.getPaymentData(currencyS, { target: actor });
     return currencyData.canBuy;
   }
@@ -278,11 +306,18 @@ export class LazyMoneyHelpers {
       }
     }
 
+    const lazyNum = retrieveLazyNumber(currencyValueS);
+    if (!isRealNumber(lazyNum)) {
+      Logger.debug("lazyNum is not a valid number:", currencyValueS);
+      return;
+    }
     const currencies = {
-      cost: Math.abs(retrieveLazyNumber(currencyValueS)),
+      cost: Math.abs(lazyNum),
       abbreviation: currencyDenom.toUpperCase(),
     };
-    const currencyS = game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies:", currencies);
+    const currencyS = cost + abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
+    Logger.debug("Currencies string for Item Piles:" + currencyS);
     game.itempiles.API.updateCurrencies(actor, currencyS);
   }
 
