@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.3.2
+
+- Some clean up
+
 ### 1.3.1
 
 - Bug fix: https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues/10

@@ -1,18 +1,77 @@
 import CONSTANTS from "./constants/constants.js";
-import {
-  isEmptyObject,
-  isLazyNumber,
-  isRealNumber,
-  getActorAsync,
-  getActorSync,
-  retrieveLazyNumber,
-} from "./lib/lib.js";
-
+import { RetrieveHelpers } from "./lib/retrieve-helpers.js";
 import Logger from "./lib/Logger.js";
 
 export class LazyMoneyHelpers {
+  static _isRealNumber(inNumber) {
+    return !isNaN(inNumber) && typeof inNumber === "number" && isFinite(inNumber);
+  }
+
+  static _isEmptyObject(obj) {
+    // because Object.keys(new Date()).length === 0;
+    // we have to do some additional check
+    if (obj === null || obj === undefined) {
+      return true;
+    }
+    if (LazyMoneyHelpers._isRealNumber(obj)) {
+      return false;
+    }
+    const result =
+      obj && // null and undefined check
+      Object.keys(obj).length === 0; // || Object.getPrototypeOf(obj) === Object.prototype);
+    return result;
+  }
+
+  static _isLazyNumber(inNumber) {
+    if (!inNumber) {
+      return false;
+    }
+    let inNumberTmp = String(inNumber).trim();
+    const isSign =
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.add) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.subtract) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.equals) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.default);
+    if (isSign) {
+      const withoutFirst = String(inNumberTmp).slice(1);
+      try {
+        return LazyMoneyHelpers._isRealNumber(parseInt(withoutFirst.trim()));
+      } catch (e) {
+        error(e);
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  static _retrieveLazyNumber(inNumber) {
+    if (!inNumber) {
+      return undefined;
+    }
+    let inNumberTmp = String(inNumber).trim();
+    const isSign =
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.add) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.subtract) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.equals) ||
+      String(inNumberTmp).startsWith(LazyMoneyHelpers.signCase.default);
+    if (isSign) {
+      const withoutFirst = String(inNumberTmp).slice(1);
+      try {
+        return parseInt(withoutFirst.trim());
+      } catch (e) {
+        error(e);
+        return inNumberTmp;
+      }
+    } else {
+      return inNumberTmp;
+    }
+  }
+
+  // ================================================================================
+
   static async manageCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    const actor = (await RetrieveHelpers.getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -20,7 +79,7 @@ export class LazyMoneyHelpers {
   }
 
   static manageCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    const actor = RetrieveHelpers.getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -28,19 +87,19 @@ export class LazyMoneyHelpers {
   }
 
   static _manageCurrencyCommon(actor, currencyValue, currencyDenom) {
-    if (isEmptyObject(currencyValue)) {
+    if (LazyMoneyHelpers._isEmptyObject(currencyValue)) {
       throw Logger.error(`The currency value is empty or null`, true);
     }
 
     let currencyValueS = "";
-    if (isRealNumber(currencyValue)) {
+    if (LazyMoneyHelpers._isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!isLazyNumber(currencyValue)) {
+      if (!LazyMoneyHelpers._isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
@@ -85,8 +144,8 @@ export class LazyMoneyHelpers {
         break;
       }
       default: {
-        // const lazyNum = retrieveLazyNumber(currencyValueS);
-        // if(!isRealNumber(lazyNum)) {
+        // const lazyNum = LazyMoneyHelpers._retrieveLazyNumber(currencyValueS);
+        // if(!LazyMoneyHelpers._isRealNumber(lazyNum)) {
         //     Logger.debug("lazyNum is not a valid number:", currencyValueS);
         //     return;
         // }
@@ -109,7 +168,7 @@ export class LazyMoneyHelpers {
   }
 
   static async addCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    const actor = (await RetrieveHelpers.getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -117,7 +176,7 @@ export class LazyMoneyHelpers {
   }
 
   static addCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    const actor = RetrieveHelpers.getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -125,18 +184,18 @@ export class LazyMoneyHelpers {
   }
 
   static _addCurrencyCommon(actor, currencyValue, currencyDenom) {
-    if (isEmptyObject(currencyValue)) {
+    if (LazyMoneyHelpers._isEmptyObject(currencyValue)) {
       throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (isRealNumber(currencyValue)) {
+    if (LazyMoneyHelpers._isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!isLazyNumber(currencyValue)) {
+      if (!LazyMoneyHelpers._isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
@@ -146,8 +205,8 @@ export class LazyMoneyHelpers {
       }
     }
 
-    const lazyNum = retrieveLazyNumber(currencyValueS);
-    if (!isRealNumber(lazyNum)) {
+    const lazyNum = LazyMoneyHelpers._retrieveLazyNumber(currencyValueS);
+    if (!LazyMoneyHelpers._isRealNumber(lazyNum)) {
       Logger.debug("lazyNum is not a valid number:", currencyValueS);
       return;
     }
@@ -162,7 +221,7 @@ export class LazyMoneyHelpers {
   }
 
   static async subtractCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    const actor = (await RetrieveHelpers.getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -170,7 +229,7 @@ export class LazyMoneyHelpers {
   }
 
   static subtractCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    const actor = RetrieveHelpers.getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -178,18 +237,18 @@ export class LazyMoneyHelpers {
   }
 
   static _subtractCurrencyCommon(actor, currencyValue, currencyDenom) {
-    if (isEmptyObject(currencyValue)) {
+    if (LazyMoneyHelpers._isEmptyObject(currencyValue)) {
       throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (isRealNumber(currencyValue)) {
+    if (LazyMoneyHelpers._isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!isLazyNumber(currencyValue)) {
+      if (!LazyMoneyHelpers._isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;
@@ -199,8 +258,8 @@ export class LazyMoneyHelpers {
       }
     }
 
-    const lazyNum = retrieveLazyNumber(currencyValueS);
-    if (!isRealNumber(lazyNum)) {
+    const lazyNum = LazyMoneyHelpers._retrieveLazyNumber(currencyValueS);
+    if (!LazyMoneyHelpers._isRealNumber(lazyNum)) {
       Logger.debug("lazyNum is not a valid number:", currencyValueS);
       return;
     }
@@ -215,7 +274,7 @@ export class LazyMoneyHelpers {
   }
 
   static async hasEnoughCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    const actor = (await RetrieveHelpers.getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -223,7 +282,7 @@ export class LazyMoneyHelpers {
   }
 
   static hasEnoughCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    const actor = RetrieveHelpers.getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -231,18 +290,18 @@ export class LazyMoneyHelpers {
   }
 
   static _hasEnoughCurrencyCommon(actor, currencyValue, currencyDenom) {
-    if (isEmptyObject(currencyValue)) {
+    if (LazyMoneyHelpers._isEmptyObject(currencyValue)) {
       throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (isRealNumber(currencyValue)) {
+    if (LazyMoneyHelpers._isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "-" + String(currencyValue);
       }
     } else {
-      if (!isLazyNumber(currencyValue)) {
+      if (!LazyMoneyHelpers._isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("-")) {
           currencyValueS = "-" + currencyValueS;
@@ -252,8 +311,8 @@ export class LazyMoneyHelpers {
       }
     }
 
-    const lazyNum = retrieveLazyNumber(currencyValueS);
-    if (!isRealNumber(lazyNum)) {
+    const lazyNum = LazyMoneyHelpers._retrieveLazyNumber(currencyValueS);
+    if (!LazyMoneyHelpers._isRealNumber(lazyNum)) {
       Logger.debug("lazyNum is not a valid number:", currencyValueS);
       return;
     }
@@ -269,7 +328,7 @@ export class LazyMoneyHelpers {
   }
 
   static async updateCurrency(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = (await getActorAsync(actorOrActorUuid)) ?? undefined;
+    const actor = (await RetrieveHelpers.getActorAsync(actorOrActorUuid)) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -277,7 +336,7 @@ export class LazyMoneyHelpers {
   }
 
   static updateCurrencySync(actorOrActorUuid, currencyValue, currencyDenom) {
-    const actor = getActorSync(actorOrActorUuid) ?? undefined;
+    const actor = RetrieveHelpers.getActorSync(actorOrActorUuid) ?? undefined;
     if (!actor) {
       throw Logger.error(`No actor is been passed`, true);
     }
@@ -285,18 +344,18 @@ export class LazyMoneyHelpers {
   }
 
   static _updateCurrencyCommon(actor, currencyValue, currencyDenom) {
-    if (isEmptyObject(currencyValue)) {
+    if (LazyMoneyHelpers._isEmptyObject(currencyValue)) {
       throw Logger.error(`The currency value is empty or null`, true);
     }
     let currencyValueS = "";
-    if (isRealNumber(currencyValue)) {
+    if (LazyMoneyHelpers._isRealNumber(currencyValue)) {
       if (currencyValue < 0) {
         currencyValueS = "-" + String(currencyValue * -1);
       } else {
         currencyValueS = "+" + String(currencyValue);
       }
     } else {
-      if (!isLazyNumber(currencyValue)) {
+      if (!LazyMoneyHelpers._isLazyNumber(currencyValue)) {
         currencyValueS = String(currencyValue);
         if (!currencyValueS.startsWith("+")) {
           currencyValueS = "+" + currencyValueS;
@@ -306,8 +365,8 @@ export class LazyMoneyHelpers {
       }
     }
 
-    const lazyNum = retrieveLazyNumber(currencyValueS);
-    if (!isRealNumber(lazyNum)) {
+    const lazyNum = LazyMoneyHelpers._retrieveLazyNumber(currencyValueS);
+    if (!LazyMoneyHelpers._isRealNumber(lazyNum)) {
       Logger.debug("lazyNum is not a valid number:", currencyValueS);
       return;
     }

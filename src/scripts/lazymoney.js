@@ -1,8 +1,6 @@
 import API from "./api.js";
 import CONSTANTS from "./constants/constants.js";
-import SETTINGS from "./constants/settings.js";
 import { LazyMoneyHelpers } from "./lazymoney-helpers.js";
-import { isEmptyObject, isLazyNumber, isRealNumber } from "./lib/lib.js";
 
 function _onChangeCurrency(ev) {
   const input = ev.target;
