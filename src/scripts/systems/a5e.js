@@ -1,3 +1,3 @@
 export default {
-  ACTOR_CURRENCY_ATTRIBUTE: "system.currency",
+    ACTOR_CURRENCY_ATTRIBUTE: "system.currency",
 };

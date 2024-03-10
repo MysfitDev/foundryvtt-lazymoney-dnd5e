@@ -7,59 +7,59 @@ import Logger from "./lib/Logger.js";
 export const initHooks = () => {};
 
 export const setupHooks = () => {
-  // Set up API
-  game.modules.get(CONSTANTS.MODULE_ID).api = API;
+    // Set up API
+    game.modules.get(CONSTANTS.MODULE_ID).api = API;
 };
 
 export const readyHooks = async () => {
-  Logger.log("Initializing lazymoney");
-  if (game.system.id === "dnd5e") {
-    Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
-      let sheet = key.split(".")[1];
-      try {
-        Hooks.on("render" + sheet, (app, html, actorData) => {
-          applyLazyMoney(app, html, actorData);
+    Logger.log("Initializing lazymoney");
+    if (game.system.id === "dnd5e") {
+        Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
+            let sheet = key.split(".")[1];
+            try {
+                Hooks.on("render" + sheet, (app, html, actorData) => {
+                    applyLazyMoney(app, html, actorData);
+                });
+            } catch (error) {
+                Logger.warn("lazymoney can't hook to " + key);
+            }
         });
-      } catch (error) {
-        Logger.warn("lazymoney can't hook to " + key);
-      }
-    });
 
-    Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
-      let sheet = key.split(".")[1];
-      try {
-        Hooks.on("render" + sheet, (app, html, actorData) => {
-          applyLazyMoney(app, html, actorData);
+        Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
+            let sheet = key.split(".")[1];
+            try {
+                Hooks.on("render" + sheet, (app, html, actorData) => {
+                    applyLazyMoney(app, html, actorData);
+                });
+            } catch (error) {
+                Logger.warn("lazymoney can't hook to " + key);
+            }
         });
-      } catch (error) {
-        Logger.warn("lazymoney can't hook to " + key);
-      }
-    });
-  }
+    }
 
-  if (game.system.id === "a5e") {
-    Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
-      let sheet = key.split(".")[1];
-      try {
-        Hooks.on("render" + sheet, (app, html, actorData) => {
-          applyLazyMoney(app, html, actorData);
+    if (game.system.id === "a5e") {
+        Object.keys(CONFIG.Actor.sheetClasses.character).forEach((key) => {
+            let sheet = key.split(".")[1];
+            try {
+                Hooks.on("render" + sheet, (app, html, actorData) => {
+                    applyLazyMoney(app, html, actorData);
+                });
+            } catch (error) {
+                Logger.warn("lazymoney can't hook to " + key);
+            }
         });
-      } catch (error) {
-        Logger.warn("lazymoney can't hook to " + key);
-      }
-    });
 
-    Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
-      let sheet = key.split(".")[1];
-      try {
-        Hooks.on("render" + sheet, (app, html, actorData) => {
-          applyLazyMoney(app, html, actorData);
+        Object.keys(CONFIG.Actor.sheetClasses.npc).forEach((key) => {
+            let sheet = key.split(".")[1];
+            try {
+                Hooks.on("render" + sheet, (app, html, actorData) => {
+                    applyLazyMoney(app, html, actorData);
+                });
+            } catch (error) {
+                Logger.warn("lazymoney can't hook to " + key);
+            }
         });
-      } catch (error) {
-        Logger.warn("lazymoney can't hook to " + key);
-      }
-    });
-  }
+    }
 };
 
 // ==========================================

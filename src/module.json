@@ -1,87 +1,87 @@
 {
-  "id": "lazymoney",
-  "title": "Lazy Money",
-  "description": "Easily add or remove currency with automatic conversion and no overdraft.",
-  "version": "1.3.2",
-  "authors": [
-    {
-      "name": "DeVelox",
-      "github": "DeVelox",
-      "url": "https://github.com/DeVelox/lazymoney"
-    },
-    {
-      "name": "p4535992",
-      "url": "https://github.com/p4535992",
-      "discord": "",
-      "twitter": "",
-      "patreon": "",
-      "github": "p4535992",
-      "ko-fi": "",
-      "reddit": "",
-      "email": ""
-    }
-  ],
-  "type": "module",
-  "socket": true,
-  "includes": [
-    "./assets/**",
-    "./lang/**",
-    "./languages/**",
-    "./scripts/**",
-    "./styles/**",
-    "./templates/**",
-    "./module.json",
-    "./README.md",
-    "./icons/**",
-    "./packs/**"
-  ],
-  "media": [
-    {
-      "type": "icon",
-      "location": ""
-    },
-    {
-      "type": "cover",
-      "location": ""
-    },
-    {
-      "type": "screenshot",
-      "location": ""
-    }
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    }
-  ],
-  "packs": [],
-  "systems": [],
-  "scripts": [],
-  "esmodules": ["module.js"],
-  "styles": ["styles/lazymoney.css"],
-  "compatibility": {
-    "minimum": 11,
-    "verified": 11,
-    "maximum": 11
-  },
-  "manifestPlusVersion": "1.2.1",
-  "url": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e",
-  "manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.2/module.json",
-  "download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.2/module.zip",
-  "readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/README.md",
-  "changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/CHANGELOG.md",
-  "bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
-  "allowBugReporter": true,
-  "relationships": {
-    "systems": [],
-    "requires": [
-      {
-        "id": "item-piles",
-        "type": "module"
-      }
+    "id": "lazymoney",
+    "title": "Lazy Money",
+    "description": "Easily add or remove currency with automatic conversion and no overdraft.",
+    "version": "1.3.2",
+    "authors": [
+        {
+            "name": "DeVelox",
+            "github": "DeVelox",
+            "url": "https://github.com/DeVelox/lazymoney"
+        },
+        {
+            "name": "p4535992",
+            "url": "https://github.com/p4535992",
+            "discord": "",
+            "twitter": "",
+            "patreon": "",
+            "github": "p4535992",
+            "ko-fi": "",
+            "reddit": "",
+            "email": ""
+        }
     ],
-    "conflicts": []
-  }
+    "type": "module",
+    "socket": true,
+    "includes": [
+        "./assets/**",
+        "./lang/**",
+        "./languages/**",
+        "./scripts/**",
+        "./styles/**",
+        "./templates/**",
+        "./module.json",
+        "./README.md",
+        "./icons/**",
+        "./packs/**"
+    ],
+    "media": [
+        {
+            "type": "icon",
+            "location": ""
+        },
+        {
+            "type": "cover",
+            "location": ""
+        },
+        {
+            "type": "screenshot",
+            "location": ""
+        }
+    ],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "languages/en.json"
+        }
+    ],
+    "packs": [],
+    "systems": [],
+    "scripts": [],
+    "esmodules": ["module.js"],
+    "styles": ["styles/lazymoney.css"],
+    "compatibility": {
+        "minimum": 11,
+        "verified": 11,
+        "maximum": 11
+    },
+    "manifestPlusVersion": "1.2.1",
+    "url": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e",
+    "manifest": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.2/module.json",
+    "download": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/releases/download/1.3.2/module.zip",
+    "readme": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/README.md",
+    "changelog": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/blob/master/CHANGELOG.md",
+    "bugs": "https://github.com/p4535992/foundryvtt-lazymoney-dnd5e/issues",
+    "allowBugReporter": true,
+    "relationships": {
+        "systems": [],
+        "requires": [
+            {
+                "id": "item-piles",
+                "type": "module"
+            }
+        ],
+        "conflicts": []
+    }
 }
