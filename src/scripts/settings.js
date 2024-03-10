@@ -56,14 +56,14 @@ export const registerSettings = function () {
 
     // ========================================================================
 
-    // game.settings.register(CONSTANTS.MODULE_ID, "debug", {
-    //   name: `${CONSTANTS.MODULE_ID}.settings.debug.title`,
-    //   hint: `${CONSTANTS.MODULE_ID}.settings.debug.hint`,
-    //   scope: "client",
-    //   config: true,
-    //   default: false,
-    //   type: Boolean,
-    // });
+    game.settings.register(CONSTANTS.MODULE_ID, "debug", {
+        name: `${CONSTANTS.MODULE_ID}.settings.debug.title`,
+        hint: `${CONSTANTS.MODULE_ID}.settings.debug.hint`,
+        scope: "client",
+        config: true,
+        default: false,
+        type: Boolean,
+    });
 };
 
 export async function applyDefaultSettings() {

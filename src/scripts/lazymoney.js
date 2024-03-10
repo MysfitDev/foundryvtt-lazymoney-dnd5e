@@ -49,7 +49,7 @@ function flash(input) {
     }, 150);
 }
 
-export function applyLazyMoney(app, html, actorData) {
+export function applyLazyMoney(app, html, actorData, itemSelector) {
     if (!game.settings.get(CONSTANTS.MODULE_ID, "enable")) {
         return;
     }
@@ -58,12 +58,12 @@ export function applyLazyMoney(app, html, actorData) {
     //   return;
     // }
 
-    for (const elem of html.find(`input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`)) {
+    for (const elem of html.find(itemSelector)) {
         elem.type = "text";
         elem.classList.add("lazymoney");
     }
-    html.find(`input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`).off("change");
-    html.find(`input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`).change(
+    html.find(itemSelector).off("change");
+    html.find(itemSelector).change(
         {
             app: app,
             data: actorData,

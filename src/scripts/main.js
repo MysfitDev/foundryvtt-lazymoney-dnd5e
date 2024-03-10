@@ -18,7 +18,8 @@ export const readyHooks = async () => {
             let sheet = key.split(".")[1];
             try {
                 Hooks.on("render" + sheet, (app, html, actorData) => {
-                    applyLazyMoney(app, html, actorData);
+                    const itemSelector = `input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`;
+                    applyLazyMoney(app, html, actorData, itemSelector);
                 });
             } catch (error) {
                 Logger.warn("lazymoney can't hook to " + key);
@@ -29,12 +30,21 @@ export const readyHooks = async () => {
             let sheet = key.split(".")[1];
             try {
                 Hooks.on("render" + sheet, (app, html, actorData) => {
-                    applyLazyMoney(app, html, actorData);
+                    const itemSelector = `input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`;
+                    applyLazyMoney(app, html, actorData, itemSelector);
                 });
             } catch (error) {
                 Logger.warn("lazymoney can't hook to " + key);
             }
         });
+
+        // Tidy 5e Sheet compatibility
+        // Hooks.on("tidy5e-sheet.renderActorSheet", (app, element, actorData) => {
+        //     const itemSelector = `input[data-tidy-field^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`;
+        //     // Undo any existing color overrides
+        //     const html = $(element);
+        //     applyLazyMoney(app, html, actorData.actor, itemSelector);
+        // });
     }
 
     if (game.system.id === "a5e") {
@@ -42,7 +52,8 @@ export const readyHooks = async () => {
             let sheet = key.split(".")[1];
             try {
                 Hooks.on("render" + sheet, (app, html, actorData) => {
-                    applyLazyMoney(app, html, actorData);
+                    const itemSelector = `input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`;
+                    applyLazyMoney(app, html, actorData, itemSelector);
                 });
             } catch (error) {
                 Logger.warn("lazymoney can't hook to " + key);
@@ -53,7 +64,8 @@ export const readyHooks = async () => {
             let sheet = key.split(".")[1];
             try {
                 Hooks.on("render" + sheet, (app, html, actorData) => {
-                    applyLazyMoney(app, html, actorData);
+                    const itemSelector = `input[name^='${API.ACTOR_CURRENCY_ATTRIBUTE}']`;
+                    applyLazyMoney(app, html, actorData, itemSelector);
                 });
             } catch (error) {
                 Logger.warn("lazymoney can't hook to " + key);
