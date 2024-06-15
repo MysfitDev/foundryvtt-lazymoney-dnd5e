@@ -1,4 +1,7 @@
 ## Changelog
+### 1.3.4
+
+- Update manifest to v12
 
 ### 1.3.2-3
 
