@@ -151,7 +151,7 @@ export class LazyMoneyHelpers {
                 // }
                 // const currencies = {
                 //   cost: Math.abs(lazyNum),
-                //   abbreviation: currencyDenom.toUpperCase(),
+                //   abbreviation: currencyDenom.toLowerCase(),
                 // };
                 // Logger.debug("Currencies:", currencies);
                 //const currencyS = cost+abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
@@ -265,7 +265,7 @@ export class LazyMoneyHelpers {
         }
         const currencies = {
             cost: Math.abs(lazyNum),
-            abbreviation: currencyDenom.toUpperCase(),
+            abbreviation: currencyDenom.toLowerCase(),
         };
         Logger.debug("Currencies:", currencies);
         const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
@@ -318,7 +318,7 @@ export class LazyMoneyHelpers {
         }
         const currencies = {
             cost: Math.abs(lazyNum),
-            abbreviation: currencyDenom.toUpperCase(),
+            abbreviation: currencyDenom.toLowerCase(),
         };
         Logger.debug("Currencies:", currencies);
         const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
@@ -372,7 +372,7 @@ export class LazyMoneyHelpers {
         }
         const currencies = {
             cost: Math.abs(lazyNum),
-            abbreviation: currencyDenom.toUpperCase(),
+            abbreviation: currencyDenom.toLowerCase(),
         };
         Logger.debug("Currencies:", currencies);
         const currencyS = currencies.cost + currencies.abbreviation; // TODO waiting for item piles to fix this game.itempiles.API.getStringFromCurrencies([currencies]);
