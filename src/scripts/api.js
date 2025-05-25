@@ -16,7 +16,7 @@ const API = {
         return await LazyMoneyHelpers.manageCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -32,7 +32,7 @@ const API = {
         return await LazyMoneyHelpers.manageCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -48,7 +48,7 @@ const API = {
         return LazyMoneyHelpers.manageCurrencySync(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -64,7 +64,7 @@ const API = {
         return await LazyMoneyHelpers.addCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -80,7 +80,7 @@ const API = {
         return await LazyMoneyHelpers.addCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -96,7 +96,7 @@ const API = {
         return LazyMoneyHelpers.addCurrencySync(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -112,7 +112,7 @@ const API = {
         return await LazyMoneyHelpers.subtractCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -128,7 +128,7 @@ const API = {
         return await LazyMoneyHelpers.subtractCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -144,7 +144,7 @@ const API = {
         return LazyMoneyHelpers.subtractCurrencySync(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -160,7 +160,7 @@ const API = {
         return await LazyMoneyHelpers.hasEnoughCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -176,7 +176,7 @@ const API = {
         return await LazyMoneyHelpers.hasEnoughCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -192,7 +192,7 @@ const API = {
         return LazyMoneyHelpers.hasEnoughCurrencySync(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -208,7 +208,7 @@ const API = {
         return await LazyMoneyHelpers.updateCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -224,7 +224,7 @@ const API = {
         return await LazyMoneyHelpers.updateCurrency(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
@@ -240,7 +240,7 @@ const API = {
         return LazyMoneyHelpers.updateCurrencySync(
             inAttributes.actor,
             inAttributes.currencyValue,
-            inAttributes.currencyDenom,
+            inAttributes.currencyDenom.toLowerCase(),
         );
     },
 
